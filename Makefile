@@ -1,5 +1,5 @@
 .DEFAULT_GOAL= help
-.PHONY: help unisig debug build valgrind clear app build_main build_libs
+.PHONY: help unisig clear install_shared_libs install_libs
 
 #~~~~~~~~~~~~~~~~~~~#
 #     Variables     #
@@ -8,13 +8,12 @@
 define UNISIG
 
 $(LIGHT_RED_COLOR)
- ░▒▓██████▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░░▒▓██████▓▒░  
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
-░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
-░▒▓█▓▒▒▓███▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓████████▓▒░ 
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
-░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
- ░▒▓██████▓▒░░▒▓█▓▒░░▒▓██████▓▒░░▒▓████████▓▒░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ 
+ ██████╗ ██╗██╗   ██╗██╗     ██╗ █████╗ 
+██╔════╝ ██║██║   ██║██║     ██║██╔══██╗
+██║  ███╗██║██║   ██║██║     ██║███████║
+██║   ██║██║██║   ██║██║     ██║██╔══██║
+╚██████╔╝██║╚██████╔╝███████╗██║██║  ██║
+ ╚═════╝ ╚═╝ ╚═════╝ ╚══════╝╚═╝╚═╝  ╚═╝
 $(NO_COLOR)                                       
 									
 $(GOLD_COLOR)░░▒▒▓▓ Clément GAUCI ▓▓▒▒░░$(NO_COLOR)
@@ -71,10 +70,10 @@ unisig: ## Display project's signature
 	clear
 	@echo "$$UNISIG"
 	@echo "\n"
-	@echo "Starting requested action: \n\n"
+	@echo "Starting requested action:"
 
 clear: unisig ## Clear tmp files
-	@echo  "\n$(WARN_COLOR)Flushing tmp files...$(NO_COLOR)\n"
+	@echo  "\n$(WARN_COLOR)=> Flushing tmp files$(NO_COLOR)\n"
 	@rm -rf $(DIR_TMP)/*
 	@touch $(DIR_TMP)/$(KEEPER_FILE_NAME)
 
