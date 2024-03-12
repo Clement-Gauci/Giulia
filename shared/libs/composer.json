@@ -1,0 +1,16 @@
+{
+    "name": "giulia/shared",
+    "description": "Giulia's shared libs",
+    "autoload": {
+        "psr-4": {
+            "Giulia\\Shared\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Clément GAUCI",
+            "email": "hello@clement-gauci.ovh"
+        }
+    ],
+    "require": {}
+}

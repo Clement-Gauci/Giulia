@@ -1,0 +1,6 @@
+# logs
+*.log
+
+# Composer dependencies
+shared/libs/src
+shared/libs/vendor
