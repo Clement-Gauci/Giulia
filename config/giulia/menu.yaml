@@ -1,0 +1,22 @@
+categories:
+  - kicker: "Base tomate San Marzano"
+    label: "Les rouges"
+    pizzas:
+      - { name: "Margherita", price: 1190, tags: [veg], allergens: [gluten, lait], ingredients: ["San Marzano", "fior di latte", "basilic", "huile d’olive"] }
+      - { name: "Regina", price: 1390, ingredients: ["San Marzano", "fior di latte", "jambon blanc", "champignons"] }
+      - { name: "Napoli", price: 1350, ingredients: ["San Marzano", "fior di latte", "anchois", "câpres", "olives"] }
+      - { name: "Diavola", price: 1450, tags: [spicy], ingredients: ["San Marzano", "fior di latte", "spianata piccante", "basilic"] }
+      - { name: "Capricciosa", price: 1550, ingredients: ["San Marzano", "fior di latte", "jambon", "champignons", "artichauts", "olives"] }
+      - { name: "Vegetariana", price: 1450, tags: [veg], ingredients: ["San Marzano", "fior di latte", "légumes grillés de saison", "roquette"] }
+      - { name: "Calabrese", price: 1590, tags: [spicy], ingredients: ["San Marzano", "fior di latte", "’nduja", "oignons rouges", "miel"] }
+  - kicker: "Base crème & mozzarella"
+    label: "Les blanches"
+    pizzas:
+      - { name: "Quattro Formaggi", price: 1490, tags: [veg], ingredients: ["fior di latte", "gorgonzola", "comté 24 mois", "parmesan"] }
+      - { name: "Boscaiola", price: 1490, ingredients: ["crème", "fior di latte", "champignons", "lardons", "persillade"] }
+      - { name: "Burratina", price: 1650, tags: [veg], ingredients: ["crème", "fior di latte", "burrata", "tomates confites", "basilic"] }
+      - { name: "Tartufo", price: 1750, tags: [veg], ingredients: ["crème de truffe", "fior di latte", "champignons", "parmesan", "roquette"] }
+  - kicker: "L’édition du moment"
+    label: "La signature"
+    pizzas:
+      - { name: "La Fresca", price: 1790, featured: true, ingredients: ["San Marzano", "fior di latte", "bresaola", "roquette", "guacamole", "comté 24 mois"] }
