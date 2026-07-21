@@ -1,0 +1,17 @@
+name: "Giulia"
+tagline: "Pizzeria napolitaine · Gorges"
+address: "1 rue de la cité des sports, 44190 Gorges"
+phone: "02 85 52 87 42"
+phone_href: "+33285528742"
+email: "hello@giulia-pizza-gorges.fr"
+menu_pdf_url: "/menu.pdf"
+directions_url: "https://maps.google.com/?q=Giulia+Pizzeria+Gorges"
+google_reviews_url: "https://g.page/r/giulia-gorges/review"
+whatsapp_url: "https://chat.whatsapp.com/giulia-anti-gaspi"
+social_links:
+  - { label: "Instagram", url: "https://instagram.com/giulia.gorges", icon: "instagram" }
+  - { label: "Facebook", url: "https://facebook.com/giulia.gorges", icon: "facebook" }
+announcement:
+  active: false
+  title: "À noter"
+  text: "Fermeture exceptionnelle le 15 août. Réouverture le lendemain aux horaires habituels."
