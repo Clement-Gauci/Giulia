@@ -18,9 +18,13 @@ framework:
             messenger.bus.default: []
 
         routing:
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            Symfony\Component\Notifier\Message\ChatMessage: async
-            Symfony\Component\Notifier\Message\SmsMessage: async
+            # Site vitrine sans base de données ni worker Messenger : les e-mails
+            # (formulaire de contact) sont envoyés de façon SYNCHRONE. On ne route
+            # donc pas SendEmailMessage vers le transport async Doctrine, sinon les
+            # messages resteraient en file sans être jamais consommés.
+            # Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            # Symfony\Component\Notifier\Message\ChatMessage: async
+            # Symfony\Component\Notifier\Message\SmsMessage: async
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
