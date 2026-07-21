@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: #b3743f; text-decoration: none; }
+  a:hover { color: #8a5528; }
+  input, textarea, select, button { font-family: inherit; }
+  input::placeholder, textarea::placeholder { color: #b0a894; }
+  #gcMsg:focus, #gcName:focus, #gcEmail:focus, #gcPhone:focus, #gcSubject:focus { outline: none; border-color: #b3743f !important; background: #fffdf8 !important; }
+  @keyframes gPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @keyframes gRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+</style>
+</helmet>
+<div style="min-height:100vh;background:#f4ede0;font-family:'DM Sans',system-ui,sans-serif;color:#2a3138;display:flex;justify-content:center;padding:0 16px 56px;background-image:radial-gradient(circle at 12% 8%, rgba(211,162,115,.10), transparent 42%), radial-gradient(circle at 88% 22%, rgba(127,178,205,.10), transparent 40%), radial-gradient(circle at 50% 100%, rgba(154,171,147,.14), transparent 55%);">
+  <div style="width:100%;max-width:600px;padding-top:22px;">
+
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
+      <a href="Giulia.dc.html" style="display:flex;align-items:center;gap:9px;">
+        <img src="assets/giulia-icon.png" alt="Giulia" style="height:34px;width:auto;display:block;" />
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">Pizzeria · Trattoria</span>
+      </a>
+      <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:8px;background:#eaf1e6;border:1px solid #cfe0c6;color:#4a6a3f;padding:7px 13px 7px 11px;border-radius:100px;font-weight:600;font-size:13.5px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#5c8a49;animation:gPulse 1.8s ease-in-out infinite;"></span>
+          <span>{{ statusLabel }}</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isClosed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;background:#f0e7dc;border:1px solid #ddcdb9;color:#8a6f57;padding:7px 13px 7px 11px;border-radius:100px;font-weight:600;font-size:13.5px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#b98e5e;"></span>
+          <span>{{ statusLabel }}</span>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- Nav -->
+    <nav style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;">
+      <a href="Giulia.dc.html#pizzas" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Accueil</a>
+      <a href="Giulia.dc.html#commander" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Click &amp; Collect</a>
+      <a href="Nos pizzas.dc.html" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Carte</a>
+      <a href="Contact.dc.html" style="font-size:13.5px;font-weight:600;color:#fffdf8;padding:7px 13px;border-radius:100px;background:#2a3138;border:1px solid #2a3138;">Contact</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div style="display:flex;align-items:center;gap:8px;margin:18px 2px 0;font-size:12.5px;color:#8a8377;">
+      <a href="Giulia.dc.html" style="color:#8a8377;font-weight:600;" style-hover="color:#5f584d;">Accueil</a>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      <span style="color:#5f584d;font-weight:600;">Contact</span>
+    </div>
+
+    <!-- Title -->
+    <div style="margin:14px 0 6px;animation:gRise .5s ease both;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">On vous répond vite</span></div>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;line-height:1;letter-spacing:-1px;">Contactez-nous</h1>
+      <p style="margin:9px 0 0;max-width:490px;font-size:14.5px;line-height:1.6;color:#6b6459;">Une question sur une commande, un événement à organiser, une allergie à signaler&nbsp;? Écrivez-nous ou appelez la pizzeria directement — <strong style="color:#5f584d;">on trouve toujours une solution.</strong></p>
+    </div>
+
+    <!-- Quick contact chips -->
+    <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+      <a href="tel:+33285528742" style="background:#2a3138;color:#f4ede0;border-radius:16px;padding:15px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 14px 30px -20px rgba(42,49,56,.6);transition:transform .15s ease;" style-hover="transform:translateY(-2px);">
+        <span style="width:40px;height:40px;border-radius:12px;background:#d3a273;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+        <span style="min-width:0;"><span style="display:block;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;color:#b9b1a4;">Appeler</span><span style="display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15.5px;">02 85 52 87 42</span></span>
+      </a>
+      <a href="mailto:hello@giulia-pizza-gorges.fr" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:16px;padding:15px 16px;display:flex;align-items:center;gap:12px;transition:transform .15s ease,border-color .15s ease;" style-hover="transform:translateY(-2px);border-color:#d8c9ae;">
+        <span style="width:40px;height:40px;border-radius:12px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg></span>
+        <span style="min-width:0;"><span style="display:block;font-size:11.5px;letter-spacing:.4px;text-transform:uppercase;color:#a59b88;">Écrire</span><span style="display:block;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;color:#3a4148;overflow:hidden;text-overflow:ellipsis;">hello@giulia…</span></span>
+      </a>
+    </div>
+
+    <!-- Form -->
+    <section style="margin-top:12px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:22px;">
+
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:14px 6px;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#eaf1e6;border:1px solid #cfe0c6;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.3px;">Message prêt à partir&nbsp;!</h2>
+          <p style="margin:9px auto 0;max-width:360px;font-size:14px;line-height:1.6;color:#6b6459;">Votre logiciel de messagerie s'est ouvert avec votre message pré-rempli. Vérifiez-le et cliquez sur « Envoyer ». On vous répond en général sous 24&nbsp;h.</p>
+          <button onClick="{{ reset }}" style="margin-top:18px;padding:11px 20px;border-radius:12px;border:1.5px solid #e0d5c1;background:#fbf6ec;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;color:#5f584d;cursor:pointer;transition:background .15s ease;" style-hover="background:#f2e8d7;">Écrire un autre message</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+      <div>
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:16px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Écrivez-nous un mot</h2>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;">
+          <label style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12.5px;font-weight:600;color:#6b6459;">Votre nom</span>
+            <input id="gcName" type="text" value="{{ name }}" onInput="{{ onName }}" placeholder="Prénom Nom" style="padding:11px 13px;border-radius:11px;border:1px solid #e2d8c5;background:#fbf6ec;font-size:14.5px;color:#2a3138;transition:border-color .15s ease,background .15s ease;" />
+          </label>
+          <label style="display:flex;flex-direction:column;gap:6px;">
+            <span style="font-size:12.5px;font-weight:600;color:#6b6459;">Téléphone <span style="color:#b0a894;font-weight:400;">(facultatif)</span></span>
+            <input id="gcPhone" type="tel" value="{{ phone }}" onInput="{{ onPhone }}" placeholder="06 12 34 56 78" style="padding:11px 13px;border-radius:11px;border:1px solid #e2d8c5;background:#fbf6ec;font-size:14.5px;color:#2a3138;transition:border-color .15s ease,background .15s ease;" />
+          </label>
+        </div>
+
+        <label style="display:flex;flex-direction:column;gap:6px;margin-top:11px;">
+          <span style="font-size:12.5px;font-weight:600;color:#6b6459;">Votre email</span>
+          <input id="gcEmail" type="email" value="{{ email }}" onInput="{{ onEmail }}" placeholder="vous@email.fr" style="padding:11px 13px;border-radius:11px;border:1px solid #e2d8c5;background:#fbf6ec;font-size:14.5px;color:#2a3138;transition:border-color .15s ease,background .15s ease;" />
+        </label>
+
+        <label style="display:flex;flex-direction:column;gap:6px;margin-top:11px;">
+          <span style="font-size:12.5px;font-weight:600;color:#6b6459;">Sujet</span>
+          <select id="gcSubject" value="{{ subject }}" onChange="{{ onSubject }}" style="padding:11px 13px;border-radius:11px;border:1px solid #e2d8c5;background:#fbf6ec;font-size:14.5px;color:#2a3138;transition:border-color .15s ease,background .15s ease;cursor:pointer;">
+            <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="4">
+              <option value="{{ s }}">{{ s }}</option>
+            </sc-for>
+          </select>
+        </label>
+
+        <label style="display:flex;flex-direction:column;gap:6px;margin-top:11px;">
+          <span style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;"><span style="font-size:12.5px;font-weight:600;color:#6b6459;">Votre message</span><span style="font-size:12px;font-weight:600;color:{{ countColor }};">{{ count }}/{{ maxLen }}</span></span>
+          <textarea id="gcMsg" value="{{ message }}" onInput="{{ onMessage }}" maxlength="{{ maxLen }}" rows="4" placeholder="Dites-nous tout…" style="padding:12px 13px;border-radius:11px;border:1px solid #e2d8c5;background:#fbf6ec;font-size:14.5px;line-height:1.55;color:#2a3138;resize:vertical;min-height:96px;transition:border-color .15s ease,background .15s ease;"></textarea>
+        </label>
+
+        <sc-if value="{{ hasError }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:11px;display:flex;align-items:center;gap:8px;background:#f7e9e4;border:1px solid #e8cdc2;border-radius:11px;padding:10px 13px;font-size:13px;color:#9a4b32;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a24b32" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+            {{ errorMsg }}
+          </div>
+        </sc-if>
+
+        <button onClick="{{ submit }}" style="margin-top:16px;width:100%;padding:15px;border-radius:14px;border:none;background:#2a3138;color:#f4ede0;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .15s ease,transform .15s ease;" style-hover="background:#20262c;transform:translateY(-1px);">
+          Envoyer le message
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+        </button>
+        <p style="margin:11px 0 0;font-size:12px;line-height:1.55;color:#a59b88;text-align:center;">Ce formulaire ouvre votre messagerie avec un message pré-rempli. Vos informations ne sont pas stockées sur ce site.</p>
+      </div>
+      </sc-if>
+    </section>
+
+    <!-- Coordonnées + accès -->
+    <section style="margin-top:12px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+        <span style="width:38px;height:38px;border-radius:11px;background:#eaf1f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5786a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Nous trouver</h2>
+      </div>
+
+      <!-- Map placeholder -->
+      <a href="https://maps.google.com/?q=1+rue+de+la+cité+des+sports+44190+Gorges" target="_blank" rel="noopener" style="display:block;position:relative;height:150px;border-radius:14px;overflow:hidden;border:1px solid #e2d8c5;background:#e9f0f2;background-image:repeating-linear-gradient(135deg, rgba(87,134,160,.14) 0 11px, transparent 11px 22px);">
+        <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);"><svg width="30" height="30" viewBox="0 0 24 24" fill="#b3743f" stroke="#fffdf8" stroke-width="1.4" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3" fill="#fffdf8" stroke="none"></circle></svg></span>
+        <span style="position:absolute;left:12px;bottom:12px;background:#fffdf8;border:1px solid #e2d8c5;border-radius:100px;padding:6px 12px;font-size:12px;font-weight:600;color:#5f584d;display:flex;align-items:center;gap:6px;">Ouvrir dans Maps <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"></path></svg></span>
+      </a>
+
+      <div style="margin-top:14px;display:flex;flex-direction:column;gap:9px;font-size:14px;color:#5f584d;">
+        <div style="display:flex;gap:10px;align-items:flex-start;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>1 rue de la cité des sports, 44190 Gorges<br><span style="color:#8a8377;font-size:13px;">À 5 min de Clisson · 25 min de Nantes</span></span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Parking gratuit devant la pizzeria</span></div>
+      </div>
+    </section>
+
+    <!-- Horaires -->
+    <section style="margin-top:12px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+      <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+        <span style="width:38px;height:38px;border-radius:11px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>
+        <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Nos horaires</h2>
+      </div>
+      <sc-for list="{{ schedule }}" as="row" hint-placeholder-count="7">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-top:1px solid #f0e8d9;font-size:14.5px;">
+          <span style="font-weight:600;color:#4a4339;min-width:96px;">{{ row.day }}</span>
+          <span style="text-align:right;color:#6b6459;">{{ row.hours }}</span>
+        </div>
+      </sc-for>
+    </section>
+
+    <!-- Back CTA -->
+    <a href="Giulia.dc.html" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:14px;border-radius:15px;border:1.5px dashed #cdbfa4;background:transparent;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;color:#5f584d;transition:background .15s ease,border-color .15s ease;" style-hover="background:#fbf6ec;border-color:#b9a883;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+      Retour à l'accueil
+    </a>
+
+    <div style="text-align:center;margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:9px;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;">
+        <a href="Giulia.dc.html#pizzas" style="color:#8a8377;">Nos pizzas</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="menu.pdf" style="color:#8a8377;">Carte</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Contact.dc.html" style="color:#5f584d;font-weight:600;">Contact</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Mentions légales.dc.html" style="color:#8a8377;">Mentions légales</a>
+      </div>
+      <div style="font-size:12.5px;color:#a59b88;letter-spacing:.3px;">© Giulia · Pizzeria Napolitaine · Gorges</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:632,&quot;height&quot;:1600}}">
+class Component extends DCLogic {
+  MAX_LEN = 600;
+  state = { name: '', email: '', phone: '', subject: 'Une question générale', message: '', error: '', sent: false };
+
+  componentDidMount() {
+    this._t = setInterval(() => this.forceUpdate(), 30000);
+    try { document.title = 'Contact — Giulia, pizzeria napolitaine à Gorges (Clisson, Nantes)'; } catch (e) {}
+  }
+  componentWillUnmount() { clearInterval(this._t); }
+
+  _set(k) { return (e) => this.setState({ [k]: e.target.value, error: '' }); }
+  _setMessage(e) { this.setState({ message: e.target.value.slice(0, this.MAX_LEN), error: '' }); }
+
+  _submit() {
+    const { name, email, subject, message, phone } = this.state;
+    if (!name.trim()) return this.setState({ error: 'Merci d’indiquer votre nom.' });
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim())) return this.setState({ error: 'Merci d’indiquer un email valide.' });
+    if (!message.trim()) return this.setState({ error: 'Votre message semble vide.' });
+    const lines = [
+      message.trim(), '', '—',
+      'Nom : ' + name.trim(),
+      'Email : ' + email.trim(),
+      phone.trim() ? 'Téléphone : ' + phone.trim() : null,
+    ].filter(Boolean).join('\n');
+    const href = 'mailto:hello@giulia-pizza-gorges.fr'
+      + '?subject=' + encodeURIComponent('[' + subject + '] ' + name.trim())
+      + '&body=' + encodeURIComponent(lines);
+    try { window.location.href = href; } catch (e) {}
+    this.setState({ sent: true, error: '' });
+  }
+  _reset() { this.setState({ name: '', email: '', phone: '', subject: 'Une question générale', message: '', error: '', sent: false }); }
+
+  _sched() {
+    return { 0: [[1080, 1290]], 1: [], 2: [[600, 870], [1020, 1290]], 3: [[600, 870], [1020, 1290]], 4: [[600, 870], [1020, 1290]], 5: [[600, 870], [1020, 1320]], 6: [[600, 870], [1020, 1320]] };
+  }
+  _fmt(m) { const h = Math.floor(m / 60), mm = m % 60; return mm === 0 ? h + 'h' : h + 'h' + String(mm).padStart(2, '0'); }
+  _parisNow() {
+    const p = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Paris', hour12: false, weekday: 'short', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date());
+    const g = t => p.find(x => x.type === t).value;
+    const wdMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    let hh = parseInt(g('hour'), 10); if (hh === 24) hh = 0;
+    return { day: wdMap[g('weekday')], min: hh * 60 + parseInt(g('minute'), 10) };
+  }
+  _dayName(d) { return ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'][d]; }
+  _status() {
+    const sched = this._sched();
+    const { day, min } = this._parisNow();
+    const today = sched[day];
+    for (const [o, c] of today) if (min >= o && min < c) return { open: true, label: 'Ouvert' };
+    return { open: false, label: 'Fermé' };
+  }
+  _scheduleRows() {
+    const sched = this._sched();
+    const { day } = this._parisNow();
+    const names = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    const idx = [1, 2, 3, 4, 5, 6, 0];
+    return names.map((n, i) => {
+      const d = idx[i];
+      const slots = sched[d];
+      const hours = slots.length ? slots.map(([o, c]) => this._fmt(o) + ' – ' + this._fmt(c)).join('  ·  ') : 'Fermé';
+      return { day: d === day ? n + ' (aujourd’hui)' : n, hours };
+    });
+  }
+
+  renderVals() {
+    const s = this._status();
+    return {
+      name: this.state.name, email: this.state.email, phone: this.state.phone,
+      subject: this.state.subject, message: this.state.message,
+      onName: this._set('name'), onEmail: this._set('email'), onPhone: this._set('phone'),
+      onSubject: this._set('subject'), onMessage: (e) => this._setMessage(e),
+      count: this.state.message.length, maxLen: this.MAX_LEN,
+      countColor: this.state.message.length >= this.MAX_LEN ? '#a24b32' : '#a59b88',
+      subjects: ['Une question générale', 'Une commande click & collect', 'Un événement / grande commande', 'Une allergie ou un régime', 'Autre'],
+      submit: () => this._submit(),
+      reset: () => this._reset(),
+      sent: this.state.sent, notSent: !this.state.sent,
+      hasError: !!this.state.error, errorMsg: this.state.error,
+      isOpen: s.open, isClosed: !s.open, statusLabel: s.label,
+      schedule: this._scheduleRows(),
+    };
+  }
+}
+</script>
+</body>
+</html>

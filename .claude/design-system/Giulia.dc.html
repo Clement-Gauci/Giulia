@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: inherit; }
+  @keyframes gPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @keyframes gRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  #pizzaScroller::-webkit-scrollbar { display: none; }
+</style>
+<script src="./image-slot.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Giulia — Pizzeria Napolitaine",
+  "description": "Pizzeria napolitaine artisanale et pizzas à emporter en click & collect à Gorges, près de Clisson et Nantes.",
+  "servesCuisine": ["Pizza napolitaine", "Italienne"],
+  "priceRange": "€€",
+  "telephone": "+33285528742",
+  "email": "hello@giulia-pizza-gorges.fr",
+  "url": "https://giulia-pizza-gorges.fr",
+  "hasMenu": "https://giulia-pizza-gorges.fr/menu.pdf",
+  "acceptsReservations": "False",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1 rue de la cité des sports",
+    "postalCode": "44190",
+    "addressLocality": "Gorges",
+    "addressRegion": "Pays de la Loire",
+    "addressCountry": "FR"
+  },
+  "areaServed": ["Gorges", "Clisson", "Nantes"],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Pizzas à emporter — Click & Collect"
+  },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "10:00", "closes": "14:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "17:00", "closes": "21:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "10:00", "closes": "14:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "17:00", "closes": "22:00" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday"], "opens": "18:00", "closes": "21:30" }
+  ]
+}
+</script>
+</helmet>
+<div style="min-height:100vh;background:#f4ede0;font-family:'DM Sans',system-ui,sans-serif;color:#2a3138;display:flex;justify-content:center;padding:0 16px 56px;background-image:radial-gradient(circle at 12% 8%, rgba(211,162,115,.10), transparent 42%), radial-gradient(circle at 88% 22%, rgba(127,178,205,.10), transparent 40%), radial-gradient(circle at 50% 100%, rgba(154,171,147,.14), transparent 55%);">
+  <div style="width:100%;max-width:600px;padding-top:22px;">
+
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <img src="assets/giulia-icon.png" alt="Giulia" style="height:34px;width:auto;display:block;" />
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">Pizzeria · Trattoria</span>
+      </div>
+      <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:8px;background:#eaf1e6;border:1px solid #cfe0c6;color:#4a6a3f;padding:7px 13px 7px 11px;border-radius:100px;font-weight:600;font-size:13.5px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#5c8a49;animation:gPulse 1.8s ease-in-out infinite;"></span>
+          <span>{{ statusLabel }}</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isClosed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;background:#f0e7dc;border:1px solid #ddcdb9;color:#8a6f57;padding:7px 13px 7px 11px;border-radius:100px;font-weight:600;font-size:13.5px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#b98e5e;"></span>
+          <span>{{ statusLabel }}</span>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- Nav -->
+    <nav style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;">
+      <a href="#pizzas" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Nos pizzas</a>
+      <a href="#commander" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Click &amp; Collect</a>
+      <a href="Nos pizzas.dc.html" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Carte</a>
+      <a href="#contact" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Contact</a>
+    </nav>
+
+    <!-- Hero logo -->
+    <div style="text-align:center;margin:14px 0 6px;animation:gRise .5s ease both;">
+      <img src="assets/giulia-wordmark.png" alt="Giulia — Pizzeria napolitaine à Gorges (Clisson, Nantes)" style="width:100%;max-width:300px;height:auto;display:inline-block;" />
+      <h1 style="margin:12px auto 0;max-width:440px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:16px;line-height:1.5;color:#4a4339;">Giulia, pizzeria napolitaine &amp; pizzas à emporter à Gorges</h1>
+      <p style="margin:6px auto 0;max-width:420px;font-size:14.5px;line-height:1.6;color:#6b6459;">Vraies pizzas napolitaines, à emporter en <strong style="color:#5f584d;">click &amp; collect</strong> à Gorges, tout près de <strong style="color:#5f584d;">Clisson</strong> et <strong style="color:#5f584d;">Nantes</strong>.</p>
+      <div style="font-size:13px;color:#8a8377;margin-top:6px;">{{ statusDetail }}</div>
+    </div>
+
+    <!-- MOTD -->
+    <sc-if value="{{ motdActive }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:20px;background:#2a3138;color:#f4ede0;border-radius:16px;padding:15px 18px;display:flex;gap:13px;align-items:flex-start;box-shadow:0 10px 30px -14px rgba(42,49,56,.5);">
+        <span style="font-size:20px;line-height:1;flex-shrink:0;margin-top:1px;">📣</span>
+        <div>
+          <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:14px;letter-spacing:.4px;text-transform:uppercase;color:#c9b79f;margin-bottom:3px;">{{ motdTitle }}</div>
+          <div style="font-size:14.5px;line-height:1.5;">{{ motdText }}</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- Pizza du moment -->
+    <div style="position:relative;margin-top:22px;background:#2a3138;border-radius:24px;overflow:hidden;box-shadow:0 22px 50px -26px rgba(42,49,56,.65);color:#f4ede0;">
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 88% 8%, rgba(211,162,115,.28), transparent 46%), radial-gradient(circle at 4% 96%, rgba(154,171,147,.22), transparent 44%);"></div>
+      <div style="position:absolute;top:0;right:20px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:150px;line-height:.8;color:rgba(244,237,224,.05);letter-spacing:-6px;user-select:none;pointer-events:none;">LF</div>
+      <div style="position:relative;padding:22px 24px 26px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <span style="width:7px;height:7px;border-radius:50%;background:#d3a273;"></span>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2.2px;text-transform:uppercase;color:#c9a27a;">Pizza du moment</span>
+        </div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;">
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:.95;letter-spacing:-1px;">La Fresca</h2>
+          <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:24px;color:#a9c39a;white-space:nowrap;">17,90&nbsp;€</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 22px;margin-top:20px;">
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Sauce tomate San Marzano</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Mozzarella fior di latte</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Roquette</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Bresaola</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Guacamole d'avocat</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Comté affiné 24 mois</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Basilic frais</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>Huile d'olive</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nos pizzas — slider -->
+    <div id="pizzas" style="scroll-margin-top:16px;margin-top:30px;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 2px 14px;">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">La carte</span></div>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.3px;">Nos pizzas napolitaines</h2>
+          <p style="margin:5px 0 0;font-size:12.5px;line-height:1.5;color:#8a8377;">33 cm de diamètre · pour 1 à 2 personnes</p>
+        </div>
+        <div style="display:flex;gap:7px;flex-shrink:0;">
+          <button onClick="{{ prevPizza }}" aria-label="Précédent" style="width:38px;height:38px;border-radius:50%;border:1px solid #e0d5c1;background:#fffdf8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s ease;" style-hover="background:#f2e8d7;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+          <button onClick="{{ nextPizza }}" aria-label="Suivant" style="width:38px;height:38px;border-radius:50%;border:1px solid #e0d5c1;background:#fffdf8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s ease;" style-hover="background:#f2e8d7;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+        </div>
+      </div>
+      <div id="pizzaScroller" style="display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+        <div style="scroll-snap-align:start;flex:0 0 208px;background:#fffdf8;border:1px solid #e7ddca;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:118px;background:#eef1ea;background-image:repeating-linear-gradient(135deg, rgba(154,171,147,.20) 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:#96a08c;text-transform:uppercase;">Photo à venir</span></div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.2px;">Margherita</div>
+            <div style="font-size:12.5px;line-height:1.55;color:#8a8377;margin-top:6px;flex:1;">San Marzano · fior di latte · basilic · huile d'olive</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#5c8a49;margin-top:11px;">11,90&nbsp;€</div>
+          </div>
+        </div>
+        <div style="scroll-snap-align:start;flex:0 0 208px;background:#fffdf8;border:1px solid #e7ddca;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:118px;background:#e9f0f2;background-image:repeating-linear-gradient(135deg, rgba(87,134,160,.18) 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:#8aa4b3;text-transform:uppercase;">Photo à venir</span></div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.2px;">Regina</div>
+            <div style="font-size:12.5px;line-height:1.55;color:#8a8377;margin-top:6px;flex:1;">San Marzano · fior di latte · jambon · champignons</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#5c8a49;margin-top:11px;">13,90&nbsp;€</div>
+          </div>
+        </div>
+        <div style="scroll-snap-align:start;flex:0 0 208px;background:#fffdf8;border:1px solid #e7ddca;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:118px;background:#f4ebe0;background-image:repeating-linear-gradient(135deg, rgba(211,162,115,.22) 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:#bb9c7c;text-transform:uppercase;">Photo à venir</span></div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.2px;">Diavola</div>
+            <div style="font-size:12.5px;line-height:1.55;color:#8a8377;margin-top:6px;flex:1;">San Marzano · fior di latte · spianata piccante · basilic</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#5c8a49;margin-top:11px;">14,50&nbsp;€</div>
+          </div>
+        </div>
+        <div style="scroll-snap-align:start;flex:0 0 208px;background:#fffdf8;border:1px solid #e7ddca;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="height:118px;background:#eef1ea;background-image:repeating-linear-gradient(135deg, rgba(154,171,147,.20) 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:#96a08c;text-transform:uppercase;">Photo à venir</span></div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.2px;">Quattro Formaggi</div>
+            <div style="font-size:12.5px;line-height:1.55;color:#8a8377;margin-top:6px;flex:1;">fior di latte · gorgonzola · comté 24 mois · parmesan</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#5c8a49;margin-top:11px;">14,90&nbsp;€</div>
+          </div>
+        </div>
+        <div style="scroll-snap-align:start;flex:0 0 208px;background:#2a3138;color:#f4ede0;border:1px solid #2a3138;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
+          <div style="position:relative;height:118px;background:#343b42;background-image:repeating-linear-gradient(135deg, rgba(211,162,115,.20) 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:#8a7f70;text-transform:uppercase;">Photo à venir</span><span style="position:absolute;top:9px;left:9px;background:#d3a273;color:#2a3138;font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:100px;">Du moment</span></div>
+          <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;letter-spacing:-.2px;">La Fresca</div>
+            <div style="font-size:12.5px;line-height:1.55;color:#c3bbac;margin-top:6px;flex:1;">Bresaola · roquette · guacamole · comté 24 mois</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#a9c39a;margin-top:11px;">17,90&nbsp;€</div>
+          </div>
+        </div>
+      </div>
+      <a href="Nos pizzas.dc.html" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;padding:14px;border-radius:15px;border:1.5px dashed #cdbfa4;background:transparent;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;color:#5f584d;transition:background .15s ease,border-color .15s ease;" style-hover="background:#fbf6ec;border-color:#b9a883;">
+        Voir toute la carte des pizzas
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+
+    <!-- Click & Collect primary -->
+    <a id="commander" href="#" style="scroll-margin-top:16px;display:block;margin-top:28px;background:#2a3138;color:#f4ede0;border-radius:20px;padding:20px 22px;box-shadow:0 16px 36px -18px rgba(42,49,56,.6);transition:transform .15s ease;" style-hover="transform:translateY(-2px);background:#20262c;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:46px;height:46px;border-radius:14px;background:#d3a273;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          </div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;">Click &amp; Collect</div>
+            <div style="font-size:13.5px;color:#b9b1a4;margin-top:1px;">Commandez en ligne, retirez sur place</div>
+          </div>
+        </div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </div>
+    </a>
+    <p style="margin:11px 4px 0;font-size:13px;line-height:1.6;color:#7a7367;text-align:center;">Un créneau n'apparaît plus disponible, ou vous commandez <strong style="color:#5f584d;">plus de 5 pizzas</strong> ? Appelez-nous directement au <a href="tel:+33285528742" style="color:#b3743f;font-weight:600;border-bottom:1.5px solid #e2c6a8;">02&nbsp;85&nbsp;52&nbsp;87&nbsp;42</a>, on trouve toujours une solution.</p>
+
+    <!-- Links -->
+    <div style="display:flex;align-items:center;gap:10px;margin:26px 2px 13px;">
+      <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">Tout Giulia, en un clic</span>
+      <span style="flex:1;height:1px;background:#e0d5c1;"></span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px;">
+
+      <a href="menu.pdf" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateX(3px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+        <span style="width:42px;height:42px;border-radius:12px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M9 13h6M9 17h4"></path></svg></span>
+        <span style="flex:1;min-width:0;"><span style="display:block;font-weight:600;font-size:15.5px;">Notre menu</span><span style="display:block;font-size:12.5px;color:#8a8377;margin-top:1px;">Toute la carte en PDF</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+
+      <a href="https://maps.google.com/?q=1+rue+de+la+cité+des+sports+44190+Gorges" target="_blank" rel="noopener" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateX(3px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+        <span style="width:42px;height:42px;border-radius:12px;background:#eaf1f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5786a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+        <span style="flex:1;min-width:0;"><span style="display:block;font-weight:600;font-size:15.5px;">Itinéraire</span><span style="display:block;font-size:12.5px;color:#8a8377;margin-top:1px;">1 rue de la cité des sports, Gorges</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+
+      <a href="tel:+33285528742" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateX(3px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+        <span style="width:42px;height:42px;border-radius:12px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+        <span style="flex:1;min-width:0;"><span style="display:block;font-weight:600;font-size:15.5px;">Appeler le restaurant</span><span style="display:block;font-size:12.5px;color:#8a8377;margin-top:1px;">02 85 52 87 42</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+
+      <a href="https://g.page/r/" target="_blank" rel="noopener" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateX(3px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+        <span style="width:42px;height:42px;border-radius:12px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#d3a273" stroke="#d3a273" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.5 5.82 21 7 14.14l-5-4.87 7.1-1.01z"></path></svg></span>
+        <span style="flex:1;min-width:0;"><span style="display:block;font-weight:600;font-size:15.5px;">Laisser un avis Google</span><span style="display:block;font-size:12.5px;color:#8a8377;margin-top:1px;">Votre avis nous aide beaucoup</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+
+      <a href="mailto:hello@giulia-pizza-gorges.fr" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateX(3px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+        <span style="width:42px;height:42px;border-radius:12px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg></span>
+        <span style="flex:1;min-width:0;"><span style="display:block;font-weight:600;font-size:15.5px;">Nous écrire</span><span style="display:block;font-size:12.5px;color:#8a8377;margin-top:1px;">hello@giulia-pizza-gorges.fr</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+
+      <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener" style="background:#eef4ea;border:1px solid #cfe0c6;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateX(3px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#b7d0aa;">
+        <span style="width:42px;height:42px;border-radius:12px;background:#dcebd3;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#5c8a49"><path d="M12 2a10 10 0 0 0-8.6 15.06L2 22l5.09-1.33A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.08-1.12l-.29-.17-3.02.79.81-2.94-.19-.3A8 8 0 1 1 12 20zm4.5-5.9c-.25-.12-1.47-.72-1.7-.8-.23-.09-.4-.13-.56.12s-.64.8-.79.97-.29.18-.54.06a6.5 6.5 0 0 1-1.92-1.18 7.2 7.2 0 0 1-1.33-1.65c-.14-.24 0-.37.11-.49.11-.11.25-.29.37-.43.12-.14.16-.24.25-.4.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.48a.92.92 0 0 0-.66.31 2.77 2.77 0 0 0-.87 2.06c0 1.22.89 2.4 1.01 2.56.13.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.14-1.18-.06-.1-.22-.16-.47-.28z"></path></svg></span>
+        <span style="flex:1;min-width:0;"><span style="display:block;font-weight:600;font-size:15.5px;">Groupe WhatsApp anti-gaspi</span><span style="display:block;font-size:12.5px;color:#5c8a49;margin-top:1px;">Nos invendus à prix mini, en direct</span></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8fb681" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+
+      <!-- Social pair -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+        <a href="https://facebook.com/" target="_blank" rel="noopener" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:12px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateY(-2px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#eaf1f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="#5786a0"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg></span>
+          <span style="font-weight:600;font-size:14.5px;">Facebook</span>
+        </a>
+        <a href="https://instagram.com/" target="_blank" rel="noopener" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:12px;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;" style-hover="transform:translateY(-2px);box-shadow:0 12px 24px -18px rgba(42,49,56,.5);border-color:#d8c9ae;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="#b3743f" stroke="none"></circle></svg></span>
+          <span style="font-weight:600;font-size:14.5px;">Instagram</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Hours + contact footer -->
+    <div id="contact" style="scroll-margin-top:16px;margin-top:26px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+      <h2 style="margin:0 0 14px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:16px;letter-spacing:.3px;">Horaires d'ouverture · Pizzeria Giulia Gorges</h2>
+      <sc-for list="{{ schedule }}" as="row" hint-placeholder-count="7">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-top:1px solid #f0e8d9;font-size:14.5px;">
+          <span style="font-weight:600;color:#4a4339;min-width:96px;">{{ row.day }}</span>
+          <span style="text-align:right;color:#6b6459;">{{ row.hours }}</span>
+        </div>
+      </sc-for>
+      <div style="margin-top:14px;background:#f6ece1;border:1px solid #ecd9c1;border-radius:13px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:1px;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+        <p style="margin:0;font-size:13px;line-height:1.55;color:#7a5a3c;">Nous proposons les <strong style="color:#5f4326;">grandes pizzas à la demande</strong>, de 11h30 à 14h00 et de 18h00 jusqu'à la fermeture.</p>
+      </div>
+      <div style="border-top:1px solid #f0e8d9;margin-top:14px;padding-top:16px;display:flex;flex-direction:column;gap:8px;font-size:14px;color:#5f584d;">
+        <div style="display:flex;gap:9px;align-items:flex-start;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>1 rue de la cité des sports, 44190 Gorges</span></div>
+        <div style="display:flex;gap:9px;align-items:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg><a href="tel:+33285528742" style="color:#5f584d;">02 85 52 87 42</a></div>
+        <div style="display:flex;gap:9px;align-items:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg><a href="mailto:hello@giulia-pizza-gorges.fr" style="color:#5f584d;">hello@giulia-pizza-gorges.fr</a></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:9px;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;">
+        <a href="#pizzas" style="color:#8a8377;">Nos pizzas</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="menu.pdf" style="color:#8a8377;">Carte</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="#contact" style="color:#8a8377;">Contact</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Mentions légales.dc.html" style="color:#8a8377;">Mentions légales</a>
+      </div>
+      <div style="font-size:12.5px;color:#a59b88;letter-spacing:.3px;">© Giulia · Pizzeria Napolitaine · Gorges</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:632,&quot;height&quot;:1500},&quot;motdActive&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Annonce du jour&quot;,&quot;label&quot;:&quot;Afficher l'encart d'annonce&quot;},&quot;motdTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;À noter&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Annonce du jour&quot;,&quot;label&quot;:&quot;Titre de l'annonce&quot;},&quot;motdText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Fermeture exceptionnelle le 15 août. Réouverture le lendemain aux horaires habituels.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Annonce du jour&quot;,&quot;label&quot;:&quot;Texte de l'annonce&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this._t = setInterval(() => this.forceUpdate(), 30000);
+    try {
+      document.title = 'Giulia — Pizzeria napolitaine & pizzas à emporter à Gorges (Clisson, Nantes)';
+      const setMeta = (name, content) => {
+        let m = document.querySelector('meta[name="' + name + '"]');
+        if (!m) { m = document.createElement('meta'); m.setAttribute('name', name); document.head.appendChild(m); }
+        m.setAttribute('content', content);
+      };
+      setMeta('description', 'Giulia, pizzeria napolitaine à Gorges : vraies pizzas napolitaines à emporter en click & collect, tout près de Clisson et Nantes. Menu, horaires, avis et commande en ligne.');
+      setMeta('keywords', 'pizzeria Gorges, pizza à emporter Gorges, pizza napolitaine, click and collect pizza, pizzeria Clisson, pizzeria Nantes, Giulia pizza');
+    } catch (e) {}
+    this._setupAutoSlide();
+  }
+
+  _setupAutoSlide() {
+    this._paused = false;
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const el = document.getElementById('pizzaScroller');
+    if (!el || reduce) return;
+    this._autoEl = el;
+    const pause = () => { this._paused = true; clearTimeout(this._resumeT); };
+    const resume = () => { clearTimeout(this._resumeT); this._resumeT = setTimeout(() => { this._paused = false; }, 1400); };
+    this._pause = pause; this._resume = resume;
+    el.addEventListener('pointerenter', pause);
+    el.addEventListener('pointerleave', resume);
+    el.addEventListener('pointerdown', pause);
+    el.addEventListener('touchstart', pause, { passive: true });
+    el.addEventListener('touchend', resume, { passive: true });
+    el.addEventListener('scroll', () => { pause(); resume(); }, { passive: true });
+    this._auto = setInterval(() => {
+      if (this._paused) return;
+      const e = this._autoEl;
+      if (!e) return;
+      const max = e.scrollWidth - e.clientWidth;
+      if (e.scrollLeft >= max - 4) e.scrollTo({ left: 0, behavior: 'smooth' });
+      else e.scrollBy({ left: 220, behavior: 'smooth' });
+    }, 3200);
+  }
+  componentWillUnmount() {
+    clearInterval(this._t);
+    clearInterval(this._auto);
+    clearTimeout(this._resumeT);
+    const el = this._autoEl;
+    if (el && this._pause) {
+      el.removeEventListener('pointerenter', this._pause);
+      el.removeEventListener('pointerleave', this._resume);
+      el.removeEventListener('pointerdown', this._pause);
+      el.removeEventListener('touchstart', this._pause);
+      el.removeEventListener('touchend', this._resume);
+    }
+  }
+
+  // schedule keyed by JS getDay(): 0=Sun..6=Sat, each a list of [openMin, closeMin]
+  _sched() {
+    return {
+      0: [[1080, 1290]],               // Dim 18:00-21:30
+      1: [],                           // Lun fermé
+      2: [[600, 870], [1020, 1290]],   // Mar 10:00-14:30 / 17:00-21:30
+      3: [[600, 870], [1020, 1290]],   // Mer
+      4: [[600, 870], [1020, 1290]],   // Jeu
+      5: [[600, 870], [1020, 1320]],   // Ven 10:00-14:30 / 17:00-22:00
+      6: [[600, 870], [1020, 1320]],   // Sam
+    };
+  }
+  _fmt(m) {
+    const h = Math.floor(m / 60), mm = m % 60;
+    return mm === 0 ? h + 'h' : h + 'h' + String(mm).padStart(2, '0');
+  }
+  _parisNow() {
+    const p = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Europe/Paris', hour12: false, weekday: 'short', hour: '2-digit', minute: '2-digit'
+    }).formatToParts(new Date());
+    const g = t => p.find(x => x.type === t).value;
+    const wdMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    let hh = parseInt(g('hour'), 10); if (hh === 24) hh = 0;
+    return { day: wdMap[g('weekday')], min: hh * 60 + parseInt(g('minute'), 10) };
+  }
+  _dayName(d) { return ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'][d]; }
+
+  _status() {
+    const sched = this._sched();
+    const { day, min } = this._parisNow();
+    const today = sched[day];
+    // open now?
+    for (const [o, c] of today) {
+      if (min >= o && min < c) {
+        return { open: true, label: 'Ouvert', detail: 'Ouvert jusqu\u2019\u00e0 ' + this._fmt(c) };
+      }
+    }
+    // next opening today?
+    for (const [o] of today) {
+      if (min < o) {
+        return { open: false, label: 'Ferm\u00e9', detail: 'Ouvre aujourd\u2019hui \u00e0 ' + this._fmt(o) };
+      }
+    }
+    // find next day with hours
+    for (let i = 1; i <= 7; i++) {
+      const nd = (day + i) % 7;
+      if (sched[nd].length) {
+        const o = sched[nd][0][0];
+        const label = i === 1 ? 'demain' : this._dayName(nd).toLowerCase();
+        return { open: false, label: 'Ferm\u00e9', detail: 'Ouvre ' + label + ' \u00e0 ' + this._fmt(o) };
+      }
+    }
+    return { open: false, label: 'Ferm\u00e9', detail: '' };
+  }
+
+  _scheduleRows() {
+    const sched = this._sched();
+    const { day } = this._parisNow();
+    const names = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    const idx = [1, 2, 3, 4, 5, 6, 0];
+    return names.map((n, i) => {
+      const d = idx[i];
+      const slots = sched[d];
+      const hours = slots.length
+        ? slots.map(([o, c]) => this._fmt(o) + ' – ' + this._fmt(c)).join('  ·  ')
+        : 'Fermé';
+      return { day: d === day ? n + " (aujourd’hui)" : n, hours };
+    });
+  }
+
+  _scrollPizzas(dir) {
+    const el = document.getElementById('pizzaScroller');
+    if (el) el.scrollBy({ left: dir * 220, behavior: 'smooth' });
+  }
+  renderVals() {
+    const s = this._status();
+    return {
+      prevPizza: () => this._scrollPizzas(-1),
+      nextPizza: () => this._scrollPizzas(1),
+      isOpen: s.open,
+      isClosed: !s.open,
+      statusLabel: s.label,
+      statusDetail: s.detail,
+      schedule: this._scheduleRows(),
+      motdActive: this.props.motdActive ?? false,
+      motdTitle: this.props.motdTitle ?? 'À noter',
+      motdText: this.props.motdText ?? 'Fermeture exceptionnelle le 15 août. Réouverture le lendemain aux horaires habituels.',
+    };
+  }
+}
+</script>
+</body>
+</html>

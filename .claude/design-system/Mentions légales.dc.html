@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: #b3743f; text-decoration: none; }
+  a:hover { color: #8a5528; }
+  @keyframes gPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @keyframes gRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+</style>
+</helmet>
+<div style="min-height:100vh;background:#f4ede0;font-family:'DM Sans',system-ui,sans-serif;color:#2a3138;display:flex;justify-content:center;padding:0 16px 56px;background-image:radial-gradient(circle at 12% 8%, rgba(211,162,115,.10), transparent 42%), radial-gradient(circle at 88% 22%, rgba(127,178,205,.10), transparent 40%), radial-gradient(circle at 50% 100%, rgba(154,171,147,.14), transparent 55%);">
+  <div style="width:100%;max-width:600px;padding-top:22px;">
+
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
+      <a href="Giulia.dc.html" style="display:flex;align-items:center;gap:9px;">
+        <img src="assets/giulia-icon.png" alt="Giulia" style="height:34px;width:auto;display:block;" />
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">Pizzeria · Trattoria</span>
+      </a>
+    </div>
+
+    <!-- Nav -->
+    <nav style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;">
+      <a href="Giulia.dc.html#pizzas" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Accueil</a>
+      <a href="Giulia.dc.html#commander" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Click &amp; Collect</a>
+      <a href="Nos pizzas.dc.html" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Carte</a>
+      <a href="Giulia.dc.html#contact" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Contact</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div style="display:flex;align-items:center;gap:8px;margin:18px 2px 0;font-size:12.5px;color:#8a8377;">
+      <a href="Giulia.dc.html" style="color:#8a8377;font-weight:600;" style-hover="color:#5f584d;">Accueil</a>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+      <span style="color:#5f584d;font-weight:600;">Mentions légales</span>
+    </div>
+
+    <!-- Title -->
+    <div style="margin:14px 0 6px;animation:gRise .5s ease both;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">Informations légales</span></div>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;line-height:1;letter-spacing:-1px;">Mentions légales</h1>
+      <p style="margin:9px 0 0;max-width:480px;font-size:14.5px;line-height:1.6;color:#6b6459;">Conformément aux articles 6-III et 19 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN), voici les informations relatives à l'éditeur et à l'hébergeur de ce site.</p>
+    </div>
+
+    <!-- Sections -->
+    <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px;">
+
+      <!-- Éditeur -->
+      <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"></path></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Éditeur du site</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{ editorRows }}" as="row" hint-placeholder-count="7">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:8px 0;border-top:1px solid #f0e8d9;font-size:14px;">
+              <span style="color:#8a8377;flex-shrink:0;">{{ row.label }}</span>
+              <span style="text-align:right;color:#3a4148;font-weight:600;">{{ row.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <p style="margin:14px 0 0;font-size:12.5px;line-height:1.6;color:#8a8377;">Les champs suivis d'un « — » sont à compléter avec les informations officielles de l'entreprise (SIRET, RCS, TVA).</p>
+      </section>
+
+      <!-- Directeur de publication -->
+      <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Directeur de la publication</h2>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:#5f584d;">Le directeur de la publication est le représentant légal de la pizzeria Giulia — <strong style="color:#3a4148;">{{ publisherName }}</strong>. Pour toute question relative au contenu du site, vous pouvez le contacter par courriel à <a href="mailto:hello@giulia-pizza-gorges.fr">hello@giulia-pizza-gorges.fr</a>.</p>
+      </section>
+
+      <!-- Hébergeur -->
+      <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#eaf1f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5786a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"></rect><rect x="2" y="13" width="20" height="8" rx="2"></rect><path d="M6 7h.01M6 17h.01"></path></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Hébergement</h2>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.6;color:#5f584d;">Ce site est hébergé par <strong style="color:#3a4148;">{{ hostName }}</strong>{{ hostAddress }}. L'hébergeur assure le stockage et la mise à disposition du site sur ses serveurs.</p>
+      </section>
+
+      <!-- Propriété intellectuelle -->
+      <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.5 5.82 21 7 14.14l-5-4.87 7.1-1.01z"></path></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Propriété intellectuelle</h2>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.65;color:#5f584d;">L'ensemble des éléments de ce site — textes, photographies, logo, identité visuelle, mise en page — est la propriété exclusive de la pizzeria Giulia, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation écrite préalable est interdite et constituerait une contrefaçon au sens des articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
+      </section>
+
+      <!-- Données personnelles -->
+      <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Données personnelles</h2>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.65;color:#5f584d;">Les informations recueillies lors d'une commande en click &amp; collect (nom, téléphone, courriel) sont utilisées uniquement pour la gestion de votre commande et ne sont jamais cédées à des tiers. Conformément au Règlement général sur la protection des données (RGPD) et à la loi « Informatique et Libertés », vous disposez d'un droit d'accès, de rectification, d'opposition et de suppression de vos données. Pour l'exercer, écrivez-nous à <a href="mailto:hello@giulia-pizza-gorges.fr">hello@giulia-pizza-gorges.fr</a>.</p>
+      </section>
+
+      <!-- Cookies -->
+      <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+          <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"></path><path d="M8.5 8.5h.01M15 9h.01M9 15h.01M14 14h.01"></path></svg></span>
+          <h2 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;">Cookies</h2>
+        </div>
+        <p style="margin:0;font-size:14px;line-height:1.65;color:#5f584d;">Ce site utilise uniquement des cookies techniques nécessaires à son bon fonctionnement et, le cas échéant, à la mesure d'audience anonyme. Aucun cookie publicitaire ni de traçage tiers n'est déposé sans votre consentement. Vous pouvez à tout moment configurer votre navigateur pour refuser les cookies.</p>
+      </section>
+
+      <!-- Médiation -->
+      <section style="background:#f6ece1;border:1px solid #ecd9c1;border-radius:20px;padding:20px 22px;">
+        <div style="display:flex;gap:11px;align-items:flex-start;">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+          <div>
+            <h2 style="margin:0 0 6px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.2px;color:#5f4326;">Médiation de la consommation</h2>
+            <p style="margin:0;font-size:13.5px;line-height:1.65;color:#7a5a3c;">En cas de litige, vous pouvez recourir gratuitement au service de médiation de la consommation. La plateforme européenne de règlement en ligne des litiges est accessible à l'adresse <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" style="color:#a24b32;border-bottom:1.5px solid #e2c6a8;">ec.europa.eu/consumers/odr</a>.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Back CTA -->
+    <a href="Giulia.dc.html" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:14px;border-radius:15px;border:1.5px dashed #cdbfa4;background:transparent;font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;color:#5f584d;transition:background .15s ease,border-color .15s ease;" style-hover="background:#fbf6ec;border-color:#b9a883;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+      Retour à l'accueil
+    </a>
+
+    <div style="text-align:center;margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:9px;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;">
+        <a href="Giulia.dc.html#pizzas" style="color:#8a8377;">Nos pizzas</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="menu.pdf" style="color:#8a8377;">Carte</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Giulia.dc.html#contact" style="color:#8a8377;">Contact</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Mentions légales.dc.html" style="color:#5f584d;font-weight:600;">Mentions légales</a>
+      </div>
+      <div style="font-size:12.5px;color:#a59b88;letter-spacing:.3px;">© Giulia · Pizzeria Napolitaine · Gorges</div>
+      <div style="font-size:12px;color:#b3a993;">Dernière mise à jour : {{ updatedAt }}</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:632,&quot;height&quot;:1600},&quot;raisonSociale&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Pizzeria Giulia&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Éditeur&quot;,&quot;label&quot;:&quot;Raison sociale&quot;},&quot;formeJuridique&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;SARL&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Éditeur&quot;,&quot;label&quot;:&quot;Forme juridique&quot;},&quot;capital&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;—&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Éditeur&quot;,&quot;label&quot;:&quot;Capital social&quot;},&quot;siret&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;—&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Éditeur&quot;,&quot;label&quot;:&quot;SIRET&quot;},&quot;rcs&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;—&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Éditeur&quot;,&quot;label&quot;:&quot;RCS&quot;},&quot;tva&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;—&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Éditeur&quot;,&quot;label&quot;:&quot;N° TVA intracommunautaire&quot;},&quot;publisherName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;—&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Publication&quot;,&quot;label&quot;:&quot;Directeur de publication&quot;},&quot;hostName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;—&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hébergement&quot;,&quot;label&quot;:&quot;Nom de l'hébergeur&quot;},&quot;hostAddress&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hébergement&quot;,&quot;label&quot;:&quot;Adresse de l'hébergeur&quot;},&quot;updatedAt&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;juillet 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Divers&quot;,&quot;label&quot;:&quot;Dernière mise à jour&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    try { document.title = 'Mentions légales — Giulia, pizzeria napolitaine à Gorges'; } catch (e) {}
+  }
+  renderVals() {
+    const p = this.props;
+    const raison = p.raisonSociale ?? 'Pizzeria Giulia';
+    const forme = p.formeJuridique ?? 'SARL';
+    const capital = p.capital ?? '—';
+    const siret = p.siret ?? '—';
+    const rcs = p.rcs ?? '—';
+    const tva = p.tva ?? '—';
+    return {
+      publisherName: p.publisherName ?? '—',
+      hostName: p.hostName ?? '—',
+      hostAddress: p.hostAddress ? ', ' + p.hostAddress : '',
+      updatedAt: p.updatedAt ?? 'juillet 2026',
+      editorRows: [
+        { label: 'Raison sociale', value: raison },
+        { label: 'Forme juridique', value: forme },
+        { label: 'Capital social', value: capital },
+        { label: 'Siège social', value: '1 rue de la cité des sports, 44190 Gorges' },
+        { label: 'SIRET', value: siret },
+        { label: 'RCS', value: rcs },
+        { label: 'N° TVA intracom.', value: tva },
+        { label: 'Téléphone', value: '02 85 52 87 42' },
+        { label: 'Courriel', value: 'hello@giulia-pizza-gorges.fr' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

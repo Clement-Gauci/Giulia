@@ -1,0 +1,129 @@
+{
+    "project": {
+        "name": "Giulia",
+        "projectId": "6472f33c-5a17-42ab-a1f9-8c7cdabd2622",
+        "url": "https://claude.ai/design/p/6472f33c-5a17-42ab-a1f9-8c7cdabd2622",
+        "type": "PROJECT_TYPE_PROJECT"
+    },
+    "sync": {
+        "direction": "pull",
+        "note": "Claude Design -> miroir local. Unidirectionnel : on ne pousse jamais (projet classique, pas un design-system).",
+        "tool": "DesignSync (get_file)",
+        "lastSync": "2026-07-21T18:09:04Z",
+        "contentCapBytes": 262144
+    },
+    "files": [
+        {
+            "path": "Contact.dc.html",
+            "bytes": 24893,
+            "sha1": "e221685f16947c0752284d9b3a18bf714a8b56cd",
+            "kind": "page"
+        },
+        {
+            "path": "Erreur.dc.html",
+            "bytes": 12530,
+            "sha1": "cd725506d86cf80c9a7c86ba251e2746cca79a3c",
+            "kind": "page"
+        },
+        {
+            "path": "Giulia.dc.html",
+            "bytes": 42661,
+            "sha1": "4d8667cea72a8bbe4a42a6ec821f0b44ec29fe90",
+            "kind": "page"
+        },
+        {
+            "path": "Mentions légales.dc.html",
+            "bytes": 18785,
+            "sha1": "b5bd9c3f15b426a50d347198678031cc00955054",
+            "kind": "page"
+        },
+        {
+            "path": "Nos pizzas.dc.html",
+            "bytes": 21869,
+            "sha1": "b81db30a853167f3da73cd2a7bb84aa0e479de84",
+            "kind": "page"
+        },
+        {
+            "path": "Pizza - La Fresca.dc.html",
+            "bytes": 18817,
+            "sha1": "0c664c57e97c769a1e2e53205c6fd86bc24d2fb9",
+            "kind": "page"
+        },
+        {
+            "path": "assets/giulia-icon.png",
+            "bytes": 52590,
+            "sha1": "6ac1a7551a0b25b0d81b496e476c0a311c7b4310",
+            "kind": "image"
+        },
+        {
+            "path": "assets/giulia-logo.png",
+            "bytes": 137278,
+            "sha1": "ee905926dfc130d4a6f5487339503f4698694c4b",
+            "kind": "image"
+        },
+        {
+            "path": "assets/giulia-wordmark.png",
+            "bytes": 69892,
+            "sha1": "6ab254e194e271368a65fa65729463db8d4b05b0",
+            "kind": "image"
+        },
+        {
+            "path": "image-slot.js",
+            "bytes": 64449,
+            "sha1": "a77b763407d19ce7f976e2b129a8e96885433ff8",
+            "kind": "support"
+        },
+        {
+            "path": "scraps/charte-p3-1.png",
+            "bytes": 48207,
+            "sha1": "792ec18224b59ab750292fab711cc16bdf74fa74",
+            "kind": "image"
+        },
+        {
+            "path": "scraps/charte-p4-2.png",
+            "bytes": 48207,
+            "sha1": "792ec18224b59ab750292fab711cc16bdf74fa74",
+            "kind": "image"
+        },
+        {
+            "path": "scraps/charte-p4-3.png",
+            "bytes": 131707,
+            "sha1": "556dbf58889104c289c80d0aea474715e2f0f054",
+            "kind": "image"
+        },
+        {
+            "path": "support.js",
+            "bytes": 66404,
+            "sha1": "fc0c0276854c97c415b1b38c2961f6cafe79780c",
+            "kind": "support"
+        },
+        {
+            "path": "uploads/icon-giulia-no-bg.png",
+            "bytes": 52590,
+            "sha1": "6ac1a7551a0b25b0d81b496e476c0a311c7b4310",
+            "kind": "image"
+        },
+        {
+            "path": "uploads/logo.jpg",
+            "bytes": 87995,
+            "sha1": "34441a45a9b54790d4795ec9cba2cbc7fe8b32cd",
+            "kind": "image"
+        },
+        {
+            "path": "uploads/logo.png",
+            "bytes": 137278,
+            "sha1": "ee905926dfc130d4a6f5487339503f4698694c4b",
+            "kind": "image"
+        }
+    ],
+    "unretrieved": [
+        {
+            "path": "scraps/charte-p1-0.png",
+            "reason": "Depasse le plafond get_file de 256 Kio (base64) -> tronque a 192 Kio. A telecharger manuellement depuis Claude Design."
+        },
+        {
+            "path": "uploads/GAUCI CHARTE GRAPHIQUE.pdf",
+            "reason": "PDF 4 pages, depasse le plafond get_file de 256 Kio -> tronque. A telecharger manuellement depuis Claude Design."
+        }
+    ]
+}

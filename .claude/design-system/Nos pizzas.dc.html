@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: inherit; }
+  @keyframes gPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @keyframes gRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+</style>
+</helmet>
+<div style="min-height:100vh;background:#f4ede0;font-family:'DM Sans',system-ui,sans-serif;color:#2a3138;display:flex;justify-content:center;padding:0 16px 56px;background-image:radial-gradient(circle at 12% 8%, rgba(211,162,115,.10), transparent 42%), radial-gradient(circle at 88% 22%, rgba(127,178,205,.10), transparent 40%), radial-gradient(circle at 50% 100%, rgba(154,171,147,.14), transparent 55%);">
+  <div style="width:100%;max-width:600px;padding-top:22px;">
+
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
+      <a href="Giulia.dc.html" style="display:flex;align-items:center;gap:9px;">
+        <img src="assets/giulia-icon.png" alt="Giulia" style="height:34px;width:auto;display:block;" />
+        <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">Pizzeria · Trattoria</span>
+      </a>
+      <div style="display:none;"></div>
+      <sc-if value="{{ isOpen }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:8px;background:#eaf1e6;border:1px solid #cfe0c6;color:#4a6a3f;padding:7px 13px 7px 11px;border-radius:100px;font-weight:600;font-size:13.5px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#5c8a49;animation:gPulse 1.8s ease-in-out infinite;"></span>
+          <span>{{ statusLabel }}</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isClosed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;background:#f0e7dc;border:1px solid #ddcdb9;color:#8a6f57;padding:7px 13px 7px 11px;border-radius:100px;font-weight:600;font-size:13.5px;">
+          <span style="width:8px;height:8px;border-radius:50%;background:#b98e5e;"></span>
+          <span>{{ statusLabel }}</span>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- Nav -->
+    <nav style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;">
+      <a href="Giulia.dc.html#pizzas" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Accueil</a>
+      <a href="Giulia.dc.html#commander" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Click &amp; Collect</a>
+      <a href="Nos pizzas.dc.html" style="font-size:13.5px;font-weight:600;color:#3a4148;padding:7px 13px;border-radius:100px;background:#efe4d1;border:1px solid #ddceb4;transition:background .15s ease;">Carte</a>
+      <a href="Giulia.dc.html#contact" style="font-size:13.5px;font-weight:600;color:#5f584d;padding:7px 13px;border-radius:100px;background:#fbf6ec;border:1px solid #e7ddca;transition:background .15s ease;" style-hover="background:#f2e8d7;">Contact</a>
+    </nav>
+
+    <!-- Title -->
+    <div style="margin:20px 0 6px;animation:gRise .5s ease both;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">La carte complète</span></div>
+      <h1 style="margin:0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:34px;line-height:1;letter-spacing:-1px;">Toutes nos pizzas</h1>
+      <p style="margin:9px 0 0;max-width:460px;font-size:14.5px;line-height:1.6;color:#6b6459;">Pâte napolitaine maturée 48h, 33 cm de diamètre, pour 1 à 2 personnes. Toutes nos pizzas sont préparées à la commande, à emporter en <strong style="color:#5f584d;">click &amp; collect</strong>.</p>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#4a6a3f;background:#eaf1e6;border:1px solid #cfe0c6;padding:5px 11px;border-radius:100px;"><span style="font-size:11px;">🌱</span>Végétarienne</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#a24b32;background:#f7e6df;border:1px solid #ecc9bd;padding:5px 11px;border-radius:100px;"><span style="font-size:11px;">🌶️</span>Piquante</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#8a6f2f;background:#f5ecd6;border:1px solid #e6d5a8;padding:5px 11px;border-radius:100px;"><span style="font-size:11px;">★</span>Signature</span>
+    </div>
+
+    <!-- Categories -->
+    <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="3">
+      <div style="margin-top:34px;">
+        <div style="display:flex;align-items:center;gap:12px;margin:0 2px 15px;">
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">{{ cat.kicker }}</div>
+            <h2 style="margin:3px 0 0;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.3px;">{{ cat.label }}</h2>
+          </div>
+          <span style="flex:1;height:1px;background:#e0d5c1;margin-top:12px;"></span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;">
+          <sc-for list="{{ cat.pizzas }}" as="p" hint-placeholder-count="4">
+            <a href="{{ p.href }}" style="{{ p.cardStyle }}" style-hover="transform:translateY(-3px);box-shadow:0 16px 30px -20px rgba(42,49,56,.55);">
+              <div style="{{ p.photoStyle }}">
+                <span style="{{ p.photoTextStyle }}">Photo à venir</span>
+                <sc-if value="{{ p.featured }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;top:9px;left:9px;background:#d3a273;color:#2a3138;font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:100px;">Du moment</span>
+                </sc-if>
+              </div>
+              <div style="padding:13px 15px 15px;display:flex;flex-direction:column;flex:1;">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+                  <div style="{{ p.nameStyle }}">{{ p.name }}</div>
+                  <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="0">
+                    <span style="{{ t.style }}" title="{{ t.title }}">{{ t.icon }}</span>
+                  </sc-for>
+                </div>
+                <div style="{{ p.descStyle }}">{{ p.desc }}</div>
+                <div style="{{ p.priceStyle }}">{{ p.price }}</div>
+              </div>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+
+    <!-- Note -->
+    <div style="margin-top:26px;background:#f6ece1;border:1px solid #ecd9c1;border-radius:16px;padding:14px 16px;display:flex;gap:11px;align-items:flex-start;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+      <p style="margin:0;font-size:13.5px;line-height:1.6;color:#7a5a3c;">Supplément au choix : <strong style="color:#5f4326;">+1,50 €</strong> (mozzarella, roquette, œuf…) ou <strong style="color:#5f4326;">+2,50 €</strong> (bresaola, burrata, comté 24 mois). Une allergie ? Signalez-le à la commande, on adapte.</p>
+    </div>
+
+    <!-- Click & Collect CTA -->
+    <a href="Giulia.dc.html#commander" style="display:block;margin-top:16px;background:#2a3138;color:#f4ede0;border-radius:20px;padding:20px 22px;box-shadow:0 16px 36px -18px rgba(42,49,56,.6);transition:transform .15s ease;" style-hover="transform:translateY(-2px);background:#20262c;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:46px;height:46px;border-radius:14px;background:#d3a273;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          </div>
+          <div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;">Commander en Click &amp; Collect</div>
+            <div style="font-size:13.5px;color:#b9b1a4;margin-top:1px;">Commandez en ligne, retirez sur place</div>
+          </div>
+        </div>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </div>
+    </a>
+    <p style="margin:11px 4px 0;font-size:13px;line-height:1.6;color:#7a7367;text-align:center;">Plus de <strong style="color:#5f584d;">5 pizzas</strong> ? Appelez-nous au <a href="tel:+33285528742" style="color:#b3743f;font-weight:600;border-bottom:1.5px solid #e2c6a8;">02&nbsp;85&nbsp;52&nbsp;87&nbsp;42</a>, on trouve toujours une solution.</p>
+
+    <!-- Hours + contact footer -->
+    <div id="contact" style="scroll-margin-top:16px;margin-top:26px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+      <h2 style="margin:0 0 14px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:16px;letter-spacing:.3px;">Horaires d'ouverture · Pizzeria Giulia Gorges</h2>
+      <sc-for list="{{ schedule }}" as="row" hint-placeholder-count="7">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-top:1px solid #f0e8d9;font-size:14.5px;">
+          <span style="font-weight:600;color:#4a4339;min-width:96px;">{{ row.day }}</span>
+          <span style="text-align:right;color:#6b6459;">{{ row.hours }}</span>
+        </div>
+      </sc-for>
+      <div style="margin-top:14px;background:#f6ece1;border:1px solid #ecd9c1;border-radius:13px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:1px;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+        <p style="margin:0;font-size:13px;line-height:1.55;color:#7a5a3c;">Nous proposons les <strong style="color:#5f4326;">grandes pizzas à la demande</strong>, de 11h30 à 14h00 et de 18h00 jusqu'à la fermeture.</p>
+      </div>
+      <div style="border-top:1px solid #f0e8d9;margin-top:14px;padding-top:16px;display:flex;flex-direction:column;gap:8px;font-size:14px;color:#5f584d;">
+        <div style="display:flex;gap:9px;align-items:flex-start;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>1 rue de la cité des sports, 44190 Gorges</span></div>
+        <div style="display:flex;gap:9px;align-items:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg><a href="tel:+33285528742" style="color:#5f584d;">02 85 52 87 42</a></div>
+        <div style="display:flex;gap:9px;align-items:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg><a href="mailto:hello@giulia-pizza-gorges.fr" style="color:#5f584d;">hello@giulia-pizza-gorges.fr</a></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:9px;">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;">
+        <a href="Giulia.dc.html#pizzas" style="color:#8a8377;">Nos pizzas</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="menu.pdf" style="color:#8a8377;">Carte</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Giulia.dc.html#contact" style="color:#8a8377;">Contact</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="Mentions légales.dc.html" style="color:#8a8377;">Mentions légales</a>
+      </div>
+      <div style="font-size:12.5px;color:#a59b88;letter-spacing:.3px;">© Giulia · Pizzeria Napolitaine · Gorges</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:632,&quot;height&quot;:1600}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    this._t = setInterval(() => this.forceUpdate(), 30000);
+    try { document.title = 'Toutes nos pizzas — Giulia, pizzeria napolitaine à Gorges'; } catch (e) {}
+  }
+  componentWillUnmount() { clearInterval(this._t); }
+
+  _sched() {
+    return {
+      0: [[1080, 1290]], 1: [], 2: [[600, 870], [1020, 1290]], 3: [[600, 870], [1020, 1290]],
+      4: [[600, 870], [1020, 1290]], 5: [[600, 870], [1020, 1320]], 6: [[600, 870], [1020, 1320]],
+    };
+  }
+  _parisNow() {
+    const p = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Paris', hour12: false, weekday: 'short', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date());
+    const g = t => p.find(x => x.type === t).value;
+    const wdMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    let hh = parseInt(g('hour'), 10); if (hh === 24) hh = 0;
+    return { day: wdMap[g('weekday')], min: hh * 60 + parseInt(g('minute'), 10) };
+  }
+  _isOpen() {
+    const { day, min } = this._parisNow();
+    for (const [o, c] of this._sched()[day]) if (min >= o && min < c) return true;
+    return false;
+  }
+  _fmt(m) { const h = Math.floor(m / 60), mm = m % 60; return mm === 0 ? h + 'h' : h + 'h' + String(mm).padStart(2, '0'); }
+  _scheduleRows() {
+    const sched = this._sched();
+    const { day } = this._parisNow();
+    const names = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    const idx = [1, 2, 3, 4, 5, 6, 0];
+    return names.map((n, i) => {
+      const d = idx[i];
+      const slots = sched[d];
+      const hours = slots.length ? slots.map(([o, c]) => this._fmt(o) + ' \u2013 ' + this._fmt(c)).join('  \u00b7  ') : 'Ferm\u00e9';
+      return { day: d === day ? n + " (aujourd\u2019hui)" : n, hours };
+    });
+  }
+
+  _tones() {
+    return {
+      green: { bg: '#eef1ea', stripe: 'rgba(154,171,147,.20)', text: '#96a08c' },
+      blue:  { bg: '#e9f0f2', stripe: 'rgba(87,134,160,.18)', text: '#8aa4b3' },
+      tan:   { bg: '#f4ebe0', stripe: 'rgba(211,162,115,.22)', text: '#bb9c7c' },
+    };
+  }
+  _tagDefs() {
+    return {
+      veg:   { icon: '🌱', title: 'Végétarienne', style: 'flex-shrink:0;width:24px;height:24px;border-radius:8px;background:#eaf1e6;border:1px solid #cfe0c6;display:inline-flex;align-items:center;justify-content:center;font-size:12px;' },
+      spicy: { icon: '🌶️', title: 'Piquante', style: 'flex-shrink:0;width:24px;height:24px;border-radius:8px;background:#f7e6df;border:1px solid #ecc9bd;display:inline-flex;align-items:center;justify-content:center;font-size:12px;' },
+    };
+  }
+
+  _cook(p, i, featured) {
+    const tones = this._tones();
+    const tagDefs = this._tagDefs();
+    const toneKey = featured ? 'dark' : ['green', 'blue', 'tan'][i % 3];
+    const dark = featured;
+    const t = dark ? { bg: '#343b42', stripe: 'rgba(211,162,115,.20)', text: '#8a7f70' } : tones[toneKey];
+    const cardBase = dark
+      ? 'background:#2a3138;color:#f4ede0;border:1px solid #2a3138;'
+      : 'background:#fffdf8;border:1px solid #e7ddca;';
+    const params = new URLSearchParams();
+    params.set('name', p.name);
+    params.set('price', p.price);
+    params.set('ingredients', (p.desc || '').split('\u00b7').map(s => s.trim()).filter(Boolean).join(' | '));
+    if (featured) params.set('signature', '1');
+    if ((p.tags || []).includes('veg')) params.set('allergens', 'gluten, lait');
+    return {
+      name: p.name,
+      desc: p.desc,
+      price: p.price,
+      featured: !!featured,
+      href: 'Pizza \u2014 La Fresca.dc.html?' + params.toString(),
+      cardStyle: cardBase + 'border-radius:18px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;',
+      photoStyle: 'position:relative;height:108px;background:' + t.bg + ';background-image:repeating-linear-gradient(135deg, ' + t.stripe + ' 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;',
+      photoTextStyle: 'font-family:monospace;font-size:10.5px;letter-spacing:1px;color:' + t.text + ';text-transform:uppercase;',
+      nameStyle: "font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.2px;line-height:1.05;",
+      descStyle: 'font-size:12.5px;line-height:1.55;color:' + (dark ? '#c3bbac' : '#8a8377') + ';margin-top:7px;flex:1;',
+      priceStyle: "font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:" + (dark ? '#a9c39a' : '#5c8a49') + ';margin-top:11px;',
+      tags: (p.tags || []).map(k => tagDefs[k]),
+    };
+  }
+
+  renderVals() {
+    const rouges = [
+      { name: 'Margherita', desc: 'San Marzano · fior di latte · basilic · huile d\u2019olive', price: '11,90\u00a0\u20ac', tags: ['veg'] },
+      { name: 'Regina', desc: 'San Marzano · fior di latte · jambon blanc · champignons', price: '13,90\u00a0\u20ac' },
+      { name: 'Napoli', desc: 'San Marzano · fior di latte · anchois · c\u00e2pres · olives', price: '13,50\u00a0\u20ac' },
+      { name: 'Diavola', desc: 'San Marzano · fior di latte · spianata piccante · basilic', price: '14,50\u00a0\u20ac', tags: ['spicy'] },
+      { name: 'Capricciosa', desc: 'San Marzano · fior di latte · jambon · champignons · artichauts · olives', price: '15,50\u00a0\u20ac' },
+      { name: 'Vegetariana', desc: 'San Marzano · fior di latte · l\u00e9gumes gril\u00e9s de saison · roquette', price: '14,50\u00a0\u20ac', tags: ['veg'] },
+      { name: 'Calabrese', desc: 'San Marzano · fior di latte · \u2019nduja · oignons rouges · miel', price: '15,90\u00a0\u20ac', tags: ['spicy'] },
+    ];
+    const bianche = [
+      { name: 'Quattro Formaggi', desc: 'fior di latte · gorgonzola · comt\u00e9 24 mois · parmesan', price: '14,90\u00a0\u20ac', tags: ['veg'] },
+      { name: 'Boscaiola', desc: 'cr\u00e8me · fior di latte · champignons · lardons · persillade', price: '14,90\u00a0\u20ac' },
+      { name: 'Burratina', desc: 'cr\u00e8me · fior di latte · burrata · tomates confites · basilic', price: '16,50\u00a0\u20ac', tags: ['veg'] },
+      { name: 'Tartufo', desc: 'cr\u00e8me de truffe · fior di latte · champignons · parmesan · roquette', price: '17,50\u00a0\u20ac', tags: ['veg'] },
+    ];
+    const signature = [
+      { name: 'La Fresca', desc: 'San Marzano · fior di latte · bresaola · roquette · guacamole · comt\u00e9 24 mois', price: '17,90\u00a0\u20ac' },
+    ];
+
+    let i = 0;
+    const catRouges = rouges.map(p => this._cook(p, i++, false));
+    i = 0;
+    const catBianche = bianche.map(p => this._cook(p, i++, false));
+    const catSignature = signature.map(p => this._cook(p, 0, true));
+
+    const open = this._isOpen();
+    return {
+      isOpen: open,
+      isClosed: !open,
+      statusLabel: open ? 'Ouvert' : 'Ferm\u00e9',
+      schedule: this._scheduleRows(),
+      categories: [
+        { kicker: 'Base tomate San Marzano', label: 'Les rouges', pizzas: catRouges },
+        { kicker: 'Base cr\u00e8me & mozzarella', label: 'Les blanches', pizzas: catBianche },
+        { kicker: 'L\u2019\u00e9dition du moment', label: 'La signature', pizzas: catSignature },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
