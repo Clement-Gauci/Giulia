@@ -12,6 +12,7 @@ final readonly class Establishment
         private string $phoneHref,
         private string $email,
         private string $menuPdfUrl,
+        private string $orderUrl,
         private string $directionsUrl,
         private string $googleReviewsUrl,
         private string $whatsappUrl,
@@ -26,6 +27,7 @@ final readonly class Establishment
     public function phoneHref(): string { return $this->phoneHref; }
     public function email(): string { return $this->email; }
     public function menuPdfUrl(): string { return $this->menuPdfUrl; }
+    public function orderUrl(): string { return $this->orderUrl; }
     public function directionsUrl(): string { return $this->directionsUrl; }
     public function googleReviewsUrl(): string { return $this->googleReviewsUrl; }
     public function whatsappUrl(): string { return $this->whatsappUrl; }

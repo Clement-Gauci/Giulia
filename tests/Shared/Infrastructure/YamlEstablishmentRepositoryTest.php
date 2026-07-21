@@ -33,4 +33,9 @@ final class YamlEstablishmentRepositoryTest extends TestCase
         self::assertFalse($a->isActive());
         self::assertSame('À noter', $a->title());
     }
+
+    public function test_reads_order_url(): void
+    {
+        self::assertSame('https://order.example.test/carte', $this->repo()->get()->orderUrl());
+    }
 }

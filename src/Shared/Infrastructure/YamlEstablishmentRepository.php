@@ -21,7 +21,7 @@ final class YamlEstablishmentRepository implements EstablishmentRepositoryInterf
         $a = $d['announcement'];
         return new Establishment(
             $d['name'], $d['tagline'], $d['address'], $d['phone'], $d['phone_href'],
-            $d['email'], $d['menu_pdf_url'], $d['directions_url'], $d['google_reviews_url'],
+            $d['email'], $d['menu_pdf_url'], $d['order_url'], $d['directions_url'], $d['google_reviews_url'],
             $d['whatsapp_url'], $links,
             new Announcement((bool) $a['active'], $a['title'], $a['text']),
         );
