@@ -3,5 +3,15 @@
 {% block title %}Mentions légales — Giulia{% endblock %}
 
 {% block body %}
-    <h1 style="font-size:32px;margin:20px 0;">Mentions légales</h1>
+    {% set e = establishment() %}
+    <h1 style="font-size:32px;margin:20px 0 16px;">Mentions légales</h1>
+    <div class="card" style="padding:22px;line-height:1.6;color:var(--text-soft);">
+        <h2 style="font-size:16px;">Éditeur</h2>
+        <p>{{ e.name }} — {{ e.address }}<br>Tél. {{ e.phone }} · {{ e.email }}</p>
+        <p>SIRET, RCS et TVA intracommunautaire : à compléter avant mise en ligne.</p>
+        <h2 style="font-size:16px;">Hébergeur</h2>
+        <p>Hébergeur du site : à compléter (nom, adresse, téléphone).</p>
+        <h2 style="font-size:16px;">Propriété intellectuelle</h2>
+        <p>L'ensemble des contenus (textes, visuels, logos) est la propriété de {{ e.name }}, sauf mention contraire.</p>
+    </div>
 {% endblock %}

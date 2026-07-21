@@ -7,7 +7,7 @@
     {{ include('components/_status_badge.html.twig') }}
 </div>
 <nav class="nav">
-    <a href="{{ path('home') }}">Accueil</a>
-    <a href="{{ path('menu_index') }}">Carte</a>
-    <a href="{{ path('contact') }}">Contact</a>
+    <a href="{{ path('home') }}" {{ app.request.attributes.get('_route') == 'home' ? 'aria-current="page"' : '' }}>Accueil</a>
+    <a href="{{ path('menu_index') }}" {{ app.request.attributes.get('_route') starts with 'menu' ? 'aria-current="page"' : '' }}>Carte</a>
+    <a href="{{ path('contact') }}" {{ app.request.attributes.get('_route') == 'contact' ? 'aria-current="page"' : '' }}>Contact</a>
 </nav>
