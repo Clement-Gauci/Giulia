@@ -1,0 +1,18 @@
+monday: []
+tuesday:
+  - { open: "10:00", close: "14:30" }
+  - { open: "17:00", close: "21:30" }
+wednesday:
+  - { open: "10:00", close: "14:30" }
+  - { open: "17:00", close: "21:30" }
+thursday:
+  - { open: "10:00", close: "14:30" }
+  - { open: "17:00", close: "21:30" }
+friday:
+  - { open: "10:00", close: "14:30" }
+  - { open: "17:00", close: "22:00" }
+saturday:
+  - { open: "10:00", close: "14:30" }
+  - { open: "17:00", close: "22:00" }
+sunday:
+  - { open: "18:00", close: "21:30" }
