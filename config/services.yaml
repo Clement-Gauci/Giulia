@@ -38,3 +38,5 @@ services:
         arguments: { $file: '%giulia.data_dir%/establishment.yaml' }
     App\Contact\Infrastructure\SymfonyContactMailer:
         arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }
+    App\Menu\UI\MenuPdfExtension:
+        arguments: { $publicDir: '%kernel.project_dir%/public' }
