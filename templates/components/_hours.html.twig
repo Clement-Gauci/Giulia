@@ -1,6 +1,6 @@
 {% set e = establishment() %}
 <div id="contact" class="card" style="padding:20px 22px;margin-top:26px;">
-    <h2 style="font-size:16px;margin:0 0 14px;">Horaires d'ouverture · Pizzeria Giulia Gorges</h2>
+    <h2 style="font-size:16px;margin:0 0 14px;">Horaires d’ouverture · {{ e.name }} · Gorges</h2>
     {% for row in weekly_hours() %}
         <div style="display:flex;justify-content:space-between;padding:7px 0;border-top:1px solid #f0e8d9;font-size:14.5px;{{ row.today ? 'font-weight:700;' : '' }}">
             <span style="color:var(--text);">{{ row.day }}{{ row.today ? ' (aujourd’hui)' : '' }}</span>
