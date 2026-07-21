@@ -1,17 +1,112 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mentions légales — Giulia{% endblock %}
+{% block title %}Mentions légales — Giulia, pizzeria napolitaine à Gorges{% endblock %}
+{% block description %}Mentions légales de la pizzeria Giulia à Gorges : éditeur, hébergement, propriété intellectuelle, données personnelles.{% endblock %}
 
 {% block body %}
     {% set e = establishment() %}
-    <h1 style="font-size:32px;margin:20px 0 16px;">Mentions légales</h1>
-    <div class="card" style="padding:22px;line-height:1.6;color:var(--text-soft);">
-        <h2 style="font-size:16px;">Éditeur</h2>
-        <p>{{ e.name }} — {{ e.address }}<br>Tél. {{ e.phone }} · {{ e.email }}</p>
-        <p>SIRET, RCS et TVA intracommunautaire : à compléter avant mise en ligne.</p>
-        <h2 style="font-size:16px;">Hébergeur</h2>
-        <p>Hébergeur du site : à compléter (nom, adresse, téléphone).</p>
-        <h2 style="font-size:16px;">Propriété intellectuelle</h2>
-        <p>L'ensemble des contenus (textes, visuels, logos) est la propriété de {{ e.name }}, sauf mention contraire.</p>
+
+    {# Fil d'Ariane #}
+    <div style="display:flex;align-items:center;gap:8px;margin:18px 2px 0;font-size:12.5px;color:#8a8377;">
+        <a href="{{ path('home') }}" style="color:#8a8377;font-weight:600;">Accueil</a>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg>
+        <span style="color:#5f584d;font-weight:600;">Mentions légales</span>
     </div>
+
+    {# Titre #}
+    <div style="margin:14px 0 6px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">Informations légales</span></div>
+        <h1 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:34px;line-height:1;letter-spacing:-1px;">Mentions légales</h1>
+    </div>
+
+    <div style="margin-top:22px;display:flex;flex-direction:column;gap:12px;">
+        {# Éditeur #}
+        <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:14px;">
+                <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M9 17h1M14 9h1M14 13h1M14 17h1"></path></svg></span>
+                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;">Éditeur du site</h2>
+            </div>
+            <div style="display:flex;flex-direction:column;">
+                {% set editorRows = [
+                    { label: 'Raison sociale', value: e.name },
+                    { label: 'Forme juridique', value: '—' },
+                    { label: 'Capital social', value: '—' },
+                    { label: 'Siège social', value: e.address },
+                    { label: 'SIRET', value: '—' },
+                    { label: 'RCS', value: '—' },
+                    { label: 'N° TVA intracom.', value: '—' },
+                    { label: 'Téléphone', value: e.phone },
+                    { label: 'Courriel', value: e.email }
+                ] %}
+                {% for row in editorRows %}
+                    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:8px 0;border-top:1px solid #f0e8d9;font-size:14px;">
+                        <span style="color:#8a8377;flex-shrink:0;">{{ row.label }}</span>
+                        <span style="text-align:right;color:#3a4148;font-weight:600;">{{ row.value }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+            <p style="margin:14px 0 0;font-size:12.5px;line-height:1.6;color:#8a8377;">Les champs suivis d’un « — » sont à compléter avec les informations officielles de l’entreprise (SIRET, RCS, TVA) avant la mise en ligne.</p>
+        </section>
+
+        {# Directeur de publication #}
+        <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+                <span style="width:38px;height:38px;border-radius:11px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;">Directeur de la publication</h2>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:#5f584d;">Le directeur de la publication est le représentant légal de la pizzeria {{ e.name }} — <strong style="color:#3a4148;">à compléter</strong>. Pour toute question relative au contenu du site, vous pouvez le contacter par courriel à <a href="mailto:{{ e.email }}" style="color:#b3743f;">{{ e.email }}</a>.</p>
+        </section>
+
+        {# Hébergement #}
+        <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+                <span style="width:38px;height:38px;border-radius:11px;background:#eaf1f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5786a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="8" rx="2"></rect><rect x="2" y="13" width="20" height="8" rx="2"></rect><path d="M6 7h.01M6 17h.01"></path></svg></span>
+                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;">Hébergement</h2>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.6;color:#5f584d;">Ce site est hébergé par <strong style="color:#3a4148;">à compléter</strong> (nom, adresse, téléphone de l’hébergeur). L’hébergeur assure le stockage et la mise à disposition du site sur ses serveurs.</p>
+        </section>
+
+        {# Propriété intellectuelle #}
+        <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+                <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.5 5.82 21 7 14.14l-5-4.87 7.1-1.01z"></path></svg></span>
+                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;">Propriété intellectuelle</h2>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:#5f584d;">L’ensemble des éléments de ce site — textes, photographies, logo, identité visuelle, mise en page — est la propriété exclusive de la pizzeria {{ e.name }}, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation écrite préalable est interdite et constituerait une contrefaçon au sens des articles L.335-2 et suivants du Code de la propriété intellectuelle.</p>
+        </section>
+
+        {# Données personnelles #}
+        <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+                <span style="width:38px;height:38px;border-radius:11px;background:#eef2ea;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
+                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;">Données personnelles</h2>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:#5f584d;">Les informations recueillies via le formulaire de contact (nom, téléphone, courriel) sont utilisées uniquement pour répondre à votre demande et ne sont jamais cédées à des tiers. Conformément au Règlement général sur la protection des données (RGPD) et à la loi « Informatique et Libertés », vous disposez d’un droit d’accès, de rectification, d’opposition et de suppression de vos données. Pour l’exercer, écrivez-nous à <a href="mailto:{{ e.email }}" style="color:#b3743f;">{{ e.email }}</a>.</p>
+        </section>
+
+        {# Cookies #}
+        <section style="background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px;">
+                <span style="width:38px;height:38px;border-radius:11px;background:#f6ece1;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"></path><path d="M8.5 8.5h.01M15 9h.01M9 15h.01M14 14h.01"></path></svg></span>
+                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;">Cookies</h2>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:1.65;color:#5f584d;">Ce site utilise uniquement des cookies techniques nécessaires à son bon fonctionnement. Aucun cookie publicitaire ni de traçage tiers n’est déposé sans votre consentement. Vous pouvez à tout moment configurer votre navigateur pour refuser les cookies.</p>
+        </section>
+
+        {# Médiation #}
+        <section style="background:#f6ece1;border:1px solid #ecd9c1;border-radius:20px;padding:20px 22px;">
+            <div style="display:flex;gap:11px;align-items:flex-start;">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+                <div>
+                    <h2 style="margin:0 0 6px;font-family:var(--font-title);font-weight:800;font-size:16px;letter-spacing:-.2px;color:#5f4326;">Médiation de la consommation</h2>
+                    <p style="margin:0;font-size:13.5px;line-height:1.65;color:#7a5a3c;">En cas de litige, vous pouvez recourir gratuitement au service de médiation de la consommation. La plateforme européenne de règlement en ligne des litiges est accessible à l’adresse <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" style="color:#a24b32;border-bottom:1.5px solid #e2c6a8;">ec.europa.eu/consumers/odr</a>.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <a href="{{ path('home') }}" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;padding:14px;border-radius:15px;border:1.5px dashed #cdbfa4;background:transparent;font-family:var(--font-title);font-weight:700;font-size:15px;color:#5f584d;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+        Retour à l’accueil
+    </a>
 {% endblock %}
