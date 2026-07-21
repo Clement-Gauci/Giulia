@@ -3,5 +3,23 @@
 {% block title %}Contact — Giulia, pizzeria napolitaine à Gorges{% endblock %}
 
 {% block body %}
-    <h1 style="font-size:32px;margin:20px 0;">Nous contacter</h1>
+    <h1 style="font-size:32px;margin:20px 0 6px;">Nous contacter</h1>
+    <p style="color:var(--text-soft);">Une question, une allergie, une grande commande ? Écrivez-nous.</p>
+
+    {% for message in app.flashes('success') %}
+        <div class="card" style="padding:14px 16px;margin:16px 0;background:#eaf1e6;border-color:#cfe0c6;color:var(--green-deep);">{{ message }}</div>
+    {% endfor %}
+
+    <div class="card" style="padding:22px;margin-top:16px;">
+        {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.phone) }}
+            {{ form_row(form.subject) }}
+            {{ form_row(form.message) }}
+            <button type="submit" class="cta-cc" style="border:0;cursor:pointer;width:100%;margin-top:10px;font-family:var(--font-title);font-weight:800;font-size:16px;">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+
+    {{ include('components/_hours.html.twig') }}
 {% endblock %}
