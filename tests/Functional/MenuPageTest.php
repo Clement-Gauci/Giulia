@@ -11,19 +11,19 @@ final class MenuPageTest extends WebTestCase
         $client->request('GET', '/nos-pizzas');
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('body', 'Les rouges');
+        self::assertSelectorTextContains('body', 'Base sauce tomate');
         self::assertSelectorTextContains('body', 'Margherita');
-        self::assertSelectorTextContains('body', 'La signature');
+        self::assertSelectorTextContains('body', 'Base spéciale');
     }
 
     public function test_pizza_page_shows_details(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/nos-pizzas/la-fresca');
+        $client->request('GET', '/nos-pizzas/giulia');
 
         self::assertResponseIsSuccessful();
-        self::assertSelectorTextContains('h1', 'La Fresca');
-        self::assertSelectorTextContains('body', 'bresaola');
+        self::assertSelectorTextContains('h1', 'Giulia');
+        self::assertSelectorTextContains('body', 'confiture de figues');
     }
 
     public function test_unknown_pizza_returns_404(): void

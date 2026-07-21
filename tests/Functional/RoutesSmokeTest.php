@@ -23,7 +23,7 @@ final class RoutesSmokeTest extends WebTestCase
     {
         yield 'accueil' => ['/'];
         yield 'carte' => ['/nos-pizzas'];
-        yield 'fiche pizza' => ['/nos-pizzas/la-fresca'];
+        yield 'fiche pizza' => ['/nos-pizzas/giulia'];
         yield 'contact' => ['/contact'];
         yield 'mentions légales' => ['/mentions-legales'];
         yield 'statut' => ['/api/status'];
