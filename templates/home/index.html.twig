@@ -27,24 +27,32 @@
         </div>
     {% endif %}
 
-    {# Pizza du moment #}
-    {% if featured %}
-        {% set initials = '' %}{% for w in featured.name|split(' ') %}{% set initials = initials ~ (w|first) %}{% endfor %}
+    {# Pizza du moment (special.yaml) ; repli sur la signature du menu #}
+    {% set spotlight = special ?? featured %}
+    {% if spotlight %}
+        {% set initials = '' %}{% for w in spotlight.name|split(' ') %}{% set initials = initials ~ (w|first) %}{% endfor %}
         <div class="featured">
             <div class="featured__glow"></div>
             <div class="featured__wm">{{ initials|upper }}</div>
             <div class="featured__body">
-                <div class="featured__kicker"><span class="featured__dot"></span><span class="featured__label">Pizza du moment</span></div>
+                <div class="featured__kicker">
+                    <span class="featured__dot"></span>
+                    <span class="featured__label">{{ special ? 'Pizza du moment' : 'La signature' }}</span>
+                </div>
                 <div class="featured__head">
-                    <h2 class="featured__name">{{ featured.name }}</h2>
-                    <span class="featured__price">{{ featured.price.format }}</span>
+                    <h2 class="featured__name">{{ spotlight.name }}</h2>
+                    <span class="featured__price">{{ spotlight.price.format }}</span>
                 </div>
                 <div class="ing-grid">
-                    {% for ingredient in featured.ingredients %}
+                    {% for ingredient in spotlight.ingredients %}
                         <div class="ing"><span class="ing__b">◆</span>{{ ingredient }}</div>
                     {% endfor %}
                 </div>
-                <a href="{{ path('menu_show', { slug: featured.slug }) }}" class="featured__cta">Voir la fiche<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+                {% if special %}
+                    <a href="{{ e.orderUrl }}" class="featured__cta">Commander en Click &amp; Collect<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+                {% else %}
+                    <a href="{{ path('menu_show', { slug: spotlight.slug }) }}" class="featured__cta">Voir la fiche<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+                {% endif %}
             </div>
         </div>
     {% endif %}
