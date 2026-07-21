@@ -15,4 +15,11 @@ final class HomePageTest extends WebTestCase
         self::assertSelectorTextContains('body', 'Click & Collect');
         self::assertSelectorTextContains('body', 'La Fresca'); // pizza du moment
     }
+
+    public function test_click_and_collect_cta_points_to_order_url(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+        self::assertSelectorExists('a#commander[href="https://giuliapizzas.foxorders.com/carte-giulia-pizzas-gorges-44190.html"]');
+    }
 }

@@ -32,4 +32,11 @@ final class MenuPageTest extends WebTestCase
         $client->request('GET', '/nos-pizzas/inexistante');
         self::assertResponseStatusCodeSame(404);
     }
+
+    public function test_menu_cta_points_to_order_url(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/nos-pizzas');
+        self::assertSelectorExists('a#commander[href="https://giuliapizzas.foxorders.com/carte-giulia-pizzas-gorges-44190.html"]');
+    }
 }
