@@ -1,0 +1,15 @@
+editor:
+  legal_name: "GIULIA PIZZAS"
+  legal_form: "SARL"
+  capital: "10 000 €"
+  siren: "918 159 211"
+  siret: "918 159 211 00013"
+  rcs: "Nantes 918 159 211"
+  vat: "FR73918159211"
+  ape: "5610C — Restauration de type rapide"
+  publication_director: "Clément GAUCI"
+host:
+  name: "OVH SAS"
+  address: "2 rue Kellermann, 59100 Roubaix, France"
+  phone: "1007"
+  note: "Serveurs hébergés en France (datacenter de Gravelines)."

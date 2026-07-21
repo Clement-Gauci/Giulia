@@ -29,6 +29,7 @@ services:
     App\Shared\Domain\EstablishmentRepositoryInterface: '@App\Shared\Infrastructure\YamlEstablishmentRepository'
     App\Contact\Domain\ContactMailerInterface: '@App\Contact\Infrastructure\SymfonyContactMailer'
     App\Menu\Domain\SpecialRepositoryInterface: '@App\Menu\Infrastructure\YamlSpecialRepository'
+    App\Legal\Domain\LegalRepositoryInterface: '@App\Legal\Infrastructure\YamlLegalRepository'
 
     # Chemins des sources de données
     App\Opening\Infrastructure\YamlScheduleRepository:
@@ -39,6 +40,8 @@ services:
         arguments: { $file: '%giulia.data_dir%/special.yaml' }
     App\Shared\Infrastructure\YamlEstablishmentRepository:
         arguments: { $file: '%giulia.data_dir%/establishment.yaml' }
+    App\Legal\Infrastructure\YamlLegalRepository:
+        arguments: { $file: '%giulia.data_dir%/legal.yaml' }
     App\Contact\Infrastructure\SymfonyContactMailer:
         arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }
     App\Menu\UI\MenuPdfExtension:
