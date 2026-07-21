@@ -1,3 +1,64 @@
-body {
-    background-color: skyblue;
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 500; font-display: swap; src: url('../fonts/bricolage-500.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 600; font-display: swap; src: url('../fonts/bricolage-600.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; font-display: swap; src: url('../fonts/bricolage-700.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; font-display: swap; src: url('../fonts/bricolage-800.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; font-display: swap; src: url('../fonts/dmsans-400.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; font-display: swap; src: url('../fonts/dmsans-500.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 600; font-display: swap; src: url('../fonts/dmsans-600.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url('../fonts/dmsans-700.woff2') format('woff2'); }
+
+:root {
+  --cream: #f4ede0;
+  --card: #fffdf8;
+  --card-alt: #fbf6ec;
+  --ink: #2a3138;
+  --ink-hover: #20262c;
+  --text: #4a4339;
+  --text-soft: #6b6459;
+  --text-muted: #8a8377;
+  --terracotta: #d3a273;
+  --terracotta-link: #b3743f;
+  --green: #5c8a49;
+  --green-deep: #4a6a3f;
+  --red: #a24b32;
+  --border: #e7ddca;
+  --font-title: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
 }
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(211,162,115,.10), transparent 42%),
+    radial-gradient(circle at 88% 22%, rgba(127,178,205,.10), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(154,171,147,.14), transparent 55%);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { font-family: var(--font-title); letter-spacing: -.3px; }
+
+.page { min-height: 100vh; display: flex; justify-content: center; padding: 22px 16px 56px; }
+.container { width: 100%; max-width: 600px; }
+
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 100px; font-weight: 600; font-size: 13.5px; }
+.badge--open { background: #eaf1e6; border: 1px solid #cfe0c6; color: var(--green-deep); }
+.badge--closed { background: #f0e7dc; border: 1px solid #ddcdb9; color: #8a6f57; }
+.badge__dot { width: 8px; height: 8px; border-radius: 50%; }
+.badge--open .badge__dot { background: var(--green); animation: gPulse 1.8s ease-in-out infinite; }
+.badge--closed .badge__dot { background: #b98e5e; }
+@keyframes gPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; padding: 5px 11px; border-radius: 100px; }
+.tag--veg { color: var(--green-deep); background: #eaf1e6; border: 1px solid #cfe0c6; }
+.tag--spicy { color: var(--red); background: #f7e6df; border: 1px solid #ecc9bd; }
+
+.nav { display: flex; justify-content: center; gap: 7px; flex-wrap: wrap; margin: 12px 0; }
+.nav a { font-size: 13.5px; font-weight: 600; color: var(--text-soft); padding: 7px 13px; border-radius: 100px; background: var(--card-alt); border: 1px solid var(--border); }
+.nav a[aria-current="page"] { color: #3a4148; background: #efe4d1; border-color: #ddceb4; }
+
+.cta-cc { display: block; background: var(--ink); color: var(--cream); border-radius: 20px; padding: 20px 22px; }
+.footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--text-muted); }

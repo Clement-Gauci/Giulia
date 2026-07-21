@@ -1,0 +1,6 @@
+{% set s = opening_status() %}
+<div class="badge {{ s.isOpen ? 'badge--open' : 'badge--closed' }}"
+     data-controller="live-status" data-live-status-url-value="{{ path('status') }}">
+    <span class="badge__dot"></span>
+    <span data-live-status-target="label">{{ s.label }}</span>
+</div>

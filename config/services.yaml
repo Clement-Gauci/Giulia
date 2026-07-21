@@ -7,17 +7,34 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    giulia.data_dir: '%kernel.project_dir%/config/giulia'
+    contact.from_email: '%env(CONTACT_FROM_EMAIL)%'
+    contact.to_email: '%env(CONTACT_TO_EMAIL)%'
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: true
+        autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+        exclude:
+            - '../src/**/Domain/'
+            - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # Alias ports → adapters
+    App\Opening\Domain\Clock: '@App\Opening\Infrastructure\SystemClock'
+    App\Opening\Domain\ScheduleRepositoryInterface: '@App\Opening\Infrastructure\YamlScheduleRepository'
+    App\Menu\Domain\MenuRepositoryInterface: '@App\Menu\Infrastructure\YamlMenuRepository'
+    App\Shared\Domain\EstablishmentRepositoryInterface: '@App\Shared\Infrastructure\YamlEstablishmentRepository'
+    App\Contact\Domain\ContactMailerInterface: '@App\Contact\Infrastructure\SymfonyContactMailer'
+
+    # Chemins des sources de données
+    App\Opening\Infrastructure\YamlScheduleRepository:
+        arguments: { $file: '%giulia.data_dir%/hours.yaml' }
+    App\Menu\Infrastructure\YamlMenuRepository:
+        arguments: { $file: '%giulia.data_dir%/menu.yaml' }
+    App\Shared\Infrastructure\YamlEstablishmentRepository:
+        arguments: { $file: '%giulia.data_dir%/establishment.yaml' }
+    App\Contact\Infrastructure\SymfonyContactMailer:
+        arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }

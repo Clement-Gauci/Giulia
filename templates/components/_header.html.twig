@@ -1,0 +1,13 @@
+{% set e = establishment() %}
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <a href="{{ path('home') }}" style="display:flex;align-items:center;gap:9px;">
+        <img src="{{ asset('images/giulia-icon.png') }}" alt="Giulia" style="height:34px;">
+        <span style="font-family:var(--font-title);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">{{ e.tagline }}</span>
+    </a>
+    {{ include('components/_status_badge.html.twig') }}
+</div>
+<nav class="nav">
+    <a href="{{ path('home') }}">Accueil</a>
+    <a href="{{ path('menu_index') }}">Carte</a>
+    <a href="{{ path('contact') }}">Contact</a>
+</nav>
