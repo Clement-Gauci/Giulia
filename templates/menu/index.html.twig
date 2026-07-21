@@ -1,7 +1,35 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Toutes nos pizzas — Giulia, pizzeria napolitaine à Gorges{% endblock %}
-
 {% block body %}
-    <h1 style="font-size:34px;margin:20px 0;">Toutes nos pizzas</h1>
+    <div style="margin:20px 0 6px;">
+        <h1 style="font-size:34px;margin:0;">Toutes nos pizzas</h1>
+        <p style="color:var(--text-soft);max-width:460px;">Pâte napolitaine maturée 48h, 33 cm, à emporter en <strong>click &amp; collect</strong>.</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;">
+        <span class="tag tag--veg">🌱 Végétarienne</span>
+        <span class="tag tag--spicy">🌶️ Piquante</span>
+    </div>
+
+    {% for category in categories %}
+        <div style="margin-top:34px;">
+            <div style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">{{ category.kicker }}</div>
+            <h2 style="margin:3px 0 15px;font-size:22px;">{{ category.label }}</h2>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;">
+                {% for pizza in category.pizzas %}
+                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="card" style="display:flex;flex-direction:column;padding:13px 15px 15px;">
+                        <div style="display:flex;justify-content:space-between;gap:8px;">
+                            <div style="font-family:var(--font-title);font-weight:800;font-size:18px;">{{ pizza.name }}</div>
+                            <div style="display:flex;gap:4px;">
+                                {% for tag in pizza.tags %}<span title="{{ tag.label }}">{{ tag.icon }}</span>{% endfor %}
+                            </div>
+                        </div>
+                        <div style="font-size:12.5px;color:var(--text-muted);margin-top:7px;flex:1;">{{ pizza.ingredients|join(' · ') }}</div>
+                        <div style="font-family:var(--font-title);font-weight:700;color:var(--green);margin-top:11px;">{{ pizza.price.format }}</div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    {{ include('components/_hours.html.twig') }}
 {% endblock %}

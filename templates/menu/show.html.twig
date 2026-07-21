@@ -1,5 +1,19 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}{{ pizza.name }} — Giulia, pizzeria napolitaine à Gorges{% endblock %}
 {% block body %}
-    <h1 style="font-size:32px;margin:20px 0;">{{ slug }}</h1>
+    <a href="{{ path('menu_index') }}" style="display:inline-block;margin:16px 0;color:var(--terracotta-link);font-weight:600;">← Toutes nos pizzas</a>
+    <div class="card" style="padding:24px;">
+        {% if pizza.isFeatured %}<span class="tag" style="background:var(--terracotta);color:var(--ink);">Du moment</span>{% endif %}
+        <h1 style="font-size:32px;margin:10px 0 6px;">{{ pizza.name }}</h1>
+        <div style="display:flex;gap:6px;margin-bottom:10px;">
+            {% for tag in pizza.tags %}<span class="tag {{ tag == constant('App\\Menu\\Domain\\Tag::Vegetarian') ? 'tag--veg' : 'tag--spicy' }}">{{ tag.icon }} {{ tag.label }}</span>{% endfor %}
+        </div>
+        <div style="font-family:var(--font-title);font-weight:700;font-size:22px;color:var(--green);">{{ pizza.price.format }}</div>
+        <h3 style="margin:18px 0 6px;font-size:14px;">Ingrédients</h3>
+        <div style="color:var(--text-soft);">{{ pizza.ingredients|join(' · ') }}</div>
+        {% if pizza.allergens is not empty %}
+            <h3 style="margin:18px 0 6px;font-size:14px;">Allergènes</h3>
+            <div style="color:var(--text-soft);">{{ pizza.allergens|join(', ') }}</div>
+        {% endif %}
+    </div>
 {% endblock %}
