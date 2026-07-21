@@ -9,20 +9,20 @@
     {% set motd = e.announcement %}
 
     {# Hero #}
-    <div style="text-align:center;margin:14px 0 6px;">
-        <img src="{{ asset('images/giulia-wordmark.png') }}" alt="Giulia — Pizzeria napolitaine à Gorges (Clisson, Nantes)" style="width:100%;max-width:300px;height:auto;display:inline-block;">
-        <h1 style="margin:12px auto 0;max-width:440px;font-family:var(--font-body);font-weight:600;font-size:16px;line-height:1.5;color:#4a4339;">Giulia, pizzeria napolitaine &amp; pizzas à emporter à Gorges</h1>
-        <p style="margin:6px auto 0;max-width:420px;font-size:14.5px;line-height:1.6;color:#6b6459;">Vraies pizzas napolitaines, à emporter en <strong style="color:#5f584d;">click &amp; collect</strong> à Gorges, tout près de <strong style="color:#5f584d;">Clisson</strong> et <strong style="color:#5f584d;">Nantes</strong>.</p>
-        <div style="font-size:13px;color:#8a8377;margin-top:6px;" data-controller="live-status" data-live-status-url-value="{{ path('status') }}"><span data-live-status-target="detail">{{ status.detail }}</span></div>
+    <div class="hero">
+        <img src="{{ asset('images/giulia-wordmark.png') }}" alt="Giulia — Pizzeria napolitaine à Gorges (Clisson, Nantes)" class="hero__logo">
+        <h1 class="hero__title">Giulia, pizzeria napolitaine &amp; pizzas à emporter à Gorges</h1>
+        <p class="hero__lede">Vraies pizzas napolitaines, à emporter en <strong>click &amp; collect</strong> à Gorges, tout près de <strong>Clisson</strong> et <strong>Nantes</strong>.</p>
+        <div class="hero__status" data-controller="live-status" data-live-status-url-value="{{ path('status') }}"><span data-live-status-target="detail">{{ status.detail }}</span></div>
     </div>
 
     {# Annonce du jour (MOTD) #}
     {% if motd.isActive %}
-        <div style="margin-top:20px;background:#2a3138;color:#f4ede0;border-radius:16px;padding:15px 18px;display:flex;gap:13px;align-items:flex-start;box-shadow:0 10px 30px -14px rgba(42,49,56,.5);">
-            <span style="font-size:20px;line-height:1;flex-shrink:0;margin-top:1px;">📣</span>
+        <div class="motd">
+            <span class="motd__icon">📣</span>
             <div>
-                <div style="font-family:var(--font-title);font-weight:700;font-size:14px;letter-spacing:.4px;text-transform:uppercase;color:#c9b79f;margin-bottom:3px;">{{ motd.title }}</div>
-                <div style="font-size:14.5px;line-height:1.5;">{{ motd.text }}</div>
+                <div class="motd__title">{{ motd.title }}</div>
+                <div class="motd__text">{{ motd.text }}</div>
             </div>
         </div>
     {% endif %}
@@ -30,24 +30,21 @@
     {# Pizza du moment #}
     {% if featured %}
         {% set initials = '' %}{% for w in featured.name|split(' ') %}{% set initials = initials ~ (w|first) %}{% endfor %}
-        <div style="position:relative;margin-top:22px;background:#2a3138;border-radius:24px;overflow:hidden;box-shadow:0 22px 50px -26px rgba(42,49,56,.65);color:#f4ede0;">
-            <div style="position:absolute;inset:0;background-image:radial-gradient(circle at 88% 8%, rgba(211,162,115,.28), transparent 46%), radial-gradient(circle at 4% 96%, rgba(154,171,147,.22), transparent 44%);"></div>
-            <div style="position:absolute;top:0;right:20px;font-family:var(--font-title);font-weight:800;font-size:150px;line-height:.8;color:rgba(244,237,224,.05);letter-spacing:-6px;user-select:none;pointer-events:none;">{{ initials|upper }}</div>
-            <div style="position:relative;padding:22px 24px 26px;">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-                    <span style="width:7px;height:7px;border-radius:50%;background:#d3a273;"></span>
-                    <span style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2.2px;text-transform:uppercase;color:#c9a27a;">Pizza du moment</span>
+        <div class="featured">
+            <div class="featured__glow"></div>
+            <div class="featured__wm">{{ initials|upper }}</div>
+            <div class="featured__body">
+                <div class="featured__kicker"><span class="featured__dot"></span><span class="featured__label">Pizza du moment</span></div>
+                <div class="featured__head">
+                    <h2 class="featured__name">{{ featured.name }}</h2>
+                    <span class="featured__price">{{ featured.price.format }}</span>
                 </div>
-                <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;">
-                    <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:44px;line-height:.95;letter-spacing:-1px;">{{ featured.name }}</h2>
-                    <span style="font-family:var(--font-title);font-weight:700;font-size:24px;color:#a9c39a;white-space:nowrap;">{{ featured.price.format }}</span>
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 22px;margin-top:20px;">
+                <div class="ing-grid">
                     {% for ingredient in featured.ingredients %}
-                        <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid rgba(244,237,224,.1);font-size:14px;color:#e4dccc;"><span style="color:#d3a273;font-size:10px;">◆</span>{{ ingredient }}</div>
+                        <div class="ing"><span class="ing__b">◆</span>{{ ingredient }}</div>
                     {% endfor %}
                 </div>
-                <a href="{{ path('menu_show', { slug: featured.slug }) }}" style="display:inline-flex;align-items:center;gap:7px;margin-top:20px;font-family:var(--font-title);font-weight:700;font-size:14px;color:#d3a273;">Voir la fiche<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+                <a href="{{ path('menu_show', { slug: featured.slug }) }}" class="featured__cta">Voir la fiche<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
             </div>
         </div>
     {% endif %}
@@ -55,107 +52,89 @@
     {# Slider — nos pizzas #}
     {% set allPizzas = [] %}
     {% for category in categories %}{% set allPizzas = allPizzas|merge(category.pizzas) %}{% endfor %}
-    {% set tones = [
-        { bg: '#eef1ea', stripe: 'rgba(154,171,147,.20)', text: '#96a08c' },
-        { bg: '#e9f0f2', stripe: 'rgba(87,134,160,.18)', text: '#8aa4b3' },
-        { bg: '#f4ebe0', stripe: 'rgba(211,162,115,.22)', text: '#bb9c7c' }
-    ] %}
-    <div id="pizzas" data-controller="pizza-slider" style="scroll-margin-top:16px;margin-top:30px;">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 2px 14px;">
+    <div class="slider" data-controller="pizza-slider">
+        <div class="slider__head">
             <div>
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">La carte</span></div>
-                <h2 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:22px;letter-spacing:-.3px;">Nos pizzas napolitaines</h2>
-                <p style="margin:5px 0 0;font-size:12.5px;line-height:1.5;color:#8a8377;">33 cm de diamètre · pour 1 à 2 personnes</p>
+                <div class="eyebrow"><span class="eyebrow__dot"></span><span class="eyebrow__label">La carte</span></div>
+                <h2 class="slider__title">Nos pizzas napolitaines</h2>
+                <p class="slider__sub">33 cm de diamètre · pour 1 à 2 personnes</p>
             </div>
-            <div style="display:flex;gap:7px;flex-shrink:0;">
-                <button type="button" data-action="pizza-slider#prev" aria-label="Précédent" style="width:38px;height:38px;border-radius:50%;border:1px solid #e0d5c1;background:#fffdf8;cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
-                <button type="button" data-action="pizza-slider#next" aria-label="Suivant" style="width:38px;height:38px;border-radius:50%;border:1px solid #e0d5c1;background:#fffdf8;cursor:pointer;display:flex;align-items:center;justify-content:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+            <div class="slider__nav">
+                <button type="button" data-action="pizza-slider#prev" aria-label="Précédent" class="slider__btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+                <button type="button" data-action="pizza-slider#next" aria-label="Suivant" class="slider__btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
             </div>
         </div>
-        <div id="pizzaScroller" data-pizza-slider-target="scroller" style="display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:2px 2px 12px;-webkit-overflow-scrolling:touch;scrollbar-width:none;">
+        <div class="slider__track" data-pizza-slider-target="scroller">
             {% for pizza in allPizzas %}
-                {% set tone = tones[loop.index0 % 3] %}
-                {% if pizza.isFeatured %}
-                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" style="scroll-snap-align:start;flex:0 0 208px;background:#2a3138;color:#f4ede0;border:1px solid #2a3138;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
-                        <div style="position:relative;height:118px;background:#343b42;background-image:repeating-linear-gradient(135deg, rgba(211,162,115,.20) 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:#8a7f70;text-transform:uppercase;">Photo à venir</span><span style="position:absolute;top:9px;left:9px;background:#d3a273;color:#2a3138;font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:100px;">Du moment</span></div>
-                        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
-                            <div style="font-family:var(--font-title);font-weight:800;font-size:19px;letter-spacing:-.2px;">{{ pizza.name }}</div>
-                            <div style="font-size:12.5px;line-height:1.55;color:#c3bbac;margin-top:6px;flex:1;">{{ pizza.ingredients|join(' · ') }}</div>
-                            <div style="font-family:var(--font-title);font-weight:700;font-size:17px;color:#a9c39a;margin-top:11px;">{{ pizza.price.format }}</div>
-                        </div>
-                    </a>
-                {% else %}
-                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" style="scroll-snap-align:start;flex:0 0 208px;background:#fffdf8;border:1px solid #e7ddca;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
-                        <div style="height:118px;background:{{ tone.bg }};background-image:repeating-linear-gradient(135deg, {{ tone.stripe }} 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;"><span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:{{ tone.text }};text-transform:uppercase;">Photo à venir</span></div>
-                        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;flex:1;">
-                            <div style="font-family:var(--font-title);font-weight:800;font-size:19px;letter-spacing:-.2px;">{{ pizza.name }}</div>
-                            <div style="font-size:12.5px;line-height:1.55;color:#8a8377;margin-top:6px;flex:1;">{{ pizza.ingredients|join(' · ') }}</div>
-                            <div style="font-family:var(--font-title);font-weight:700;font-size:17px;color:#5c8a49;margin-top:11px;">{{ pizza.price.format }}</div>
-                        </div>
-                    </a>
-                {% endif %}
+                {% set tone = pizza.isFeatured ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
+                <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-card{{ pizza.isFeatured ? ' pizza-card--dark' : '' }}">
+                    <div class="pizza-card__photo {{ tone }}">
+                        <span class="ph-label">Photo à venir</span>
+                        {% if pizza.isFeatured %}<span class="ph-badge">Du moment</span>{% endif %}
+                    </div>
+                    <div class="pizza-card__body">
+                        <div class="pizza-card__name">{{ pizza.name }}</div>
+                        <div class="pizza-card__desc">{{ pizza.ingredients|join(' · ') }}</div>
+                        <div class="pizza-card__price">{{ pizza.price.format }}</div>
+                    </div>
+                </a>
             {% endfor %}
         </div>
-        <a href="{{ path('menu_index') }}" style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px;padding:14px;border-radius:15px;border:1.5px dashed #cdbfa4;background:transparent;font-family:var(--font-title);font-weight:700;font-size:15px;color:#5f584d;">Voir toute la carte des pizzas<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+        <a href="{{ path('menu_index') }}" class="slider__more">Voir toute la carte des pizzas<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
     </div>
 
     {# Click & Collect #}
-    <a id="commander" href="{{ e.menuPdfUrl }}" style="scroll-margin-top:16px;display:block;margin-top:28px;background:#2a3138;color:#f4ede0;border-radius:20px;padding:20px 22px;box-shadow:0 16px 36px -18px rgba(42,49,56,.6);">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;">
-            <div style="display:flex;align-items:center;gap:14px;">
-                <div style="width:46px;height:46px;border-radius:14px;background:#d3a273;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                </div>
+    <a id="commander" href="{{ e.menuPdfUrl }}" class="cta cta--home">
+        <div class="cta__row">
+            <div class="cta__left">
+                <div class="cta__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
                 <div>
-                    <div style="font-family:var(--font-title);font-weight:800;font-size:19px;">Click &amp; Collect</div>
-                    <div style="font-size:13.5px;color:#b9b1a4;margin-top:1px;">Commandez en ligne, retirez sur place</div>
+                    <div class="cta__title">Click &amp; Collect</div>
+                    <div class="cta__sub">Commandez en ligne, retirez sur place</div>
                 </div>
             </div>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </div>
     </a>
-    <p style="margin:11px 4px 0;font-size:13px;line-height:1.6;color:#7a7367;text-align:center;">Un créneau n’apparaît plus disponible, ou vous commandez <strong style="color:#5f584d;">plus de 5 pizzas</strong> ? Appelez-nous directement au <a href="tel:{{ e.phoneHref }}" style="color:#b3743f;font-weight:600;border-bottom:1.5px solid #e2c6a8;">{{ e.phone }}</a>, on trouve toujours une solution.</p>
+    <p class="cta-note">Un créneau n’apparaît plus disponible, ou vous commandez <strong>plus de 5 pizzas</strong> ? Appelez-nous directement au <a href="tel:{{ e.phoneHref }}">{{ e.phone }}</a>, on trouve toujours une solution.</p>
 
     {# Liens — Tout Giulia en un clic #}
-    <div style="display:flex;align-items:center;gap:10px;margin:26px 2px 13px;">
-        <span style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">Tout Giulia, en un clic</span>
-        <span style="flex:1;height:1px;background:#e0d5c1;"></span>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:9px;">
+    <div class="divider"><span class="divider__label">Tout Giulia, en un clic</span><span class="divider__line"></span></div>
+    <div class="link-list">
         {{ include('components/_link_card.html.twig', {
-            href: e.menuPdfUrl, icon_bg: '#eef2ea', title: 'Notre menu', subtitle: 'Toute la carte en PDF',
+            href: e.menuPdfUrl, icon_variant: 'green', title: 'Notre menu', subtitle: 'Toute la carte en PDF',
             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M9 13h6M9 17h4"></path></svg>'
         }, with_context = false) }}
         {{ include('components/_link_card.html.twig', {
-            href: e.directionsUrl, external: true, icon_bg: '#eaf1f4', title: 'Itinéraire', subtitle: e.address,
+            href: e.directionsUrl, external: true, icon_variant: 'blue', title: 'Itinéraire', subtitle: e.address,
             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5786a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>'
         }, with_context = false) }}
         {{ include('components/_link_card.html.twig', {
-            href: 'tel:' ~ e.phoneHref, icon_bg: '#f6ece1', title: 'Appeler le restaurant', subtitle: e.phone,
+            href: 'tel:' ~ e.phoneHref, icon_variant: 'warm', title: 'Appeler le restaurant', subtitle: e.phone,
             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>'
         }, with_context = false) }}
         {{ include('components/_link_card.html.twig', {
-            href: e.googleReviewsUrl, external: true, icon_bg: '#f6ece1', title: 'Laisser un avis Google', subtitle: 'Votre avis nous aide beaucoup',
+            href: e.googleReviewsUrl, external: true, icon_variant: 'warm', title: 'Laisser un avis Google', subtitle: 'Votre avis nous aide beaucoup',
             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="#d3a273" stroke="#d3a273" stroke-width="1.5" stroke-linejoin="round"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.5 5.82 21 7 14.14l-5-4.87 7.1-1.01z"></path></svg>'
         }, with_context = false) }}
         {{ include('components/_link_card.html.twig', {
-            href: 'mailto:' ~ e.email, icon_bg: '#eef2ea', title: 'Nous écrire', subtitle: e.email,
+            href: 'mailto:' ~ e.email, icon_variant: 'green', title: 'Nous écrire', subtitle: e.email,
             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5c8a49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg>'
         }, with_context = false) }}
         {{ include('components/_link_card.html.twig', {
-            href: e.whatsappUrl, external: true, accent: true, icon_bg: '#dcebd3', title: 'Groupe WhatsApp anti-gaspi', subtitle: 'Nos invendus à prix mini, en direct',
+            href: e.whatsappUrl, external: true, accent: true, icon_variant: 'wa', title: 'Groupe WhatsApp anti-gaspi', subtitle: 'Nos invendus à prix mini, en direct',
             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="#5c8a49"><path d="M12 2a10 10 0 0 0-8.6 15.06L2 22l5.09-1.33A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.08-1.12l-.29-.17-3.02.79.81-2.94-.19-.3A8 8 0 1 1 12 20z"></path></svg>'
         }, with_context = false) }}
         {% if e.socialLinks is not empty %}
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;">
+            <div class="social-grid">
                 {% for link in e.socialLinks %}
-                    <a href="{{ link.url }}" target="_blank" rel="noopener" style="background:#fffdf8;border:1px solid #e7ddca;border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:12px;">
-                        <span style="width:38px;height:38px;border-radius:11px;background:{{ link.icon == 'facebook' ? '#eaf1f4' : '#f6ece1' }};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <a href="{{ link.url }}" target="_blank" rel="noopener" class="social">
+                        <span class="social__icon ic-{{ link.icon == 'facebook' ? 'blue' : 'warm' }}">
                             {% if link.icon == 'facebook' %}<svg width="19" height="19" viewBox="0 0 24 24" fill="#5786a0"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path></svg>
                             {%- elseif link.icon == 'instagram' -%}<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="#b3743f" stroke="none"></circle></svg>
-                            {%- else -%}<span style="font-family:var(--font-title);font-weight:800;color:#a08d72;">{{ link.label|first }}</span>{% endif %}
+                            {%- else -%}<span class="social__initial">{{ link.label|first }}</span>{% endif %}
                         </span>
-                        <span style="font-weight:600;font-size:14.5px;">{{ link.label }}</span>
+                        <span class="social__label">{{ link.label }}</span>
                     </a>
                 {% endfor %}
             </div>

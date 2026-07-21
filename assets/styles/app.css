@@ -1,3 +1,12 @@
+/* =========================================================================
+   Giulia — feuille de style principale
+   Sommaire : Fonts · Tokens · Base · Layout · Header/Nav · Badge statut ·
+   Footer · Horaires · Notes · Hero · MOTD · Pizza du moment · Slider ·
+   Carte (menu) · Fiche pizza · Liens · CTA Click & Collect · Contact ·
+   Mentions légales · Page d'erreur · Animations · Utilitaires
+   ========================================================================= */
+
+/* ---- Fonts (self-host AssetMapper) ------------------------------------- */
 @font-face { font-family: 'Bricolage Grotesque'; font-weight: 500; font-display: swap; src: url('../fonts/bricolage-500.woff2') format('woff2'); }
 @font-face { font-family: 'Bricolage Grotesque'; font-weight: 600; font-display: swap; src: url('../fonts/bricolage-600.woff2') format('woff2'); }
 @font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; font-display: swap; src: url('../fonts/bricolage-700.woff2') format('woff2'); }
@@ -7,25 +16,60 @@
 @font-face { font-family: 'DM Sans'; font-weight: 600; font-display: swap; src: url('../fonts/dmsans-600.woff2') format('woff2'); }
 @font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url('../fonts/dmsans-700.woff2') format('woff2'); }
 
+/* ---- Tokens ------------------------------------------------------------ */
 :root {
+  /* surfaces */
   --cream: #f4ede0;
   --card: #fffdf8;
   --card-alt: #fbf6ec;
   --ink: #2a3138;
   --ink-hover: #20262c;
+  --ink-soft: #343b42;
+  /* texte */
   --text: #4a4339;
   --text-soft: #6b6459;
+  --text-mid: #5f584d;
   --text-muted: #8a8377;
+  --text-strong: #3a4148;
+  /* accents */
   --terracotta: #d3a273;
+  --terracotta-soft: #c9a27a;
   --terracotta-link: #b3743f;
+  --sand: #a08d72;
   --green: #5c8a49;
   --green-deep: #4a6a3f;
+  --green-kicker: #8a9a82;
+  --green-dot: #9aab93;
+  --green-soft: #a9c39a;
+  --blue: #5786a0;
   --red: #a24b32;
+  /* chaud (encarts note) */
+  --warm-bg: #f6ece1;
+  --warm-border: #ecd9c1;
+  --warm-text: #7a5a3c;
+  --warm-strong: #5f4326;
+  /* lignes / champs */
   --border: #e7ddca;
+  --border-soft: #e0d5c1;
+  --field-border: #e2d8c5;
+  --hairline: #f0e8d9;
+  /* rayons */
+  --r-lg: 24px;
+  --r-panel: 20px;
+  --r-card: 18px;
+  --r-md: 16px;
+  --r-sm: 15px;
+  --r-pill: 100px;
+  /* ombres */
+  --shadow-panel: 0 22px 50px -26px rgba(42,49,56,.65);
+  --shadow-cta: 0 16px 36px -18px rgba(42,49,56,.6);
+  --shadow-chip: 0 14px 30px -20px rgba(42,49,56,.6);
+  /* typo */
   --font-title: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
 }
 
+/* ---- Base -------------------------------------------------------------- */
 * { box-sizing: border-box; }
 body {
   margin: 0;
@@ -38,27 +82,173 @@ body {
   color: var(--ink);
 }
 a { color: inherit; text-decoration: none; }
-h1, h2, h3 { font-family: var(--font-title); letter-spacing: -.3px; }
+h1, h2, h3 { font-family: var(--font-title); margin: 0; }
+strong { color: var(--text-mid); }
 
+/* ---- Layout ------------------------------------------------------------ */
 .page { min-height: 100vh; display: flex; justify-content: center; padding: 22px 16px 56px; }
 .container { width: 100%; max-width: 600px; }
 
-.badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 100px; font-weight: 600; font-size: 13.5px; }
+/* petit intitulé « point + kicker » (réutilisé sur plusieurs pages) */
+.eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.eyebrow__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-dot); }
+.eyebrow__label { font-family: var(--font-title); font-weight: 700; font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--green-kicker); }
+
+/* fil d'Ariane */
+.crumbs { display: flex; align-items: center; gap: 8px; margin: 18px 2px 0; font-size: 12.5px; color: var(--text-muted); }
+.crumbs a { color: var(--text-muted); font-weight: 600; }
+.crumbs__here { color: var(--text-mid); font-weight: 600; }
+
+/* ---- Header / Nav ------------------------------------------------------ */
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.brand { display: flex; align-items: center; gap: 9px; }
+.brand__logo { height: 34px; width: auto; display: block; }
+.brand__kicker { font-family: var(--font-title); font-weight: 600; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--sand); }
+
+.nav { display: flex; align-items: center; justify-content: center; gap: 7px; margin-bottom: 6px; flex-wrap: wrap; }
+.nav a { font-size: 13.5px; font-weight: 600; padding: 7px 13px; border-radius: var(--r-pill); border: 1px solid var(--border); color: var(--text-mid); background: var(--card-alt); transition: background .15s ease; }
+.nav a:hover { background: #f2e8d7; }
+.nav a[aria-current="page"] { color: var(--text-strong); background: #efe4d1; border-color: #ddceb4; }
+
+/* ---- Badge statut (mis à jour par le contrôleur live-status) ----------- */
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px 7px 11px; border-radius: var(--r-pill); font-weight: 600; font-size: 13.5px; }
 .badge--open { background: #eaf1e6; border: 1px solid #cfe0c6; color: var(--green-deep); }
 .badge--closed { background: #f0e7dc; border: 1px solid #ddcdb9; color: #8a6f57; }
 .badge__dot { width: 8px; height: 8px; border-radius: 50%; }
 .badge--open .badge__dot { background: var(--green); animation: gPulse 1.8s ease-in-out infinite; }
 .badge--closed .badge__dot { background: #b98e5e; }
+
+/* ---- Footer ------------------------------------------------------------ */
+.footer { text-align: center; margin-top: 26px; display: flex; flex-direction: column; align-items: center; gap: 9px; }
+.footer__links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center; font-size: 13px; }
+.footer__links a { color: var(--text-muted); }
+.footer__links a[aria-current="page"] { color: var(--text-mid); font-weight: 600; }
+.footer__sep { color: #d9cdb7; }
+.footer__copy { font-size: 12.5px; color: #a59b88; letter-spacing: .3px; }
+
+/* ---- Horaires ---------------------------------------------------------- */
+.hours { scroll-margin-top: 16px; margin-top: 26px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-panel); padding: 20px 22px; }
+.hours__title { margin: 0 0 14px; font-family: var(--font-title); font-weight: 800; font-size: 16px; letter-spacing: .3px; }
+.hours__row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 7px 0; border-top: 1px solid var(--hairline); font-size: 14.5px; }
+.hours__day { font-weight: 600; color: var(--text); min-width: 96px; }
+.hours__val { text-align: right; color: var(--text-soft); }
+.hours__coords { border-top: 1px solid var(--hairline); margin-top: 14px; padding-top: 16px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: var(--text-mid); }
+.coord { display: flex; gap: 9px; align-items: center; }
+.coord--top { align-items: flex-start; }
+.coord a { color: var(--text-mid); }
+
+/* ---- Notes (encart chaud avec icône) ----------------------------------- */
+.note { background: var(--warm-bg); border: 1px solid var(--warm-border); border-radius: var(--r-md); padding: 14px 16px; display: flex; gap: 11px; align-items: flex-start; }
+.note--tight { border-radius: 13px; padding: 12px 14px; gap: 10px; margin-top: 14px; }
+.note p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--warm-text); }
+.note--tight p { font-size: 13px; line-height: 1.55; }
+.note strong { color: var(--warm-strong); }
+
+/* ---- Hero (accueil) ---------------------------------------------------- */
+.hero { text-align: center; margin: 14px 0 6px; }
+.hero__logo { width: 100%; max-width: 300px; height: auto; display: inline-block; }
+.hero__title { margin: 12px auto 0; max-width: 440px; font-family: var(--font-body); font-weight: 600; font-size: 16px; line-height: 1.5; color: var(--text); }
+.hero__lede { margin: 6px auto 0; max-width: 420px; font-size: 14.5px; line-height: 1.6; color: var(--text-soft); }
+.hero__status { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+/* ---- MOTD (annonce du jour) -------------------------------------------- */
+.motd { margin-top: 20px; background: var(--ink); color: var(--cream); border-radius: var(--r-md); padding: 15px 18px; display: flex; gap: 13px; align-items: flex-start; box-shadow: 0 10px 30px -14px rgba(42,49,56,.5); }
+.motd__icon { font-size: 20px; line-height: 1; flex-shrink: 0; margin-top: 1px; }
+.motd__title { font-family: var(--font-title); font-weight: 700; font-size: 14px; letter-spacing: .4px; text-transform: uppercase; color: #c9b79f; margin-bottom: 3px; }
+.motd__text { font-size: 14.5px; line-height: 1.5; }
+
+/* ---- Pizza du moment (accueil) / héro fiche ---------------------------- */
+.featured { position: relative; margin-top: 22px; background: var(--ink); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-panel); color: var(--cream); }
+.featured__glow { position: absolute; inset: 0; background-image: radial-gradient(circle at 88% 8%, rgba(211,162,115,.28), transparent 46%), radial-gradient(circle at 4% 96%, rgba(154,171,147,.22), transparent 44%); }
+.featured__wm { position: absolute; top: 0; right: 20px; font-family: var(--font-title); font-weight: 800; font-size: 150px; line-height: .8; color: rgba(244,237,224,.05); letter-spacing: -6px; user-select: none; pointer-events: none; }
+.featured__body { position: relative; padding: 22px 24px 26px; }
+.featured__kicker { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.featured__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--terracotta); }
+.featured__label { font-family: var(--font-title); font-weight: 700; font-size: 11.5px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--terracotta-soft); }
+.featured__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.featured__name { font-family: var(--font-title); font-weight: 800; font-size: 44px; line-height: .95; letter-spacing: -1px; }
+.featured__price { font-family: var(--font-title); font-weight: 700; font-size: 24px; color: var(--green-soft); white-space: nowrap; }
+.featured__cta { display: inline-flex; align-items: center; gap: 7px; margin-top: 20px; font-family: var(--font-title); font-weight: 700; font-size: 14px; color: var(--terracotta); }
+
+.ing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 22px; margin-top: 18px; }
+.featured .ing-grid { margin-top: 20px; }
+.ing { display: flex; align-items: center; gap: 9px; padding: 7px 0; border-top: 1px solid rgba(244,237,224,.1); font-size: 14px; color: #e4dccc; }
+.ing__b { color: var(--terracotta); font-size: 10px; }
+
+/* ---- Slider « nos pizzas » (accueil) ----------------------------------- */
+.slider { scroll-margin-top: 16px; margin-top: 30px; }
+.slider__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 0 2px 14px; }
+.slider__title { font-family: var(--font-title); font-weight: 800; font-size: 22px; letter-spacing: -.3px; }
+.slider__sub { margin: 5px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--text-muted); }
+.slider__nav { display: flex; gap: 7px; flex-shrink: 0; }
+.slider__btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border-soft); background: var(--card); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s ease; }
+.slider__btn:hover { background: #f2e8d7; }
+.slider__track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.slider__track::-webkit-scrollbar { display: none; }
+.slider__more { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; padding: 14px; border-radius: var(--r-sm); border: 1.5px dashed #cdbfa4; background: transparent; font-family: var(--font-title); font-weight: 700; font-size: 15px; color: var(--text-mid); transition: background .15s ease, border-color .15s ease; }
+.slider__more:hover { background: var(--card-alt); border-color: #b9a883; }
+
+/* ---- Carte pizza (slider) & tuile (grille menu) ------------------------ */
+.pizza-card { scroll-snap-align: start; flex: 0 0 208px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); overflow: hidden; display: flex; flex-direction: column; }
+.pizza-card--dark { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.pizza-card__photo { position: relative; height: 118px; display: flex; align-items: center; justify-content: center; }
+.pizza-card__body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
+.pizza-card__name { font-family: var(--font-title); font-weight: 800; font-size: 19px; letter-spacing: -.2px; }
+.pizza-card__desc { font-size: 12.5px; line-height: 1.55; color: var(--text-muted); margin-top: 6px; flex: 1; }
+.pizza-card--dark .pizza-card__desc { color: #c3bbac; }
+.pizza-card__price { font-family: var(--font-title); font-weight: 700; font-size: 17px; color: var(--green); margin-top: 11px; }
+.pizza-card--dark .pizza-card__price { color: var(--green-soft); }
+
+/* tons de fond « photo à venir » (partagés carte + tuile) */
+.ph-label { font-family: monospace; font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: var(--ph-text, #96a08c); }
+.tone--green { background: #eef1ea; background-image: repeating-linear-gradient(135deg, rgba(154,171,147,.20) 0 11px, transparent 11px 22px); --ph-text: #96a08c; }
+.tone--blue  { background: #e9f0f2; background-image: repeating-linear-gradient(135deg, rgba(87,134,160,.18) 0 11px, transparent 11px 22px); --ph-text: #8aa4b3; }
+.tone--tan   { background: #f4ebe0; background-image: repeating-linear-gradient(135deg, rgba(211,162,115,.22) 0 11px, transparent 11px 22px); --ph-text: #bb9c7c; }
+.tone--dark  { background: var(--ink-soft); background-image: repeating-linear-gradient(135deg, rgba(211,162,115,.20) 0 11px, transparent 11px 22px); --ph-text: #8a7f70; }
+.ph-badge { position: absolute; top: 9px; left: 9px; background: var(--terracotta); color: var(--ink); font-size: 9.5px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 9px; border-radius: var(--r-pill); }
+
+/* ---- Liens link-in-bio (accueil) --------------------------------------- */
+.divider { display: flex; align-items: center; gap: 10px; margin: 26px 2px 13px; }
+.divider__label { font-family: var(--font-title); font-weight: 700; font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--sand); }
+.divider__line { flex: 1; height: 1px; background: var(--border-soft); }
+.link-list { display: flex; flex-direction: column; gap: 9px; }
+
+.link-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 13px 15px; display: flex; align-items: center; gap: 14px; }
+.link-card--accent { background: #eef4ea; border-color: #cfe0c6; }
+.link-card__icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.link-card__text { flex: 1; min-width: 0; }
+.link-card__title { display: block; font-weight: 600; font-size: 15.5px; }
+.link-card__sub { display: block; font-size: 12.5px; color: var(--text-muted); margin-top: 1px; }
+.link-card--accent .link-card__sub { color: var(--green); }
+/* fonds d'icône nommés (liens, panneaux, sections légales) */
+.ic-green { background: #eef2ea; }
+.ic-blue  { background: #eaf1f4; }
+.ic-warm  { background: var(--warm-bg); }
+.ic-wa    { background: #dcebd3; }
+
+.social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.social { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 13px 15px; display: flex; align-items: center; gap: 12px; }
+.social__icon { width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.social__initial { font-family: var(--font-title); font-weight: 800; color: var(--sand); }
+.social__label { font-weight: 600; font-size: 14.5px; }
+
+/* ---- CTA Click & Collect ----------------------------------------------- */
+.cta { display: block; margin-top: 16px; background: var(--ink); color: var(--cream); border-radius: var(--r-panel); padding: 20px 22px; box-shadow: var(--shadow-cta); }
+.cta--home { scroll-margin-top: 16px; margin-top: 28px; }
+.cta__row { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.cta__left { display: flex; align-items: center; gap: 14px; }
+.cta__icon { width: 46px; height: 46px; border-radius: 14px; background: var(--terracotta); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cta__title { font-family: var(--font-title); font-weight: 800; font-size: 19px; }
+.cta__sub { font-size: 13.5px; color: #b9b1a4; margin-top: 1px; }
+.cta-note { margin: 11px 4px 0; font-size: 13px; line-height: 1.6; color: #7a7367; text-align: center; }
+.cta-note a { color: var(--terracotta-link); font-weight: 600; border-bottom: 1.5px solid #e2c6a8; }
+
+/* ---- Icônes (retrait des styles inline) -------------------------------- */
+.ico { flex-shrink: 0; }
+.ico--t1 { flex-shrink: 0; margin-top: 1px; }
+.ico--t2 { flex-shrink: 0; margin-top: 2px; }
+
+/* ---- Animations -------------------------------------------------------- */
 @keyframes gPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
-
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; overflow: hidden; }
-.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; padding: 5px 11px; border-radius: 100px; }
-.tag--veg { color: var(--green-deep); background: #eaf1e6; border: 1px solid #cfe0c6; }
-.tag--spicy { color: var(--red); background: #f7e6df; border: 1px solid #ecc9bd; }
-
-.nav { display: flex; justify-content: center; gap: 7px; flex-wrap: wrap; margin: 12px 0; }
-.nav a { font-size: 13.5px; font-weight: 600; color: var(--text-soft); padding: 7px 13px; border-radius: 100px; background: var(--card-alt); border: 1px solid var(--border); }
-.nav a[aria-current="page"] { color: #3a4148; background: #efe4d1; border-color: #ddceb4; }
-
-.cta-cc { display: block; background: var(--ink); color: var(--cream); border-radius: 20px; padding: 20px 22px; }
-.footer { text-align: center; margin-top: 26px; font-size: 13px; color: var(--text-muted); }
+@keyframes gRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes gFloat { 0%,100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-9px) rotate(-3deg); } }
