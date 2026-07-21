@@ -1,5 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1 style="font-size:34px;margin:20px 0;">Giulia — pizzeria napolitaine à Gorges</h1>
+    {% set e = establishment() %}
+    {% set motd = e.announcement %}
+    {% if motd.isActive %}
+        <div class="card" style="padding:14px 16px;margin:16px 0;">
+            <strong>{{ motd.title }}</strong> — {{ motd.text }}
+        </div>
+    {% endif %}
+
+    {% if featured %}
+        <a href="{{ path('menu_show', { slug: featured.slug }) }}" class="card" style="display:block;padding:18px;margin:16px 0;background:var(--ink);color:var(--cream);">
+            <span class="tag" style="background:var(--terracotta);color:var(--ink);">Du moment</span>
+            <h2 style="margin:10px 0 4px;color:var(--cream);">{{ featured.name }}</h2>
+            <div style="color:#c3bbac;font-size:13px;">{{ featured.ingredients|join(' · ') }}</div>
+            <div style="font-family:var(--font-title);font-weight:700;margin-top:8px;color:#a9c39a;">{{ featured.price.format }}</div>
+        </a>
+    {% endif %}
+
+    <div id="pizzaScroller" data-controller="pizza-slider" style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;">
+        {% for category in categories %}{% for pizza in category.pizzas %}
+            <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="card" style="min-width:200px;padding:14px;">
+                <div style="font-family:var(--font-title);font-weight:800;">{{ pizza.name }}</div>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-top:6px;">{{ pizza.ingredients|join(' · ') }}</div>
+                <div style="font-family:var(--font-title);font-weight:700;color:var(--green);margin-top:8px;">{{ pizza.price.format }}</div>
+            </a>
+        {% endfor %}{% endfor %}
+    </div>
+
+    <a id="commander" href="{{ e.menuPdfUrl }}" class="cta-cc" style="margin-top:16px;">
+        <div style="font-family:var(--font-title);font-weight:800;font-size:19px;">Commander en Click &amp; Collect</div>
+        <div style="font-size:13.5px;color:#b9b1a4;">Commandez en ligne, retirez sur place</div>
+    </a>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+        <a class="card" style="padding:14px;" href="{{ e.directionsUrl }}">Itinéraire</a>
+        <a class="card" style="padding:14px;" href="tel:{{ e.phoneHref }}">Appeler · {{ e.phone }}</a>
+        <a class="card" style="padding:14px;" href="{{ e.googleReviewsUrl }}">Laisser un avis Google</a>
+        <a class="card" style="padding:14px;" href="{{ e.whatsappUrl }}">Groupe WhatsApp anti-gaspi</a>
+        {% for link in e.socialLinks %}
+            <a class="card" style="padding:14px;" href="{{ link.url }}">{{ link.label }}</a>
+        {% endfor %}
+    </div>
+
+    <div id="contact"></div>
 {% endblock %}
