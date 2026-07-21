@@ -1,35 +1,89 @@
 {% extends 'base.html.twig' %}
+
 {% block title %}Toutes nos pizzas — Giulia, pizzeria napolitaine à Gorges{% endblock %}
+{% block description %}La carte complète des pizzas napolitaines de Giulia à Gorges : pâte maturée 48h, 33 cm, à emporter en click & collect.{% endblock %}
+
 {% block body %}
+    {% set tones = [
+        { bg: '#eef1ea', stripe: 'rgba(154,171,147,.20)', text: '#96a08c' },
+        { bg: '#e9f0f2', stripe: 'rgba(87,134,160,.18)', text: '#8aa4b3' },
+        { bg: '#f4ebe0', stripe: 'rgba(211,162,115,.22)', text: '#bb9c7c' }
+    ] %}
+
+    {# Titre #}
     <div style="margin:20px 0 6px;">
-        <h1 style="font-size:34px;margin:0;">Toutes nos pizzas</h1>
-        <p style="color:var(--text-soft);max-width:460px;">Pâte napolitaine maturée 48h, 33 cm, à emporter en <strong>click &amp; collect</strong>.</p>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;">
-        <span class="tag tag--veg">🌱 Végétarienne</span>
-        <span class="tag tag--spicy">🌶️ Piquante</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:7px;height:7px;border-radius:50%;background:#9aab93;"></span><span style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#8a9a82;">La carte complète</span></div>
+        <h1 style="margin:0;font-family:var(--font-title);font-weight:800;font-size:34px;line-height:1;letter-spacing:-1px;">Toutes nos pizzas</h1>
+        <p style="margin:9px 0 0;max-width:460px;font-size:14.5px;line-height:1.6;color:#6b6459;">Pâte napolitaine maturée 48h, 33 cm de diamètre, pour 1 à 2 personnes. Toutes nos pizzas sont préparées à la commande, à emporter en <strong style="color:#5f584d;">click &amp; collect</strong>.</p>
     </div>
 
+    {# Légende #}
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#4a6a3f;background:#eaf1e6;border:1px solid #cfe0c6;padding:5px 11px;border-radius:100px;"><span style="font-size:11px;">🌱</span>Végétarienne</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#a24b32;background:#f7e6df;border:1px solid #ecc9bd;padding:5px 11px;border-radius:100px;"><span style="font-size:11px;">🌶️</span>Piquante</span>
+        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:#8a6f2f;background:#f5ecd6;border:1px solid #e6d5a8;padding:5px 11px;border-radius:100px;"><span style="font-size:11px;">★</span>Signature</span>
+    </div>
+
+    {# Catégories #}
     {% for category in categories %}
         <div style="margin-top:34px;">
-            <div style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">{{ category.kicker }}</div>
-            <h2 style="margin:3px 0 15px;font-size:22px;">{{ category.label }}</h2>
+            <div style="display:flex;align-items:center;gap:12px;margin:0 2px 15px;">
+                <div>
+                    <div style="font-family:var(--font-title);font-weight:700;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">{{ category.kicker }}</div>
+                    <h2 style="margin:3px 0 0;font-family:var(--font-title);font-weight:800;font-size:22px;letter-spacing:-.3px;">{{ category.label }}</h2>
+                </div>
+                <span style="flex:1;height:1px;background:#e0d5c1;margin-top:12px;"></span>
+            </div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px;">
                 {% for pizza in category.pizzas %}
-                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="card" style="display:flex;flex-direction:column;padding:13px 15px 15px;">
-                        <div style="display:flex;justify-content:space-between;gap:8px;">
-                            <div style="font-family:var(--font-title);font-weight:800;font-size:18px;">{{ pizza.name }}</div>
-                            <div style="display:flex;gap:4px;">
-                                {% for tag in pizza.tags %}<span title="{{ tag.label }}">{{ tag.icon }}</span>{% endfor %}
-                            </div>
+                    {% set dark = pizza.isFeatured %}
+                    {% set tone = dark ? { bg: '#343b42', stripe: 'rgba(211,162,115,.20)', text: '#8a7f70' } : tones[loop.index0 % 3] %}
+                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" style="{{ dark ? 'background:#2a3138;color:#f4ede0;border:1px solid #2a3138;' : 'background:#fffdf8;border:1px solid #e7ddca;' }}border-radius:18px;overflow:hidden;display:flex;flex-direction:column;">
+                        <div style="position:relative;height:108px;background:{{ tone.bg }};background-image:repeating-linear-gradient(135deg, {{ tone.stripe }} 0 11px, transparent 11px 22px);display:flex;align-items:center;justify-content:center;">
+                            <span style="font-family:monospace;font-size:10.5px;letter-spacing:1px;color:{{ tone.text }};text-transform:uppercase;">Photo à venir</span>
+                            {% if pizza.isFeatured %}<span style="position:absolute;top:9px;left:9px;background:#d3a273;color:#2a3138;font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:100px;">Du moment</span>{% endif %}
                         </div>
-                        <div style="font-size:12.5px;color:var(--text-muted);margin-top:7px;flex:1;">{{ pizza.ingredients|join(' · ') }}</div>
-                        <div style="font-family:var(--font-title);font-weight:700;color:var(--green);margin-top:11px;">{{ pizza.price.format }}</div>
+                        <div style="padding:13px 15px 15px;display:flex;flex-direction:column;flex:1;">
+                            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">
+                                <div style="font-family:var(--font-title);font-weight:800;font-size:18px;letter-spacing:-.2px;line-height:1.05;">{{ pizza.name }}</div>
+                                <div style="display:flex;gap:4px;">
+                                    {% for tag in pizza.tags %}
+                                        <span title="{{ tag.label }}" style="flex-shrink:0;width:24px;height:24px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;{{ tag.value == 'veg' ? 'background:#eaf1e6;border:1px solid #cfe0c6;' : 'background:#f7e6df;border:1px solid #ecc9bd;' }}">{{ tag.icon }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div style="font-size:12.5px;line-height:1.55;color:{{ dark ? '#c3bbac' : '#8a8377' }};margin-top:7px;flex:1;">{{ pizza.ingredients|join(' · ') }}</div>
+                            <div style="font-family:var(--font-title);font-weight:700;font-size:17px;color:{{ dark ? '#a9c39a' : '#5c8a49' }};margin-top:11px;">{{ pizza.price.format }}</div>
+                        </div>
                     </a>
                 {% endfor %}
             </div>
         </div>
     {% endfor %}
+
+    {# Note supplément #}
+    <div style="margin-top:26px;background:#f6ece1;border:1px solid #ecd9c1;border-radius:16px;padding:14px 16px;display:flex;gap:11px;align-items:flex-start;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-top:2px;flex-shrink:0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+        <p style="margin:0;font-size:13.5px;line-height:1.6;color:#7a5a3c;">Supplément au choix : <strong style="color:#5f4326;">+1,50 €</strong> (mozzarella, roquette, œuf…) ou <strong style="color:#5f4326;">+2,50 €</strong> (bresaola, burrata, comté 24 mois). Une allergie ? Signalez-le à la commande, on adapte.</p>
+    </div>
+
+    {# CTA Click & Collect #}
+    {% set e = establishment() %}
+    <a id="commander" href="{{ e.menuPdfUrl }}" style="display:block;margin-top:16px;background:#2a3138;color:#f4ede0;border-radius:20px;padding:20px 22px;box-shadow:0 16px 36px -18px rgba(42,49,56,.6);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <div style="width:46px;height:46px;border-radius:14px;background:#d3a273;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                </div>
+                <div>
+                    <div style="font-family:var(--font-title);font-weight:800;font-size:19px;">Commander en Click &amp; Collect</div>
+                    <div style="font-size:13.5px;color:#b9b1a4;margin-top:1px;">Commandez en ligne, retirez sur place</div>
+                </div>
+            </div>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </div>
+    </a>
+    <p style="margin:11px 4px 0;font-size:13px;line-height:1.6;color:#7a7367;text-align:center;">Plus de <strong style="color:#5f584d;">5 pizzas</strong> ? Appelez-nous au <a href="tel:{{ e.phoneHref }}" style="color:#b3743f;font-weight:600;border-bottom:1.5px solid #e2c6a8;">{{ e.phone }}</a>, on trouve toujours une solution.</p>
 
     {{ include('components/_hours.html.twig') }}
 {% endblock %}
