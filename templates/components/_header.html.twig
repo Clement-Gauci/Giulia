@@ -1,13 +1,14 @@
 {% set e = establishment() %}
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+{% set route = app.request.attributes.get('_route') %}
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;">
     <a href="{{ path('home') }}" style="display:flex;align-items:center;gap:9px;">
-        <img src="{{ asset('images/giulia-icon.png') }}" alt="Giulia" style="height:34px;">
+        <img src="{{ asset('images/giulia-icon.png') }}" alt="Giulia" style="height:34px;width:auto;display:block;">
         <span style="font-family:var(--font-title);font-weight:600;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a08d72;">{{ e.tagline }}</span>
     </a>
     {{ include('components/_status_badge.html.twig') }}
 </div>
-<nav class="nav">
-    <a href="{{ path('home') }}" {{ app.request.attributes.get('_route') == 'home' ? 'aria-current="page"' : '' }}>Accueil</a>
-    <a href="{{ path('menu_index') }}" {{ app.request.attributes.get('_route') starts with 'menu' ? 'aria-current="page"' : '' }}>Carte</a>
-    <a href="{{ path('contact') }}" {{ app.request.attributes.get('_route') == 'contact' ? 'aria-current="page"' : '' }}>Contact</a>
+<nav style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:6px;flex-wrap:wrap;">
+    <a href="{{ path('home') }}" {% if route == 'home' %}aria-current="page"{% endif %} style="font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:100px;border:1px solid {{ route == 'home' ? '#ddceb4' : '#e7ddca' }};color:{{ route == 'home' ? '#3a4148' : '#5f584d' }};background:{{ route == 'home' ? '#efe4d1' : '#fbf6ec' }};">Accueil</a>
+    <a href="{{ path('menu_index') }}" {% if route starts with 'menu' %}aria-current="page"{% endif %} style="font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:100px;border:1px solid {{ route starts with 'menu' ? '#ddceb4' : '#e7ddca' }};color:{{ route starts with 'menu' ? '#3a4148' : '#5f584d' }};background:{{ route starts with 'menu' ? '#efe4d1' : '#fbf6ec' }};">Carte</a>
+    <a href="{{ path('contact') }}" {% if route == 'contact' %}aria-current="page"{% endif %} style="font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:100px;border:1px solid {{ route == 'contact' ? '#ddceb4' : '#e7ddca' }};color:{{ route == 'contact' ? '#3a4148' : '#5f584d' }};background:{{ route == 'contact' ? '#efe4d1' : '#fbf6ec' }};">Contact</a>
 </nav>

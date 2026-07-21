@@ -1,0 +1,9 @@
+{# props : href, icon (svg brut), icon_bg, title, subtitle, external?, accent? #}
+<a href="{{ href }}"{% if external|default(false) %} target="_blank" rel="noopener"{% endif %} style="background:{{ accent|default(false) ? '#eef4ea' : '#fffdf8' }};border:1px solid {{ accent|default(false) ? '#cfe0c6' : '#e7ddca' }};border-radius:15px;padding:13px 15px;display:flex;align-items:center;gap:14px;">
+    <span style="width:42px;height:42px;border-radius:12px;background:{{ icon_bg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ icon|raw }}</span>
+    <span style="flex:1;min-width:0;">
+        <span style="display:block;font-weight:600;font-size:15.5px;">{{ title }}</span>
+        <span style="display:block;font-size:12.5px;color:{{ accent|default(false) ? '#5c8a49' : '#8a8377' }};margin-top:1px;">{{ subtitle }}</span>
+    </span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c3b7a2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M9 6l6 6-6 6"></path></svg>
+</a>

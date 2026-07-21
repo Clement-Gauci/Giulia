@@ -1,9 +1,13 @@
 {% set e = establishment() %}
-<div class="footer">
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:9px;">
-        <a href="{{ path('menu_index') }}">Nos pizzas</a><span>·</span>
-        <a href="{{ path('contact') }}">Contact</a><span>·</span>
-        <a href="{{ path('legal') }}">Mentions légales</a>
+<div style="text-align:center;margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:9px;">
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;">
+        <a href="{{ path('menu_index') }}" style="color:#8a8377;">Nos pizzas</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="{{ e.menuPdfUrl }}" style="color:#8a8377;">Carte</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="{{ path('contact') }}" style="color:#8a8377;">Contact</a>
+        <span style="color:#d9cdb7;">·</span>
+        <a href="{{ path('legal') }}" style="color:#8a8377;">Mentions légales</a>
     </div>
-    © {{ 'now'|date('Y') }} {{ e.name }} · Pizzeria napolitaine · Gorges
+    <div style="font-size:12.5px;color:#a59b88;letter-spacing:.3px;">© {{ 'now'|date('Y') }} {{ e.name }} · Pizzeria napolitaine · Gorges</div>
 </div>
