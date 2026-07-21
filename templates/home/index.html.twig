@@ -74,11 +74,11 @@
         </div>
         <div class="slider__track" data-pizza-slider-target="scroller">
             {% for pizza in allPizzas %}
-                {% set tone = pizza.isFeatured ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
-                <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-card{{ pizza.isFeatured ? ' pizza-card--dark' : '' }}">
+                {% set tone = pizza.isSignature ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
+                <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-card{{ pizza.isSignature ? ' pizza-card--dark' : '' }}">
                     <div class="pizza-card__photo {{ tone }}">
                         <span class="ph-label">Photo à venir</span>
-                        {% if pizza.isFeatured %}<span class="ph-badge">Du moment</span>{% endif %}
+                        {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
                     </div>
                     <div class="pizza-card__body">
                         <div class="pizza-card__name">{{ pizza.name }}</div>

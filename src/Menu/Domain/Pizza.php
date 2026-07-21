@@ -17,7 +17,7 @@ final readonly class Pizza
         private Money $price,
         private array $tags,
         private array $allergens,
-        private bool $featured,
+        private bool $signature,
     ) {}
 
     public function name(): string { return $this->name; }
@@ -29,7 +29,7 @@ final readonly class Pizza
     public function tags(): array { return $this->tags; }
     /** @return string[] */
     public function allergens(): array { return $this->allergens; }
-    public function isFeatured(): bool { return $this->featured; }
+    public function isSignature(): bool { return $this->signature; }
 
     public function hasTag(Tag $tag): bool
     {

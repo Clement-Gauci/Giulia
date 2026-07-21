@@ -19,4 +19,4 @@ categories:
   - kicker: "L’édition du moment"
     label: "La signature"
     pizzas:
-      - { name: "La Fresca", price: 1790, featured: true, ingredients: ["San Marzano", "fior di latte", "bresaola", "roquette", "guacamole", "comté 24 mois"] }
+      - { name: "La Fresca", price: 1790, signature: true, ingredients: ["San Marzano", "fior di latte", "bresaola", "roquette", "guacamole", "comté 24 mois"] }

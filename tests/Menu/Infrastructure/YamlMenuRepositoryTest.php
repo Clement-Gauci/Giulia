@@ -40,11 +40,11 @@ final class YamlMenuRepositoryTest extends TestCase
         self::assertSame("11,90\u{00A0}€", $pizza->price()->format());
     }
 
-    public function test_featured_returns_la_fresca(): void
+    public function test_signature_returns_la_fresca(): void
     {
-        $featured = $this->repo()->featured();
-        self::assertNotNull($featured);
-        self::assertSame('La Fresca', $featured->name());
-        self::assertTrue($featured->isFeatured());
+        $signature = $this->repo()->signature();
+        self::assertNotNull($signature);
+        self::assertSame('La Fresca', $signature->name());
+        self::assertTrue($signature->isSignature());
     }
 }

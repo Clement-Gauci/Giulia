@@ -16,7 +16,7 @@
         <div class="featured__glow"></div>
         <div class="pizza-hero__photo">
             <span class="pizza-hero__ph-label">Photo de la pizza</span>
-            {% if pizza.isFeatured %}<span class="ph-badge ph-badge--lg">Pizza du moment</span>{% endif %}
+            {% if pizza.isSignature %}<span class="ph-badge ph-badge--lg">Signature</span>{% endif %}
         </div>
         <div class="featured__body">
             <div class="featured__head">
@@ -24,7 +24,7 @@
                 <span class="featured__price">{{ pizza.price.format }}</span>
             </div>
             <p class="pizza-hero__tagline">
-                {%- if pizza.isFeatured -%}Notre signature du moment : une base napolitaine relevée d’ingrédients de caractère, préparée à la commande.
+                {%- if pizza.isSignature -%}Notre pizza signature : une base napolitaine relevée d’ingrédients de caractère, préparée à la commande.
                 {%- else -%}Pizza napolitaine préparée à la commande, sur notre pâte maturée 48h.{%- endif -%}
             </p>
             <div class="ing-grid">

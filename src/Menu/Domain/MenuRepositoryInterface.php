@@ -8,5 +8,5 @@ interface MenuRepositoryInterface
 
     public function findBySlug(string $slug): ?Pizza;
 
-    public function featured(): ?Pizza;
+    public function signature(): ?Pizza;
 }

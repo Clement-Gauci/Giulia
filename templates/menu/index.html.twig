@@ -30,11 +30,11 @@
             </div>
             <div class="pizza-grid">
                 {% for pizza in category.pizzas %}
-                    {% set tone = pizza.isFeatured ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
-                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-tile{{ pizza.isFeatured ? ' pizza-tile--dark' : '' }}">
+                    {% set tone = pizza.isSignature ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
+                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-tile{{ pizza.isSignature ? ' pizza-tile--dark' : '' }}">
                         <div class="pizza-tile__photo {{ tone }}">
                             <span class="ph-label">Photo à venir</span>
-                            {% if pizza.isFeatured %}<span class="ph-badge">Du moment</span>{% endif %}
+                            {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
                         </div>
                         <div class="pizza-tile__body">
                             <div class="pizza-tile__head">

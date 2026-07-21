@@ -36,7 +36,7 @@ final class YamlMenuRepository implements MenuRepositoryInterface
                     Money::fromCents((int) $p['price']),
                     array_map(static fn (string $t) => Tag::from($t), $p['tags'] ?? []),
                     $p['allergens'] ?? [],
-                    (bool) ($p['featured'] ?? false),
+                    (bool) ($p['signature'] ?? false),
                 );
             }
             $categories[] = new Category($cat['kicker'], $cat['label'], $pizzas);
@@ -58,11 +58,11 @@ final class YamlMenuRepository implements MenuRepositoryInterface
         return null;
     }
 
-    public function featured(): ?Pizza
+    public function signature(): ?Pizza
     {
         foreach ($this->categories() as $category) {
             foreach ($category->pizzas() as $pizza) {
-                if ($pizza->isFeatured()) {
+                if ($pizza->isSignature()) {
                     return $pizza;
                 }
             }

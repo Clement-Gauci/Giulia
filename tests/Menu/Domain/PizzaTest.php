@@ -29,7 +29,7 @@ final class PizzaTest extends TestCase
         self::assertSame("11,90\u{00A0}€", $pizza->price()->format());
         self::assertTrue($pizza->hasTag(Tag::Vegetarian));
         self::assertFalse($pizza->hasTag(Tag::Spicy));
-        self::assertFalse($pizza->isFeatured());
+        self::assertFalse($pizza->isSignature());
     }
 
     public function test_tag_metadata(): void
