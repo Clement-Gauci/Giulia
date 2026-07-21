@@ -28,12 +28,15 @@ services:
     App\Menu\Domain\MenuRepositoryInterface: '@App\Menu\Infrastructure\YamlMenuRepository'
     App\Shared\Domain\EstablishmentRepositoryInterface: '@App\Shared\Infrastructure\YamlEstablishmentRepository'
     App\Contact\Domain\ContactMailerInterface: '@App\Contact\Infrastructure\SymfonyContactMailer'
+    App\Menu\Domain\SpecialRepositoryInterface: '@App\Menu\Infrastructure\YamlSpecialRepository'
 
     # Chemins des sources de données
     App\Opening\Infrastructure\YamlScheduleRepository:
         arguments: { $file: '%giulia.data_dir%/hours.yaml' }
     App\Menu\Infrastructure\YamlMenuRepository:
         arguments: { $file: '%giulia.data_dir%/menu.yaml' }
+    App\Menu\Infrastructure\YamlSpecialRepository:
+        arguments: { $file: '%giulia.data_dir%/special.yaml' }
     App\Shared\Infrastructure\YamlEstablishmentRepository:
         arguments: { $file: '%giulia.data_dir%/establishment.yaml' }
     App\Contact\Infrastructure\SymfonyContactMailer:

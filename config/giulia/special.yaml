@@ -1,0 +1,15 @@
+active: true
+name: "La Fresca"
+period: "Édition du moment"
+price: 1790
+pitch: "Fraîcheur et caractère, en édition limitée."
+ingredients:
+  - "Sauce tomate San Marzano"
+  - "Mozzarella fior di latte"
+  - "Roquette"
+  - "Bresaola"
+  - "Guacamole d'avocat"
+  - "Comté affiné 24 mois"
+  - "Basilic"
+  - "Huile d'olive"
+tags: []
