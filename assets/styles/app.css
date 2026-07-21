@@ -360,6 +360,28 @@ select.field__input { cursor: pointer; }
 .legal-med__text { margin: 0; font-size: 13.5px; line-height: 1.65; color: var(--warm-text); }
 .legal-med__text a { color: var(--red); border-bottom: 1.5px solid #e2c6a8; }
 
+/* ---- Page d'erreur ----------------------------------------------------- */
+.error-card { position: relative; margin-top: 20px; background: var(--ink); color: var(--cream); border-radius: 26px; overflow: hidden; box-shadow: 0 26px 60px -28px rgba(42,49,56,.7); }
+.error-card__glow { position: absolute; inset: 0; background-image: radial-gradient(circle at 86% 10%, rgba(211,162,115,.26), transparent 46%), radial-gradient(circle at 6% 96%, rgba(154,171,147,.20), transparent 44%); }
+.error-card__wm { position: absolute; top: -18px; right: 18px; font-family: var(--font-title); font-weight: 800; font-size: 210px; line-height: .8; color: rgba(244,237,224,.05); letter-spacing: -8px; user-select: none; pointer-events: none; }
+.error-card__body { position: relative; padding: 38px 30px 34px; text-align: center; }
+.error-card__emblem { width: 84px; height: 84px; margin: 0 auto 22px; border-radius: 24px; background: var(--cream); display: flex; align-items: center; justify-content: center; animation: gFloat 4s ease-in-out infinite; box-shadow: 0 16px 34px -16px rgba(0,0,0,.5); }
+.error-card__emblem img { height: 52px; width: auto; display: block; }
+.error-card__pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 14px; background: rgba(244,237,224,.08); border: 1px solid rgba(244,237,224,.14); padding: 6px 13px 6px 11px; border-radius: var(--r-pill); }
+.error-card__pill-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--terracotta); animation: gPulse 1.8s ease-in-out infinite; }
+.error-card__pill-label { font-family: var(--font-title); font-weight: 700; font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--terracotta-soft); }
+.error-card__title { font-family: var(--font-title); font-weight: 800; font-size: 34px; line-height: 1.02; letter-spacing: -1px; }
+.error-card__msg { margin: 13px auto 0; max-width: 420px; font-size: 15px; line-height: 1.6; color: #c3bbac; }
+.error-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 26px; }
+.btn-primary { display: inline-flex; align-items: center; gap: 9px; padding: 14px 22px; border-radius: 14px; background: var(--terracotta); color: var(--ink); font-family: var(--font-title); font-weight: 700; font-size: 15px; }
+.btn-ghost { display: inline-flex; align-items: center; gap: 9px; padding: 14px 22px; border-radius: 14px; background: transparent; border: 1.5px solid rgba(244,237,224,.22); color: var(--cream); font-family: var(--font-title); font-weight: 700; font-size: 15px; }
+.help-strip { margin-top: 14px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); padding: 16px 18px; display: flex; align-items: center; gap: 14px; }
+.help-strip__icon { width: 44px; height: 44px; border-radius: 13px; background: var(--warm-bg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.help-strip__body { flex: 1; min-width: 0; }
+.help-strip__title { font-family: var(--font-title); font-weight: 700; font-size: 15px; }
+.help-strip__sub { font-size: 13px; color: var(--text-muted); margin-top: 1px; }
+.help-strip__cta { flex-shrink: 0; padding: 11px 16px; border-radius: 12px; background: var(--ink); color: var(--cream); font-family: var(--font-title); font-weight: 700; font-size: 14px; }
+
 /* ---- Icônes (retrait des styles inline) -------------------------------- */
 .ico { flex-shrink: 0; }
 .ico--t1 { flex-shrink: 0; margin-top: 1px; }
