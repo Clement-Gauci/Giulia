@@ -43,4 +43,17 @@ final class ContactPageTest extends WebTestCase
         self::assertResponseStatusCodeSame(422);
         self::assertEmailCount(0);
     }
+
+    public function test_missing_subject_does_not_crash(): void
+    {
+        $client = static::createClient();
+        $client->request('POST', '/contact', ['contact' => [
+            'name' => 'Marie',
+            'email' => 'marie@example.fr',
+            'message' => 'Bonjour, un message de test.',
+            // 'subject' intentionally omitted
+        ]]);
+        self::assertResponseStatusCodeSame(422);
+        self::assertEmailCount(0);
+    }
 }

@@ -15,7 +15,7 @@ final class ContactFormData
     public ?string $phone = null;
 
     #[Assert\NotBlank]
-    public string $subject = 'general';
+    public ?string $subject = 'general';
 
     #[Assert\NotBlank(message: 'Écrivez votre message.')]
     #[Assert\Length(min: 5, minMessage: 'Message trop court.')]

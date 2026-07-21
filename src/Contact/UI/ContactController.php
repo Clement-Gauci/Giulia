@@ -24,7 +24,7 @@ final class ContactController extends AbstractController
                 $data->name,
                 $data->email,
                 $data->phone ?: null,
-                Subject::from($data->subject),
+                Subject::from($data->subject ?? 'general'),
                 $data->message ?? '',
             ));
             $this->addFlash('success', 'Merci ! Votre message a bien été envoyé.');
