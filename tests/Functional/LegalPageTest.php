@@ -6,12 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class LegalPageTest extends WebTestCase
 {
-    public function test_legal_page_renders(): void
+    public function test_legal_page_renders_official_data(): void
     {
         $client = static::createClient();
         $client->request('GET', '/mentions-legales');
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h1', 'Mentions légales');
+        self::assertSelectorTextContains('body', 'GIULIA PIZZAS');
+        self::assertSelectorTextContains('body', '918 159 211 00013');
+        self::assertSelectorTextContains('body', 'OVH SAS');
+        self::assertSelectorTextContains('body', 'Clément GAUCI');
     }
 }
