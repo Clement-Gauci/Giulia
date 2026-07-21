@@ -1,7 +1,7 @@
 # Conception — Finition de l'intégration visuelle (CSS propre + fidélité maquettes)
 
 **Date :** 2026-07-21
-**Statut :** validé (design), en attente de plan d'implémentation
+**Statut :** implémenté (2026-07-22) — zéro `style=` inline, 56 tests verts, chaque page vérifiée par screenshot
 **Auteur :** Clément GAUCI + Claude
 **Contexte parent :** [2026-07-21-site-vitrine-giulia-design.md](2026-07-21-site-vitrine-giulia-design.md) (§8 « Présentation, design & assets »)
 
