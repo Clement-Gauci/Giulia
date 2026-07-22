@@ -1,22 +1,28 @@
 import { Controller } from '@hotwired/stimulus';
 import { getConsent, setConsent } from '../consent/consent.js';
 
+// Durées de la pastille de confirmation après un choix (alignées sur le comp).
+const CHIP_VISIBLE_MS = 5000;
+const CHIP_OUT_MS = 550;
+
 export default class extends Controller {
     static targets = ['banner', 'chip', 'prefs', 'prefsButton', 'saveButton', 'analyticsToggle', 'marketingToggle'];
 
     connect() {
-        this.analytics = false;
-        this.marketing = false;
         const consent = getConsent();
+        this.analytics = consent ? consent.analytics : false;
+        this.marketing = consent ? consent.marketing : false;
         if (consent) {
-            this.analytics = consent.analytics;
-            this.marketing = consent.marketing;
-            this._showChipOnly();
+            // Choix déjà enregistré : rien n'est affiché (réouverture via la page mentions légales).
+            this.bannerTarget.hidden = true;
+            this.chipTarget.hidden = true;
         } else {
-            this._showBanner();
+            this._openBanner();
         }
         this._syncToggles();
     }
+
+    disconnect() { this._clearTimers(); }
 
     openPrefs() {
         this.prefsTarget.hidden = false;
@@ -31,34 +37,62 @@ export default class extends Controller {
         this.analytics = true; this.marketing = true;
         setConsent({ analytics: true, marketing: true });
         this._trackChoice('all');
-        this._showChipOnly();
+        this._dismiss();
     }
 
     refuseAll() {
         this.analytics = false; this.marketing = false;
         setConsent({ analytics: false, marketing: false });
-        this._showChipOnly();
+        this._dismiss();
     }
 
     saveChoices() {
         setConsent({ analytics: this.analytics, marketing: this.marketing });
         this._trackChoice('custom');
-        this._showChipOnly();
+        this._dismiss();
     }
 
-    reopen() { this._showBanner(); }
+    reopen() {
+        this._clearTimers();
+        this.chipTarget.classList.remove('cookie-chip--in', 'cookie-chip--out');
+        this._openBanner();
+        this._syncToggles();
+    }
 
-    _showBanner() {
+    // Bandeau ouvert, préférences repliées, pastille masquée.
+    _openBanner() {
         this.bannerTarget.hidden = false;
         this.chipTarget.hidden = true;
-    }
-
-    _showChipOnly() {
-        this.bannerTarget.hidden = true;
-        this.chipTarget.hidden = false;
         this.prefsTarget.hidden = true;
         this.prefsButtonTarget.hidden = false;
         this.saveButtonTarget.hidden = true;
+    }
+
+    // Après un choix : le bandeau se ferme, la pastille apparaît puis s'efface après quelques secondes.
+    _dismiss() {
+        this._clearTimers();
+        this.bannerTarget.hidden = true;
+        this.prefsTarget.hidden = true;
+        this.prefsButtonTarget.hidden = false;
+        this.saveButtonTarget.hidden = true;
+
+        this.chipTarget.hidden = false;
+        this.chipTarget.classList.remove('cookie-chip--out');
+        this.chipTarget.classList.add('cookie-chip--in');
+
+        this._hideTimer = setTimeout(() => {
+            this.chipTarget.classList.remove('cookie-chip--in');
+            this.chipTarget.classList.add('cookie-chip--out');
+            this._outTimer = setTimeout(() => {
+                this.chipTarget.hidden = true;
+                this.chipTarget.classList.remove('cookie-chip--out');
+            }, CHIP_OUT_MS);
+        }, CHIP_VISIBLE_MS);
+    }
+
+    _clearTimers() {
+        clearTimeout(this._hideTimer);
+        clearTimeout(this._outTimer);
     }
 
     _syncToggles() {

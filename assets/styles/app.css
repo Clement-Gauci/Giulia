@@ -397,11 +397,15 @@ select.field__input { cursor: pointer; }
 /* ============ Bannière cookies ============ */
 @keyframes ckRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes ckFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes ckChipIn { from { opacity: 0; transform: translateY(16px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes ckChipOut { 0% { opacity: 1; transform: none; } 35% { transform: translateY(-6px) rotate(-4deg) scale(1.05); } 100% { opacity: 0; transform: translateY(30px) rotate(8deg) scale(.7); } }
 
 .cookie-zone { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
     display: flex; flex-direction: column; align-items: center; gap: 12px;
     padding: 16px; pointer-events: none; }
 .cookie-zone > * { pointer-events: auto; }
+/* L'attribut [hidden] doit l'emporter sur les display: explicites ci-dessous. */
+.cookie-zone [hidden] { display: none !important; }
 
 .cookie-banner { width: 100%; max-width: 560px; position: relative; background: #fffdf8;
     border: 1px solid #e7ddca; border-radius: 24px;
@@ -466,6 +470,8 @@ select.field__input { cursor: pointer; }
     transition: transform .15s ease; }
 .cookie-chip:hover { transform: translateY(-2px); }
 .cookie-chip__emoji { font-size: 18px; }
+.cookie-chip--in { animation: ckChipIn .4s cubic-bezier(.2,.8,.25,1) both; }
+.cookie-chip--out { animation: ckChipOut .55s cubic-bezier(.5,-0.2,.8,.6) both; }
 
 /* Bouton "Gérer mes cookies" de la page mentions légales */
 .cookie-manage-btn { margin-top: 16px; display: inline-flex; align-items: center; gap: 9px;
