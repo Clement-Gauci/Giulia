@@ -38,11 +38,17 @@
                 <div class="featured__kicker">
                     <span class="featured__dot"></span>
                     <span class="featured__label">{{ special ? 'Pizza du moment' : 'La signature' }}</span>
+                    {% if special and special.period %}
+                        <span class="featured__period">{{ special.period }}</span>
+                    {% endif %}
                 </div>
                 <div class="featured__head">
                     <h2 class="featured__name">{{ spotlight.name }}</h2>
                     <span class="featured__price">{{ spotlight.price.format }}</span>
                 </div>
+                {% if special and special.pitch %}
+                    <p class="featured__pitch">{{ special.pitch }}</p>
+                {% endif %}
                 <div class="ing-grid">
                     {% for ingredient in spotlight.ingredients %}
                         <div class="ing"><span class="ing__b">◆</span>{{ ingredient }}</div>

@@ -31,4 +31,12 @@ final class HomePageTest extends WebTestCase
         self::assertSelectorTextContains('.featured', 'La Fresca');
         self::assertSelectorExists('.featured a.featured__cta[href="https://giuliapizzas.foxorders.com/carte-giulia-pizzas-gorges-44190.html"]');
     }
+
+    public function test_pizza_du_moment_shows_period_and_pitch(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/');
+        self::assertSelectorTextContains('.featured__period', 'Édition du moment');
+        self::assertSelectorTextContains('.featured__pitch', 'Fraîcheur et caractère');
+    }
 }
