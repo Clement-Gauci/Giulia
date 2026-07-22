@@ -18,4 +18,14 @@ final class LegalPageTest extends WebTestCase
         self::assertSelectorTextContains('body', 'OVH SAS');
         self::assertSelectorTextContains('body', 'Clément GAUCI');
     }
+
+    public function test_cookies_section_has_reopen_button(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/mentions-legales');
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('body', 'mesure d’audience anonyme');
+        self::assertSelectorExists('button.cookie-manage-btn[data-action="cookie-consent#reopen"]');
+    }
 }
