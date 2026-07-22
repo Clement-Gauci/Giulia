@@ -1,5 +1,5 @@
-{# props : href, icon (svg brut), icon_variant (green|blue|warm|wa), title, subtitle, external?, accent? #}
-<a href="{{ href }}"{% if external|default(false) %} target="_blank" rel="noopener"{% endif %} class="link-card{{ accent|default(false) ? ' link-card--accent' : '' }}">
+{# props : href, icon (svg brut), icon_variant (green|blue|warm|wa), title, subtitle, external?, accent?, ga_event?, ga_label? #}
+<a href="{{ href }}"{% if external|default(false) %} target="_blank" rel="noopener"{% endif %}{% if ga_event is defined %} data-ga-event="{{ ga_event }}"{% if ga_label is defined %} data-ga-label="{{ ga_label }}"{% endif %}{% endif %} class="link-card{{ accent|default(false) ? ' link-card--accent' : '' }}">
     <span class="link-card__icon ic-{{ icon_variant|default('green') }}">{{ icon|raw }}</span>
     <span class="link-card__text">
         <span class="link-card__title">{{ title }}</span>

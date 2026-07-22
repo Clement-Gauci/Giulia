@@ -31,7 +31,7 @@
             <div class="pizza-grid">
                 {% for pizza in category.pizzas %}
                     {% set tone = pizza.isSignature ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
-                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-tile{{ pizza.isSignature ? ' pizza-tile--dark' : '' }}">
+                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-tile{{ pizza.isSignature ? ' pizza-tile--dark' : '' }}" data-ga-event="pizza_view" data-ga-slug="{{ pizza.slug }}">
                         <div class="pizza-tile__photo {{ tone }}">
                             <span class="ph-label">Photo à venir</span>
                             {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
@@ -62,7 +62,7 @@
 
     {# CTA Click & Collect #}
     {% set e = establishment() %}
-    <a id="commander" href="{{ e.orderUrl }}" class="cta">
+    <a id="commander" href="{{ e.orderUrl }}" class="cta" data-ga-event="click_and_collect" data-ga-location="menu">
         <div class="cta__row">
             <div class="cta__left">
                 <div class="cta__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2a3138" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
@@ -74,7 +74,7 @@
             <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </div>
     </a>
-    <p class="cta-note">Plus de <strong>5 pizzas</strong> ? Appelez-nous au <a href="tel:{{ e.phoneHref }}">{{ e.phone }}</a>, on trouve toujours une solution.</p>
+    <p class="cta-note">Plus de <strong>5 pizzas</strong> ? Appelez-nous au <a href="tel:{{ e.phoneHref }}" data-ga-event="phone">{{ e.phone }}</a>, on trouve toujours une solution.</p>
 
     {{ include('components/_hours.html.twig') }}
 {% endblock %}
