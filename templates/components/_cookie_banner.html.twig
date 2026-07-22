@@ -1,0 +1,54 @@
+<div class="cookie-zone">
+    {# Bandeau — masqué au départ, révélé par le contrôleur si aucun choix enregistré #}
+    <div class="cookie-banner" data-cookie-consent-target="banner" hidden>
+        <div class="cookie-banner__ghost" aria-hidden="true">🍪</div>
+        <div class="cookie-banner__head">
+            <div class="cookie-banner__badge" aria-hidden="true">🍪</div>
+            <div class="cookie-banner__head-body">
+                <div class="cookie-banner__eyebrow">Chez Giulia, on aime les cookies</div>
+                <h2 class="cookie-banner__title">Un p'tit cookie avec ça&nbsp;?</h2>
+                <p class="cookie-banner__text">Comme à la maison, on utilise quelques cookies pour que le site tourne bien et pour savoir quelles pizzas vous font de l'œil. Rien de piquant, promis&nbsp;— c'est vous qui choisissez la garniture. <a href="{{ path('legal') }}">En savoir plus</a></p>
+            </div>
+        </div>
+
+        <div class="cookie-prefs" data-cookie-consent-target="prefs" hidden>
+            <div class="cookie-pref cookie-pref--locked">
+                <span class="cookie-pref__emoji" aria-hidden="true">🧀</span>
+                <span class="cookie-pref__body">
+                    <span class="cookie-pref__name">La pâte de base</span>
+                    <span class="cookie-pref__desc">Indispensables au bon fonctionnement du site.</span>
+                </span>
+                <span class="cookie-pref__tag">Toujours actif</span>
+            </div>
+            <button type="button" class="cookie-pref" data-action="cookie-consent#toggleAnalytics">
+                <span class="cookie-pref__emoji" aria-hidden="true">📊</span>
+                <span class="cookie-pref__body">
+                    <span class="cookie-pref__name">La garniture (mesure d'audience)</span>
+                    <span class="cookie-pref__desc">Pour voir quelles pages vous régalent le plus.</span>
+                </span>
+                <span class="ck-switch" role="switch" aria-checked="false" data-cookie-consent-target="analyticsToggle"></span>
+            </button>
+            <button type="button" class="cookie-pref" data-action="cookie-consent#toggleMarketing">
+                <span class="cookie-pref__emoji" aria-hidden="true">🌶️</span>
+                <span class="cookie-pref__body">
+                    <span class="cookie-pref__name">Le supplément piquant (marketing)</span>
+                    <span class="cookie-pref__desc">Des offres et nouveautés qui vous ressemblent.</span>
+                </span>
+                <span class="ck-switch" role="switch" aria-checked="false" data-cookie-consent-target="marketingToggle"></span>
+            </button>
+        </div>
+
+        <div class="cookie-actions">
+            <button type="button" class="cookie-btn cookie-btn--accept" data-action="cookie-consent#acceptAll">Tout accepter, régalez-moi&nbsp;!</button>
+            <button type="button" class="cookie-btn cookie-btn--refuse" data-action="cookie-consent#refuseAll">Le strict nécessaire</button>
+        </div>
+        <button type="button" class="cookie-link" data-cookie-consent-target="prefsButton" data-action="cookie-consent#openPrefs">Composer ma recette</button>
+        <button type="button" class="cookie-link" data-cookie-consent-target="saveButton" data-action="cookie-consent#saveChoices" hidden>Enregistrer mes choix</button>
+    </div>
+
+    {# Pastille permanente de réouverture #}
+    <button type="button" class="cookie-chip" data-cookie-consent-target="chip" data-action="cookie-consent#reopen" hidden>
+        <span class="cookie-chip__emoji" aria-hidden="true">🍪</span>
+        Gérer les cookies
+    </button>
+</div>

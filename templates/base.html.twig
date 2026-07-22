@@ -11,10 +11,13 @@
     {% block javascripts %}{{ importmap('app') }}{% endblock %}
 </head>
 <body>
-    <div class="page"><div class="container">
-        {% block header %}{{ include('components/_header.html.twig') }}{% endblock %}
-        {% block body %}{% endblock %}
-        {% block footer %}{{ include('components/_footer.html.twig') }}{% endblock %}
-    </div></div>
+    <div class="page" data-controller="cookie-consent">
+        <div class="container">
+            {% block header %}{{ include('components/_header.html.twig') }}{% endblock %}
+            {% block body %}{% endblock %}
+            {% block footer %}{{ include('components/_footer.html.twig') }}{% endblock %}
+        </div>
+        {{ include('components/_cookie_banner.html.twig') }}
+    </div>
 </body>
 </html>
