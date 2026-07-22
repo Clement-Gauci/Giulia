@@ -9,7 +9,7 @@
         "direction": "pull",
         "note": "Claude Design -> miroir local. Unidirectionnel : on ne pousse jamais (projet classique, pas un design-system).",
         "tool": "DesignSync (get_file)",
-        "lastSync": "2026-07-21T18:09:04Z",
+        "lastSync": "2026-07-22T10:26:12Z",
         "contentCapBytes": 262144
     },
     "files": [
@@ -17,6 +17,12 @@
             "path": "Contact.dc.html",
             "bytes": 24893,
             "sha1": "e221685f16947c0752284d9b3a18bf714a8b56cd",
+            "kind": "page"
+        },
+        {
+            "path": "Cookies.dc.html",
+            "bytes": 11525,
+            "sha1": "22e3f0b40d98bbfc43f978cf64baed412d23e256",
             "kind": "page"
         },
         {
@@ -33,8 +39,8 @@
         },
         {
             "path": "Mentions légales.dc.html",
-            "bytes": 18785,
-            "sha1": "b5bd9c3f15b426a50d347198678031cc00955054",
+            "bytes": 19247,
+            "sha1": "c855265cc69a80752c4a4d3c41ca2a51085fd14c",
             "kind": "page"
         },
         {

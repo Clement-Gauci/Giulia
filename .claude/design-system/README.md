@@ -60,7 +60,8 @@ reste cohérent tel quel.
 | `Nos pizzas.dc.html` | Carte complète, 3 catégories (Les rouges / Les blanches / La signature), tags végé/piquant/signature. |
 | `Pizza - La Fresca.dc.html` | Gabarit **fiche pizza** paramétrable (props + query string : `name`, `price`, `ingredients`, `allergens`, `signature`). |
 | `Contact.dc.html` | Formulaire de contact (compose un `mailto:`), carte, horaires. |
-| `Mentions légales.dc.html` | Mentions légales, champs éditeur/hébergeur en props (SIRET/RCS/TVA à compléter). |
+| `Mentions légales.dc.html` | Mentions légales, champs éditeur/hébergeur en props (SIRET/RCS/TVA à compléter). Renvoie vers `Cookies.dc.html` (bouton « Gérer mes cookies »). |
+| `Cookies.dc.html` | Bandeau de consentement cookies (RGPD), sur le thème « on aime les cookies » : préférences dépliables (essentiels / mesure d'audience / marketing), boutons « Tout accepter » / « Le strict nécessaire » / « Composer ma recette », et pastille « Gérer les cookies » réouvrable. |
 | `Erreur.dc.html` | Page d'erreur paramétrable (prop `code` : 404/403/500/503), titre + message adaptés, CTA retour accueil / carte. |
 
 ### Runtime support (`*.js`)
