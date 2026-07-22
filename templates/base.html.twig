@@ -6,6 +6,7 @@
     <title>{% block title %}Giulia — Pizzeria napolitaine à Gorges{% endblock %}</title>
     <meta name="description" content="{% block description %}Giulia, pizzeria napolitaine à Gorges : pizzas à emporter en click & collect, tout près de Clisson et Nantes.{% endblock %}">
     <link rel="icon" href="{{ asset('images/giulia-icon.png') }}">
+    <meta name="ga-measurement-id" content="{{ ga_measurement_id }}">
     {% block stylesheets %}{% endblock %}
     {% block javascripts %}{{ importmap('app') }}{% endblock %}
 </head>

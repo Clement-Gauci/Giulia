@@ -10,6 +10,7 @@ parameters:
     giulia.data_dir: '%kernel.project_dir%/config/giulia'
     contact.from_email: '%env(CONTACT_FROM_EMAIL)%'
     contact.to_email: '%env(CONTACT_TO_EMAIL)%'
+    giulia.ga_measurement_id: '%env(default::GA_MEASUREMENT_ID)%'
 
 services:
     _defaults:
