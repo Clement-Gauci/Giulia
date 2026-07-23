@@ -89,10 +89,17 @@
             <span class="panel__icon ic-blue"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5786a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
             <h2 class="panel__title">Nous trouver</h2>
         </div>
-        <a href="{{ e.directionsUrl }}" target="_blank" rel="noopener" class="map">
+        <div class="map">
+            <div class="map__canvas"
+                 data-controller="map"
+                 data-map-lat-value="{{ e.latitude }}"
+                 data-map-lng-value="{{ e.longitude }}"
+                 data-map-zoom-value="16"
+                 data-map-directions-url-value="{{ e.directionsUrl }}"></div>
+            {# Repli affiché tant que les tuiles chargent / si JS est désactivé #}
             <span class="map__pin"><svg width="30" height="30" viewBox="0 0 24 24" fill="#b3743f" stroke="#fffdf8" stroke-width="1.4" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3" fill="#fffdf8" stroke="none"></circle></svg></span>
-            <span class="map__open">Ouvrir dans Maps <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"></path></svg></span>
-        </a>
+            <a href="{{ e.directionsUrl }}" target="_blank" rel="noopener" class="map__open">Ouvrir dans Maps <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"></path></svg></a>
+        </div>
         <div class="access">
             <div class="access__row"><svg class="ico--t2" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg><span>{{ e.address }}<br><span class="access__sub">À 5 min de Clisson · 25 min de Nantes</span></span></div>
             <div class="access__row"><svg class="ico--t2" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a59b88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="16" r="1"></circle><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span>Parking gratuit devant la pizzeria</span></div>

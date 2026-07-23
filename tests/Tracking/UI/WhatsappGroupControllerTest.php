@@ -58,7 +58,7 @@ final class WhatsappGroupControllerTest extends TestCase
     private function repositoryWithWhatsappUrl(string $url): EstablishmentRepositoryInterface
     {
         $establishment = new Establishment(
-            'Giulia', 'Pizzeria', '1 rue', '02', '+33', 'e@mail.fr', '/menu.pdf',
+            'Giulia', 'Pizzeria', '1 rue', 47.1, -1.3, '02', '+33', 'e@mail.fr', '/menu.pdf',
             'https://order', 'https://directions', 'https://reviews', $url, [],
             new Announcement(false, 'titre', 'texte'),
         );

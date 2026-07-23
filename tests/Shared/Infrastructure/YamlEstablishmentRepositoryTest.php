@@ -18,6 +18,8 @@ final class YamlEstablishmentRepositoryTest extends TestCase
         self::assertSame('02 85 52 87 42', $e->phone());
         self::assertSame('+33285528742', $e->phoneHref());
         self::assertSame('hello@giulia-pizza-gorges.fr', $e->email());
+        self::assertSame(47.1002191, $e->latitude());
+        self::assertSame(-1.3070557, $e->longitude());
     }
 
     public function test_reads_social_links(): void

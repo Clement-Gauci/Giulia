@@ -8,6 +8,8 @@ final readonly class Establishment
         private string $name,
         private string $tagline,
         private string $address,
+        private float $latitude,
+        private float $longitude,
         private string $phone,
         private string $phoneHref,
         private string $email,
@@ -23,6 +25,8 @@ final readonly class Establishment
     public function name(): string { return $this->name; }
     public function tagline(): string { return $this->tagline; }
     public function address(): string { return $this->address; }
+    public function latitude(): float { return $this->latitude; }
+    public function longitude(): float { return $this->longitude; }
     public function phone(): string { return $this->phone; }
     public function phoneHref(): string { return $this->phoneHref; }
     public function email(): string { return $this->email; }
