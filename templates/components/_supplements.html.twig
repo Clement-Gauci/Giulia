@@ -1,0 +1,30 @@
+{# ---------------------------------------------------------------------------
+   Suppléments — liste reprise fidèlement de la carte (public/menu.pdf).
+   Partagés par toutes les pizzas ; à préciser au moment de la commande.
+--------------------------------------------------------------------------- #}
+{% set supplements = [
+    { name: 'Œuf',      price: '1,50', detail: null },
+    { name: 'Légumes',  price: '2,00', detail: 'champignons · olives taggiasche · pommes de terre cuisinées · tomates séchées' },
+    { name: 'Fromages', price: '2,50', detail: 'gorgonzola · chèvre cendré · taleggio · scamorza fumée · stracciatella' },
+    { name: 'Viandes',  price: '3,00', detail: 'jambon · jambon de Parme · spianata piquante · poulet · guanciale · boulettes de bœuf cuisinées' },
+    { name: 'Burrata',  price: '4,00', detail: null },
+] %}
+<section class="supp" aria-labelledby="supp-title">
+    <div class="supp__head">
+        <div class="eyebrow"><span class="eyebrow__dot"></span><span class="eyebrow__label">À la carte</span></div>
+        <h2 class="supp__title" id="supp-title">Suppléments</h2>
+        <p class="supp__intro">Composez votre pizza — à préciser au moment de la commande.</p>
+    </div>
+    <ul class="supp__list">
+        {% for s in supplements %}
+            <li class="supp-item">
+                <div class="supp-item__line">
+                    <span class="supp-item__name">{{ s.name }}</span>
+                    <span class="supp-item__lead" aria-hidden="true"></span>
+                    <span class="supp-item__price">+{{ s.price }}&nbsp;€</span>
+                </div>
+                {% if s.detail %}<p class="supp-item__detail">{{ s.detail }}</p>{% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</section>

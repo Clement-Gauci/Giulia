@@ -295,6 +295,19 @@ strong { color: var(--text-mid); }
 .meta-chip__v { font-family: var(--font-title); font-weight: 800; font-size: 19px; color: var(--text-strong); }
 .meta-chip__l { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
 
+/* ---- Suppléments (fiche pizza) — carte « dot leader » type trattoria ---- */
+.supp { margin-top: 14px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-panel); padding: 20px 22px; }
+.supp__title { margin: 3px 0 0; font-family: var(--font-title); font-weight: 800; font-size: 22px; letter-spacing: -.3px; }
+.supp__intro { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--text-muted); }
+.supp__list { list-style: none; margin: 16px 0 0; padding: 0; }
+.supp-item { padding: 12px 0; border-top: 1px solid var(--hairline); }
+.supp-item:first-child { border-top: none; padding-top: 2px; }
+.supp-item__line { display: flex; align-items: baseline; }
+.supp-item__name { font-family: var(--font-title); font-weight: 700; font-size: 16.5px; color: var(--text-strong); }
+.supp-item__lead { flex: 1; min-width: 18px; margin: 0 8px; border-bottom: 2px dotted #d7c8ad; transform: translateY(-4px); }
+.supp-item__price { font-family: var(--font-title); font-weight: 700; font-size: 16.5px; color: var(--green); white-space: nowrap; }
+.supp-item__detail { margin: 5px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--text-muted); }
+
 .back-cta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; padding: 14px; border-radius: var(--r-sm); border: 1.5px dashed #cdbfa4; background: transparent; font-family: var(--font-title); font-weight: 700; font-size: 15px; color: var(--text-mid); transition: background .15s ease, border-color .15s ease; }
 .back-cta:hover { background: var(--card-alt); border-color: #b9a883; }
 .back-cta--tight { margin-top: 10px; }
