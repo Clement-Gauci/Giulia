@@ -11,11 +11,14 @@ parameters:
     contact.from_email: '%env(CONTACT_FROM_EMAIL)%'
     contact.to_email: '%env(CONTACT_TO_EMAIL)%'
     giulia.ga_measurement_id: '%env(default::GA_MEASUREMENT_ID)%'
+    giulia.site_url: '%env(DEFAULT_URI)%'
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $siteUrl: '%giulia.site_url%'
 
     App\:
         resource: '../src/'
@@ -47,3 +50,13 @@ services:
         arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }
     App\Menu\UI\MenuPdfExtension:
         arguments: { $publicDir: '%kernel.project_dir%/public' }
+
+# En test, le mailer de contact doit rester public (non inliné) pour être
+# remplaçable par un double qui échoue, afin de vérifier la gestion gracieuse
+# des erreurs d'envoi côté contrôleur. On répète les arguments car une seconde
+# définition du même service la remplace (elle ne la fusionne pas).
+when@test:
+    services:
+        App\Contact\Infrastructure\SymfonyContactMailer:
+            public: true
+            arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }
