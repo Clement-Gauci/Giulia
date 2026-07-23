@@ -1,6 +1,10 @@
 <?php
 namespace App\Tests\Functional;
 
+use App\Contact\Domain\ContactMailerException;
+use App\Contact\Domain\ContactMailerInterface;
+use App\Contact\Domain\ContactMessage;
+use App\Contact\Infrastructure\SymfonyContactMailer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ContactPageTest extends WebTestCase
@@ -60,5 +64,33 @@ final class ContactPageTest extends WebTestCase
         ]]);
         self::assertResponseStatusCodeSame(422);
         self::assertEmailCount(0);
+    }
+
+    public function test_mailer_failure_shows_a_friendly_error_instead_of_a_500(): void
+    {
+        $client = static::createClient();
+        // Le kernel est rebooté entre chaque requête : on le désactive pour que le
+        // mailer remplacé (double qui échoue) survive du GET au POST.
+        $client->disableReboot();
+        // SendContactMessage dépend du service concret : c'est lui qu'on remplace.
+        static::getContainer()->set(SymfonyContactMailer::class, new class implements ContactMailerInterface {
+            public function send(ContactMessage $message): void
+            {
+                throw new ContactMailerException('SMTP indisponible');
+            }
+        });
+
+        $client->request('GET', '/contact');
+        $client->submitForm('Envoyer', [
+            'contact[name]' => 'Marie Dupont',
+            'contact[email]' => 'marie@example.fr',
+            'contact[subject]' => 'general',
+            'contact[message]' => 'Bonjour, une question.',
+        ]);
+
+        // Pas de 500 : la page se ré-affiche avec un message d'erreur clair.
+        self::assertResponseStatusCodeSame(503);
+        self::assertSelectorExists('.form-error');
+        self::assertSelectorNotExists('.form-success');
     }
 }

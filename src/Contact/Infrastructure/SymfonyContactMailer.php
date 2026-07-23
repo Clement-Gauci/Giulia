@@ -1,6 +1,7 @@
 <?php
 namespace App\Contact\Infrastructure;
 
+use App\Contact\Domain\ContactMailerException;
 use App\Contact\Domain\ContactMailerInterface;
 use App\Contact\Domain\ContactMessage;
 use Symfony\Component\Mailer\MailerInterface;
@@ -32,6 +33,13 @@ final readonly class SymfonyContactMailer implements ContactMailerInterface
             ->subject(sprintf('[%s] %s', $message->subject()->label(), $message->name()))
             ->text($body);
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+        } catch (\Throwable $e) {
+            // Frontière d'infrastructure : tout échec de remise (transport SMTP,
+            // exception enveloppée par le bus Messenger…) est traduit en exception
+            // du domaine pour que la couche UI puisse le gérer sans exposer de 500.
+            throw new ContactMailerException('Échec de la remise du message de contact.', previous: $e);
+        }
     }
 }

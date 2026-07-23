@@ -59,4 +59,5 @@ when@test:
     services:
         App\Contact\Infrastructure\SymfonyContactMailer:
             public: true
+            autowire: true
             arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }

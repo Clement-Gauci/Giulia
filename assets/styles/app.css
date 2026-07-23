@@ -340,6 +340,8 @@ strong { color: var(--text-mid); }
 .panel__title { margin: 0; font-family: var(--font-title); font-weight: 800; font-size: 18px; letter-spacing: -.2px; }
 
 .form-success { display: flex; align-items: center; gap: 10px; background: #eaf1e6; border: 1px solid #cfe0c6; color: var(--green-deep); border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: 14px; }
+.form-error { display: flex; align-items: center; gap: 10px; background: #fbeae4; border: 1px solid #eecabb; color: #a8471f; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: 14px; }
+.form-error .ico { flex: 0 0 auto; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field--mt { margin-top: 11px; }
@@ -353,6 +355,15 @@ strong { color: var(--text-mid); }
 textarea.field__input { line-height: 1.55; resize: vertical; min-height: 96px; }
 select.field__input { cursor: pointer; }
 .btn-send { margin-top: 16px; width: 100%; padding: 15px; border-radius: 14px; border: none; background: var(--ink); color: var(--cream); font-family: var(--font-title); font-weight: 700; font-size: 15.5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; }
+.btn-send__label, .btn-send__loading { display: inline-flex; align-items: center; gap: 9px; }
+.btn-send__loading { display: none; }
+/* État « envoi en cours » posé par le contrôleur Stimulus sur le formulaire */
+form.is-submitting .btn-send { pointer-events: none; opacity: .82; cursor: progress; }
+form.is-submitting .btn-send__label { display: none; }
+form.is-submitting .btn-send__loading { display: inline-flex; }
+.btn-send__spinner { width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid rgba(255,255,255,.35); border-top-color: var(--cream); animation: gSpin .7s linear infinite; }
+@keyframes gSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .btn-send__spinner { animation-duration: 1.6s; } }
 .form-hint { margin: 11px 0 0; font-size: 12px; line-height: 1.55; color: #a59b88; text-align: center; }
 
 .map { position: relative; height: 210px; border-radius: 14px; overflow: hidden; border: 1px solid var(--field-border); background: #e9f0f2; background-image: repeating-linear-gradient(135deg, rgba(87,134,160,.14) 0 11px, transparent 11px 22px); }
