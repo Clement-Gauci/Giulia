@@ -30,7 +30,7 @@ final readonly class SymfonyContactMailer implements ContactMailerInterface
             ->from($this->fromEmail)
             ->to($this->toEmail)
             ->replyTo($message->email())
-            ->subject(sprintf('[%s] %s', $message->subject()->label(), $message->name()))
+            ->subject(sprintf('📩 Nouveau message du site web · %s · %s', $message->subject()->label(), $message->name()))
             ->text($body);
 
         try {

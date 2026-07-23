@@ -32,6 +32,7 @@ final class SymfonyContactMailerTest extends TestCase
         $mailer->send($this->message());
 
         self::assertInstanceOf(Email::class, $spy->sent);
+        self::assertSame('📩 Nouveau message du site web · Autre · Marie', $spy->sent->getSubject());
     }
 
     public function test_transport_failure_is_translated_to_a_domain_exception(): void
