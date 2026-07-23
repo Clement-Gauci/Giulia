@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://giulia-pizza-gorges.fr/sitemap.xml

@@ -1,0 +1,20 @@
+name: "Giulia"
+tagline: "Pizzeria napolitaine · Gorges"
+address: "1 rue de la Cité des Sports, Route de Saint-Fiacre, 44190 Gorges"
+latitude: 47.1002191
+longitude: -1.3070557
+phone: "02 85 52 87 42"
+phone_href: "+33285528742"
+email: "hello@giulia-pizza-gorges.fr"
+menu_pdf_url: "/menu.pdf"
+order_url: "https://order.example.test/carte"
+directions_url: "https://maps.example.test/giulia"
+google_reviews_url: "https://g.page/r/example/review"
+whatsapp_url: "https://chat.whatsapp.com/example"
+social_links:
+  - { label: "Instagram", url: "https://www.instagram.com/giulia_pizza_gorges/", icon: "instagram" }
+  - { label: "Facebook", url: "https://www.facebook.com/GiuliaPizzaGorges/", icon: "facebook" }
+announcement:
+  active: false
+  title: "À noter"
+  text: "Message."
