@@ -7,6 +7,22 @@
     <meta name="description" content="{% block description %}Giulia, pizzeria napolitaine à Gorges : pizzas à emporter en click & collect, tout près de Clisson et Nantes.{% endblock %}">
     <link rel="icon" href="{{ asset('images/giulia-icon.png') }}">
     <meta name="ga-measurement-id" content="{{ ga_measurement_id }}">
+
+    {% set canonical = site_url|trim('/', 'right') ~ app.request.pathInfo %}
+    {% set social_image = site_url|trim('/', 'right') ~ asset('images/giulia-logo.png') %}
+    <link rel="canonical" href="{{ canonical }}">
+    <meta property="og:type" content="{% block og_type 'website' %}">
+    <meta property="og:site_name" content="Giulia">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="{{ block('title') }}">
+    <meta property="og:description" content="{{ block('description') }}">
+    <meta property="og:url" content="{{ canonical }}">
+    <meta property="og:image" content="{{ social_image }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title') }}">
+    <meta name="twitter:description" content="{{ block('description') }}">
+    <meta name="twitter:image" content="{{ social_image }}">
+    <script type="application/ld+json">{{ giulia_structured_data(social_image)|raw }}</script>
     {% block stylesheets %}{% endblock %}
     {% block javascripts %}{{ importmap('app') }}{% endblock %}
 </head>
