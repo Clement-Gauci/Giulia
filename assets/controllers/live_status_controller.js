@@ -5,16 +5,20 @@ export default class extends Controller {
     static targets = ['label', 'detail'];
 
     connect() {
+        this.refresh();                                                  // corrige tout de suite un état figé (page en cache, onglet rouvert)
         this.timer = setInterval(() => this.refresh(), this.refreshValue);
+        this.onVisible = () => { if (!document.hidden) this.refresh(); }; // corrige au retour sur l'onglet
+        document.addEventListener('visibilitychange', this.onVisible);
     }
 
     disconnect() {
         clearInterval(this.timer);
+        document.removeEventListener('visibilitychange', this.onVisible);
     }
 
     async refresh() {
         try {
-            const res = await fetch(this.urlValue, { headers: { Accept: 'application/json' } });
+            const res = await fetch(this.urlValue, { headers: { Accept: 'application/json' }, cache: 'no-store' });
             if (!res.ok) return;
             const data = await res.json();
             if (this.hasLabelTarget) this.labelTarget.textContent = data.label;
