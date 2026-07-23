@@ -27,6 +27,11 @@ final class ContactPageTest extends WebTestCase
 
         self::assertEmailCount(1);
         self::assertResponseRedirects('/contact');
+
+        $client->followRedirect();
+        self::assertResponseIsSuccessful();
+        self::assertSelectorExists('.form-success');
+        self::assertSelectorTextContains('.form-success', 'Merci');
     }
 
     public function test_invalid_submission_shows_errors(): void
