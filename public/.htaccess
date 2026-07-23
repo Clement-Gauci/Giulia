@@ -68,3 +68,13 @@ DirectoryIndex index.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+# Force la revalidation du menu.pdf : l'URL /menu.pdf reste stable (donnée à
+# Google My Business) et pointe toujours vers le fichier à jour. Le navigateur
+# revérifie auprès du serveur à chaque accès et ne re-télécharge que si le PDF
+# a réellement changé — évite qu'une ancienne version reste servie depuis le cache.
+<IfModule mod_headers.c>
+    <FilesMatch "menu\.pdf$">
+        Header set Cache-Control "no-cache, must-revalidate"
+    </FilesMatch>
+</IfModule>
