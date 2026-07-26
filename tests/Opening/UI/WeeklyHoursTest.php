@@ -1,6 +1,8 @@
 <?php
 namespace App\Tests\Opening\UI;
 
+use App\Opening\Domain\ClosureCalendar;
+use App\Opening\Domain\ClosureRepositoryInterface;
 use App\Opening\Domain\ScheduleRepositoryInterface;
 use App\Opening\Domain\TimeRange;
 use App\Opening\Domain\WeeklySchedule;
@@ -21,9 +23,15 @@ final class WeeklyHoursTest extends TestCase
                 ]);
             }
         };
+        $closures = new class implements ClosureRepositoryInterface {
+            public function closures(): ClosureCalendar
+            {
+                return new ClosureCalendar([]);
+            }
+        };
         // 2026-07-20 = lundi
         $clock = new FrozenClock(new \DateTimeImmutable('2026-07-20 12:00', new \DateTimeZone('Europe/Paris')));
-        $rows = (new OpeningStatusExtension($repo, $clock))->weeklyHours();
+        $rows = (new OpeningStatusExtension($repo, $clock, $closures))->weeklyHours();
 
         self::assertSame('Lundi', $rows[0]['day']);
         self::assertTrue($rows[0]['today']);

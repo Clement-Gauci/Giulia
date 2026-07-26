@@ -2,6 +2,7 @@
 namespace App\Opening\UI;
 
 use App\Opening\Domain\Clock;
+use App\Opening\Domain\ClosureRepositoryInterface;
 use App\Opening\Domain\OpeningStatus;
 use App\Opening\Domain\ScheduleRepositoryInterface;
 use App\Shared\Domain\Weekday;
@@ -13,6 +14,7 @@ final class OpeningStatusExtension extends AbstractExtension
     public function __construct(
         private ScheduleRepositoryInterface $schedule,
         private Clock $clock,
+        private ClosureRepositoryInterface $closures,
     ) {}
 
     public function getFunctions(): array
@@ -25,7 +27,7 @@ final class OpeningStatusExtension extends AbstractExtension
 
     public function status(): OpeningStatus
     {
-        return OpeningStatus::compute($this->schedule->schedule(), $this->clock->now());
+        return OpeningStatus::compute($this->schedule->schedule(), $this->clock->now(), $this->closures->closures());
     }
 
     /** @return array<int, array{day: string, hours: string, today: bool}> */

@@ -1,6 +1,8 @@
 <?php
 namespace App\Tests\Opening\Domain;
 
+use App\Opening\Domain\ClosureCalendar;
+use App\Opening\Domain\ClosurePeriod;
 use App\Opening\Domain\OpeningStatus;
 use App\Opening\Domain\TimeRange;
 use App\Opening\Domain\WeeklySchedule;
@@ -75,5 +77,29 @@ final class OpeningStatusTest extends TestCase
         $status = OpeningStatus::compute($this->schedule(), $this->at('2026-07-21 14:30'));
         self::assertFalse($status->isOpen());
         self::assertSame('Ouvre aujourd’hui à 17h', $status->detail());
+    }
+
+    private function summerBreak(): ClosureCalendar
+    {
+        return new ClosureCalendar([
+            new ClosurePeriod($this->at('2026-07-27 00:00'), $this->at('2026-08-13 00:00')),
+        ]);
+    }
+
+    public function test_during_a_closure_shows_holiday_and_reopening_date(): void
+    {
+        // Mercredi 2026-08-05 12h00 : ouvert d’habitude, mais en pleine fermeture estivale
+        $status = OpeningStatus::compute($this->schedule(), $this->at('2026-08-05 12:00'), $this->summerBreak());
+        self::assertFalse($status->isOpen());
+        self::assertSame('En congés', $status->label());
+        self::assertSame('Réouverture le vendredi 14 août', $status->detail());
+    }
+
+    public function test_after_a_closure_falls_back_to_weekly_schedule(): void
+    {
+        // Vendredi 2026-08-14 12h00 : jour de réouverture, horaires habituels
+        $status = OpeningStatus::compute($this->schedule(), $this->at('2026-08-14 12:00'), $this->summerBreak());
+        self::assertTrue($status->isOpen());
+        self::assertSame('Ouvert', $status->label());
     }
 }

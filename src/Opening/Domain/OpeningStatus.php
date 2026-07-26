@@ -11,8 +11,14 @@ final readonly class OpeningStatus
         private string $detail,
     ) {}
 
-    public static function compute(WeeklySchedule $schedule, \DateTimeImmutable $now): self
+    public static function compute(WeeklySchedule $schedule, \DateTimeImmutable $now, ?ClosureCalendar $closures = null): self
     {
+        // 0) Fermeture exceptionnelle (congés) en cours ?
+        $closure = $closures?->activeOn($now);
+        if ($closure !== null) {
+            return new self(false, 'En congés', 'Réouverture le ' . $closure->reopeningLabel());
+        }
+
         $day = Weekday::fromDate($now);
         $minute = ((int) $now->format('G')) * 60 + (int) $now->format('i');
 
