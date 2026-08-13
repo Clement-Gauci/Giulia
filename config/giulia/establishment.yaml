@@ -15,6 +15,6 @@ social_links:
   - { label: "Instagram", url: "https://www.instagram.com/giulia_pizza_gorges/", icon: "instagram" }
   - { label: "Facebook", url: "https://www.facebook.com/GiuliaPizzaGorges/", icon: "facebook" }
 announcement:
-  active: true
+  active: false
   title: "Fermeture estivale ☀️"
   text: "Toute l’équipe de Giulia s’offre une pause bien méritée : nous sommes fermés du lundi 27 juillet au jeudi 13 août inclus. On vous accueille de nouveau avec le sourire dès le vendredi 14 août ! Merci pour votre fidélité et très bel été à toutes et à tous. 🍕"

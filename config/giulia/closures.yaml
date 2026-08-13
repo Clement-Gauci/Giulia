@@ -2,4 +2,5 @@
 # Chaque entrée ferme l'établissement de `from` à `until` INCLUS ; le badge
 # affiche « En congés » et la date de réouverture (= lendemain de `until`).
 # `reason` est purement documentaire.
-- { from: "2026-07-27", until: "2026-08-13", reason: "Vacances d'été" }
+# (Aucune fermeture programmée pour le moment.)
+[]
