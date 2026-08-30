@@ -64,3 +64,10 @@ when@test:
             public: true
             autowire: true
             arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }
+
+        # Même raison pour la pizza du moment : les tests de la page d'accueil
+        # injectent un double plutôt que de dépendre de l'état éditorial de
+        # special.yaml (qui s'active et se désactive au fil des éditions).
+        App\Menu\Infrastructure\YamlSpecialRepository:
+            public: true
+            arguments: { $file: '%giulia.data_dir%/special.yaml' }
