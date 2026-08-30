@@ -22,6 +22,16 @@ final class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Honeypot : le champ leurre est masqué, seul un bot le remplit.
+            // On répond comme pour un envoi réussi — un rejet visible
+            // apprendrait au bot à contourner le piège — mais rien n'est envoyé.
+            if ('' !== trim($data->website)) {
+                $logger->warning('Message de contact écarté : honeypot rempli.', ['ip' => $request->getClientIp()]);
+                $this->addFlash('success', 'Merci ! Votre message a bien été envoyé.');
+
+                return $this->redirectToRoute('contact');
+            }
+
             try {
                 $send(new ContactMessage(
                     $data->name,

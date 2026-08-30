@@ -364,6 +364,10 @@ form.is-submitting .btn-send__loading { display: inline-flex; }
 .btn-send__spinner { width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid rgba(255,255,255,.35); border-top-color: var(--cream); animation: gSpin .7s linear infinite; }
 @keyframes gSpin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .btn-send__spinner { animation-duration: 1.6s; } }
+/* Champ leurre du formulaire de contact (honeypot) : hors écran, pas masqué
+   via display:none — certains bots ignorent les champs explicitement cachés. */
+.hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
 .form-hint { margin: 11px 0 0; font-size: 12px; line-height: 1.55; color: #a59b88; text-align: center; }
 
 .map { position: relative; height: 210px; border-radius: 14px; overflow: hidden; border: 1px solid var(--field-border); background: #e9f0f2; background-image: repeating-linear-gradient(135deg, rgba(87,134,160,.14) 0 11px, transparent 11px 22px); }

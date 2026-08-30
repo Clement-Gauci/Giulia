@@ -20,7 +20,15 @@ final class ContactType extends AbstractType
             ->add('email', EmailType::class, ['label' => 'E-mail', 'empty_data' => ''])
             ->add('phone', TelType::class, ['label' => 'Téléphone', 'required' => false])
             ->add('subject', ChoiceType::class, ['label' => 'Sujet', 'choices' => Subject::choices()])
-            ->add('message', TextareaType::class, ['label' => 'Message']);
+            ->add('message', TextareaType::class, ['label' => 'Message'])
+            // Piège à bots : invisible et hors du parcours clavier, un humain
+            // ne le remplit jamais. Voir ContactController.
+            ->add('website', TextType::class, [
+                'label' => false,
+                'required' => false,
+                'empty_data' => '',
+                'attr' => ['autocomplete' => 'off', 'tabindex' => '-1'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

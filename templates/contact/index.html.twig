@@ -82,6 +82,12 @@
                 {{ form_errors(form.message) }}
             </label>
 
+            {# Piège à bots : hors écran et hors lecteurs d'écran. Laissez-le vide. #}
+            <div class="hp" aria-hidden="true">
+                <label for="{{ form.website.vars.id }}">Ne remplissez pas ce champ</label>
+                {{ form_widget(form.website) }}
+            </div>
+
             <button type="submit" class="btn-send">
                 <span class="btn-send__label">
                     Envoyer le message

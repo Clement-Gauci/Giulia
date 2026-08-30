@@ -66,6 +66,40 @@ final class ContactPageTest extends WebTestCase
         self::assertEmailCount(0);
     }
 
+    public function test_honeypot_field_is_present_but_hidden_from_humans(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/contact');
+
+        $trap = $crawler->filter('.hp');
+        self::assertCount(1, $trap);
+        self::assertSame('true', $trap->attr('aria-hidden'));
+        self::assertCount(1, $trap->filter('input[name="contact[website]"][tabindex="-1"]'));
+    }
+
+    public function test_filled_honeypot_sends_nothing_but_looks_like_a_success(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/contact');
+
+        $form = $crawler->selectButton('Envoyer')->form([
+            'contact[name]' => 'Spam Bot',
+            'contact[email]' => 'bot@example.com',
+            'contact[subject]' => 'general',
+            'contact[message]' => 'Achetez nos backlinks pas chers !',
+        ]);
+        $form['contact[website]'] = 'http://spam.example';
+        $client->submit($form);
+
+        // Aucun e-mail, mais une réponse indiscernable d'un envoi réussi :
+        // le bot n'apprend rien du piège.
+        self::assertEmailCount(0);
+        self::assertResponseRedirects('/contact');
+
+        $client->followRedirect();
+        self::assertSelectorTextContains('.form-success', 'Merci');
+    }
+
     public function test_mailer_failure_shows_a_friendly_error_instead_of_a_500(): void
     {
         $client = static::createClient();
