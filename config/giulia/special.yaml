@@ -1,15 +1,12 @@
-active: false
-name: "La Fresca"
+active: true
+name: "La Camillia"
 period: "Édition du moment"
 price: 1790
-pitch: "Fraîcheur et caractère, en édition limitée."
+pitch: "Douceur de courge, porchetta braisée et truffe, en édition limitée."
 ingredients:
-  - "Sauce tomate San Marzano"
+  - "Crème de courge"
   - "Mozzarella fior di latte"
-  - "Roquette"
-  - "Bresaola"
-  - "Guacamole d'avocat"
-  - "Comté affiné 24 mois"
-  - "Basilic"
-  - "Huile d'olive"
+  - "Porchetta (cochon de lait braisé)"
+  - "Parmesan"
+  - "Brisures de truffes et noisettes"
 tags: []
