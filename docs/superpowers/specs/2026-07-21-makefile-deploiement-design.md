@@ -42,3 +42,22 @@ cache et compilation des assets.
 - Recouvrement assumé : les auto-scripts de composer relancent déjà
   `cache:clear` / `assets:install` / `importmap:install` en post-install ; ces
   commandes sont idempotentes, donc sans effet de bord.
+
+## Mise à jour — 2026-09-09 : arrivée d'une base de données
+
+La décision « pas de base de données » ci-dessus est **caduque**. Le projet se dote
+d'un dashboard d'administration (pizzas, horaires, congés), ce qui impose de
+persister le contenu éditorial et les accès du back-office. Moteur retenu :
+**PostgreSQL**.
+
+Conséquences sur ce Makefile :
+
+- nouvelle cible `db` — `doctrine:migrations:migrate --no-interaction
+  --allow-no-migration` — insérée dans `deploy` entre `cache` et `assets` ;
+- `deploy` enchaîne donc `vendor` → `cache` → `db` → `assets` ;
+- `.env.local.dist` documente la création du rôle et de la base sur le serveur,
+  le réglage de `serverVersion` et une ligne de crontab `pg_dump` pour la
+  sauvegarde.
+
+En revanche, l'envoi **synchrone** des e-mails reste la règle : aucun worker
+Messenger n'est nécessaire, aucun service systemd à ajouter.
