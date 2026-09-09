@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    {% set e = establishment() %}
+    <main class="login">
+        <div class="login__wrap">
+
+            <aside class="login__brand">
+                <div class="brand__inner">
+                    <a class="brand__logo" href="{{ path('home') }}">
+                        <img src="{{ asset('images/giulia-icon.png') }}" alt="Giulia">
+                        <span class="brand__eyebrow">Espace pizzeria</span>
+                    </a>
+                    <h1 class="brand__title">Le four est allumé.<br>Et vous&nbsp;?</h1>
+                    <p class="brand__pitch">La carte, les horaires et les congés de Giulia, au même endroit.</p>
+                </div>
+
+                <div class="brand__points">
+                    <div class="point">
+                        <span class="point__icon">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg>
+                        </span>
+                        Horaires et congés à jour
+                    </div>
+                    <div class="point">
+                        <span class="point__icon">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9aab93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V5M16 20v-7M22 20H2"></path></svg>
+                        </span>
+                        La carte et la pizza du moment
+                    </div>
+                    <div class="point">
+                        <span class="point__icon">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7fb2cd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg>
+                        </span>
+                        Accès sécurisé en deux étapes
+                    </div>
+                </div>
+            </aside>
+
+            <div class="login__card">
+                {{ include(step) }}
+
+                <div class="login__foot">
+                    <a href="{{ path('home') }}">Retour au site</a>
+                    <span>·</span>
+                    <a href="{{ path('legal') }}">Mentions légales</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+{% endblock %}

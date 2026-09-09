@@ -1,30 +1,15 @@
 framework:
     messenger:
-        failure_transport: failed
-
-        transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async:
-                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-                retry_strategy:
-                    max_retries: 3
-                    multiplier: 2
-            failed: 'doctrine://default?queue_name=failed'
-            # sync: 'sync://'
-
+        # AUCUN transport déclaré, volontairement.
+        #
+        # Le projet envoie ses e-mails de façon SYNCHRONE (formulaire de contact,
+        # code de connexion, ouverture d'accès) : rien n'est routé, aucun worker
+        # `messenger:consume` ne tourne. Un transport `doctrine://default`
+        # inutilisé n'était pas neutre : son écouteur de schéma ajoutait une table
+        # `messenger_messages` aux migrations, pour une file que personne ne
+        # consomme. Le jour où un traitement asynchrone sera vraiment nécessaire,
+        # on redéclarera un transport et on routera explicitement le message.
         default_bus: messenger.bus.default
 
         buses:
             messenger.bus.default: []
-
-        routing:
-            # Site vitrine sans base de données ni worker Messenger : les e-mails
-            # (formulaire de contact) sont envoyés de façon SYNCHRONE. On ne route
-            # donc pas SendEmailMessage vers le transport async Doctrine, sinon les
-            # messages resteraient en file sans être jamais consommés.
-            # Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            # Symfony\Component\Notifier\Message\ChatMessage: async
-            # Symfony\Component\Notifier\Message\SmsMessage: async
-
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async

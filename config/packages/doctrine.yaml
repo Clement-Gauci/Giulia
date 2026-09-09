@@ -1,10 +1,8 @@
 doctrine:
     dbal:
+        # `serverVersion` est porté par le DSN (voir .env) : DBAL s'en sert pour
+        # adapter le SQL qu'il génère.
         url: '%env(resolve:DATABASE_URL)%'
-
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '16'
 
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
@@ -12,14 +10,17 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
-        auto_mapping: true
+
+        # Un mapping par contexte métier, plutôt qu'un `src/Entity` fourre-tout :
+        # les entités vivent dans l'Infrastructure du contexte qu'elles servent,
+        # à côté du repository qui les traduit en objets du domaine.
+        auto_mapping: false
         mappings:
-            App:
+            Account:
                 type: attribute
                 is_bundle: false
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+                dir: '%kernel.project_dir%/src/Account/Infrastructure/Doctrine'
+                prefix: 'App\Account\Infrastructure\Doctrine'
 
 when@test:
     doctrine:

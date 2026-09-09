@@ -1,5 +1,5 @@
 <?php
-namespace App\Opening\Domain;
+namespace App\Shared\Domain;
 
 interface Clock
 {

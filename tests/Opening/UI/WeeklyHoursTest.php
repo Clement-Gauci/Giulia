@@ -8,7 +8,7 @@ use App\Opening\Domain\TimeRange;
 use App\Opening\Domain\WeeklySchedule;
 use App\Opening\UI\OpeningStatusExtension;
 use App\Shared\Domain\Weekday;
-use App\Tests\Opening\Support\FrozenClock;
+use App\Tests\Support\FrozenClock;
 use PHPUnit\Framework\TestCase;
 
 final class WeeklyHoursTest extends TestCase

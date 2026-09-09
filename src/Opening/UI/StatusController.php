@@ -1,7 +1,7 @@
 <?php
 namespace App\Opening\UI;
 
-use App\Opening\Domain\Clock;
+use App\Shared\Domain\Clock;
 use App\Opening\Domain\ClosureRepositoryInterface;
 use App\Opening\Domain\OpeningStatus;
 use App\Opening\Domain\ScheduleRepositoryInterface;

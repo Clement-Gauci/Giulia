@@ -1,0 +1,47 @@
+{# Étape 1 : l'adresse. Le code part par e-mail, aucun mot de passe n'existe. #}
+<form class="step" method="post" action="{{ path('admin_login') }}">
+    {# La valeur rendue est le nom du cookie de double-soumission, pas
+       l'identifiant : le contrôleur Stimulus « csrf-protection » l'échange
+       contre un jeton aléatoire. Sans JavaScript, la validation repose sur
+       l'en-tête Origin/Referer, qui suffit en même origine. #}
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <div class="step__kicker">
+        <span class="step__dot"></span>
+        <span class="step__eyebrow">Étape 1 sur 2</span>
+    </div>
+    <h2 class="step__title">Connexion au dashboard</h2>
+    <p class="step__lead">Pas de mot de passe à retenir&nbsp;: entrez votre adresse d'équipe, on vous envoie un code à 6&nbsp;chiffres pour confirmer votre identité.</p>
+
+    <label class="field">
+        <span class="field__label">Adresse e-mail</span>
+        <input class="field__input" type="email" name="email" autocomplete="email" required autofocus
+               placeholder="vous@giulia-pizza-gorges.fr">
+    </label>
+
+    <div class="panel">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aab93" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"></path><path d="M9 12l2 2 4-4"></path></svg>
+        <span>Aucun mot de passe&nbsp;: seul l'accès à votre boîte e-mail permet d'entrer dans le dashboard.</span>
+    </div>
+
+    <label class="toggle">
+        <input type="checkbox" name="_remember_me" value="1" checked>
+        <span class="toggle__text">
+            <span class="toggle__title">Rester connecté</span>
+            <span class="toggle__hint">On garde la session ouverte 30&nbsp;jours sur cet appareil.</span>
+        </span>
+        <span class="toggle__track"><span class="toggle__knob"></span></span>
+    </label>
+
+    {% if feedback %}
+        <div class="panel panel--error" role="alert">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a24b32" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+            {{ feedback.message }}
+        </div>
+    {% endif %}
+
+    <button class="btn" type="submit">
+        Recevoir mon code
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d3a273" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+    </button>
+</form>

@@ -1,0 +1,189 @@
+/* =========================================================================
+   Giulia — dashboard (espace pizzeria)
+   Le site public n'est pas chargé ici : seules les fondations sont communes.
+   Sommaire : Tokens locaux · Base · Écran de connexion · Panneau de marque ·
+   Étapes · Champs · Encarts · Bascule · Boutons · Cases du code · Blocage ·
+   Pied · Coquille du dashboard
+   ========================================================================= */
+
+@import './tokens.css';
+
+/* ---- Tokens locaux ------------------------------------------------------
+   Teintes propres aux encarts de la connexion, absentes du site public.       */
+:root {
+  --panel-info-bg: #f7f1e6;
+  --panel-info-border: #ece2cf;
+  --panel-error-bg: #f7e9e4;
+  --panel-error-border: #e8cdc2;
+  --panel-error-text: #9a4b32;
+  --panel-ok-bg: #eaf1e6;
+  --panel-ok-border: #cfe0c6;
+  --panel-ok-text: #4a6a3f;
+  --on-dark: #e0d9cb;
+  --on-dark-soft: #c3bcae;
+  --on-dark-faint: #b9b1a4;
+  --hint: #a59b88;
+  --hint-soft: #c3b7a2;
+  --rule: #d9cdb7;
+}
+
+/* ---- Base --------------------------------------------------------------- */
+* { box-sizing: border-box; }
+/* `[hidden]` doit l'emporter sur les `display` explicites posés plus bas
+   (.btn est en flex) : sans ça, masquer un bouton depuis JavaScript n'a aucun
+   effet visible. Même précaution que dans app.css pour la bannière cookies. */
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--cream);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(211, 162, 115, .10), transparent 42%),
+    radial-gradient(circle at 88% 22%, rgba(127, 178, 205, .10), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(154, 171, 147, .14), transparent 55%);
+  font-family: var(--font-body);
+  color: var(--ink);
+}
+a { color: var(--terracotta-link); text-decoration: none; }
+a:hover { color: #8a5528; }
+h1, h2 { font-family: var(--font-title); margin: 0; }
+input, button { font-family: inherit; }
+input::placeholder { color: #b0a894; }
+input:focus { outline: none; border-color: var(--terracotta-link); background: var(--card); }
+
+/* ---- Écran de connexion ------------------------------------------------- */
+.login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px 16px; }
+.login__wrap { width: 100%; max-width: 900px; display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; justify-content: center; }
+
+/* ---- Panneau de marque -------------------------------------------------- */
+.login__brand {
+  flex: 1 1 300px; min-width: 280px; background: var(--ink); border-radius: var(--r-lg);
+  padding: 28px; display: flex; flex-direction: column; justify-content: space-between; gap: 26px;
+  color: var(--cream); box-shadow: 0 26px 60px -30px rgba(42, 49, 56, .6);
+  position: relative; overflow: hidden;
+}
+.login__brand::before {
+  content: ''; position: absolute; top: -40px; right: -20px; width: 190px; height: 190px;
+  border-radius: 50%; background: rgba(211, 162, 115, .14);
+}
+.brand__inner, .brand__points { position: relative; }
+.brand__logo { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.brand__logo img { height: 34px; width: auto; display: block; }
+.brand__eyebrow { font-family: var(--font-title); font-weight: 600; font-size: 11.5px; letter-spacing: 2px; text-transform: uppercase; color: var(--on-dark-faint); }
+.brand__title { font-weight: 800; font-size: 30px; line-height: 1.05; letter-spacing: -1px; }
+.brand__pitch { margin: 11px 0 0; font-size: 14.5px; line-height: 1.6; color: var(--on-dark-soft); max-width: 300px; }
+.brand__points { display: flex; flex-direction: column; gap: 11px; }
+.point { display: flex; align-items: center; gap: 11px; font-size: 14px; color: var(--on-dark); }
+.point__icon { width: 32px; height: 32px; border-radius: 10px; background: rgba(244, 237, 224, .09); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* ---- Carte ------------------------------------------------------------- */
+.login__card {
+  flex: 1 1 360px; min-width: 300px; max-width: 430px; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--r-lg); padding: 28px;
+  box-shadow: 0 22px 50px -32px rgba(42, 49, 56, .4); display: flex; flex-direction: column;
+}
+
+/* ---- Étapes ------------------------------------------------------------- */
+.step { animation: rise .4s ease both; }
+.step__kicker { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.step__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--terracotta); }
+.step__dot--green { background: var(--green-dot); }
+.step__eyebrow { font-family: var(--font-title); font-weight: 700; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--sand); }
+.step__eyebrow--green { color: var(--green-kicker); }
+.step__title { font-weight: 800; font-size: 24px; letter-spacing: -.5px; }
+.step__lead { margin: 8px 0 20px; font-size: 14px; line-height: 1.6; color: var(--text-soft); }
+.step__lead--tight { margin-bottom: 0; }
+
+/* ---- Champs ------------------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__label { font-size: 12.5px; font-weight: 600; color: var(--text-soft); }
+.field__input {
+  padding: 13px 14px; border-radius: 12px; border: 1px solid var(--field-border);
+  background: var(--card-alt); font-size: 15px; color: var(--ink);
+  transition: border-color .15s ease, background .15s ease;
+}
+
+/* ---- Encarts ------------------------------------------------------------ */
+.panel {
+  margin-top: 13px; display: flex; align-items: flex-start; gap: 10px;
+  background: var(--panel-info-bg); border: 1px solid var(--panel-info-border);
+  border-radius: 13px; padding: 11px 13px; font-size: 12.5px; line-height: 1.55; color: var(--text-muted);
+}
+.panel svg { flex-shrink: 0; margin-top: 1px; }
+.panel--error { align-items: center; background: var(--panel-error-bg); border-color: var(--panel-error-border); color: var(--panel-error-text); font-size: 13px; }
+.panel--ok { align-items: center; background: var(--panel-ok-bg); border-color: var(--panel-ok-border); color: var(--panel-ok-text); font-size: 13px; animation: rise .3s ease both; }
+
+/* ---- Bascule « rester connecté » ---------------------------------------- */
+.toggle {
+  margin-top: 16px; width: 100%; display: flex; align-items: center; gap: 12px;
+  background: var(--card-alt); border: 1px solid var(--border); border-radius: 14px;
+  padding: 12px 14px; cursor: pointer; transition: border-color .15s ease;
+}
+.toggle:hover { border-color: #d8c9ae; }
+.toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+.toggle__text { flex: 1; min-width: 0; }
+.toggle__title { display: block; font-weight: 600; font-size: 14px; color: var(--text-strong); }
+.toggle__hint { display: block; font-size: 12.5px; color: var(--text-muted); margin-top: 1px; }
+.toggle__track { flex-shrink: 0; width: 46px; height: 27px; border-radius: var(--r-pill); background: var(--border-soft); position: relative; transition: background .18s ease; }
+.toggle__knob { position: absolute; top: 3px; left: 3px; width: 21px; height: 21px; border-radius: 50%; background: var(--card); box-shadow: 0 2px 5px rgba(0, 0, 0, .2); transition: left .18s ease; }
+.toggle input:checked ~ .toggle__track { background: var(--green-dot); }
+.toggle input:checked ~ .toggle__track .toggle__knob { left: 22px; }
+.toggle input:focus-visible ~ .toggle__track { outline: 2px solid var(--terracotta-link); outline-offset: 2px; }
+
+/* ---- Boutons ------------------------------------------------------------ */
+.btn {
+  margin-top: 16px; width: 100%; padding: 15px; border-radius: 14px; border: none;
+  background: var(--ink); color: var(--cream); font-family: var(--font-title); font-weight: 700;
+  font-size: 15.5px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 9px; transition: background .15s ease, transform .15s ease;
+}
+.btn:hover { background: var(--ink-hover); transform: translateY(-1px); }
+.btn--gold { background: var(--terracotta); color: var(--ink); }
+.btn--gold:hover { background: #e0b184; }
+.btn--ghost { background: var(--card-alt); border: 1.5px solid var(--border-soft); color: var(--text-mid); }
+.btn--ghost:hover { background: var(--card); }
+.btn__spinner { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(244, 237, 224, .3); border-top-color: var(--terracotta); animation: spin .7s linear infinite; display: block; }
+
+.link-back { display: flex; align-items: center; gap: 7px; background: none; border: none; padding: 0; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 16px; }
+.link-plain { background: none; border: none; padding: 0; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--terracotta-link); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #e2c6a8; }
+
+/* ---- Cases du code ------------------------------------------------------ */
+.code { margin-top: 18px; display: flex; gap: 8px; justify-content: space-between; }
+.code__box {
+  width: 100%; min-width: 0; height: 58px; text-align: center; border-radius: 13px;
+  border: 1.5px solid var(--field-border); background: var(--card-alt);
+  font-family: var(--font-title); font-weight: 700; font-size: 24px; color: var(--ink);
+  transition: border-color .15s ease, background .15s ease;
+}
+.code__meta { margin-top: 14px; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 13px; color: var(--text-muted); text-align: center; }
+.code__meta--error { color: var(--panel-error-text); }
+.code__count { font-size: 12px; color: var(--hint); }
+
+/* ---- Blocage ------------------------------------------------------------ */
+.blocked { text-align: center; padding: 10px 4px; animation: rise .4s ease both; }
+.blocked__icon { width: 58px; height: 58px; border-radius: 50%; background: var(--panel-error-bg); border: 1px solid var(--panel-error-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; }
+.blocked__title { font-weight: 800; font-size: 23px; letter-spacing: -.4px; }
+.blocked__lead { margin: 9px auto 0; max-width: 320px; font-size: 14px; line-height: 1.6; color: var(--text-soft); }
+.blocked__box { margin: 18px auto 0; max-width: 260px; background: var(--card-alt); border: 1px solid var(--border); border-radius: var(--r-md); padding: 16px; }
+.blocked__label { font-size: 11.5px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; color: var(--sand); }
+.blocked__clock { margin-top: 5px; font-family: var(--font-title); font-weight: 800; font-size: 38px; letter-spacing: -1px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.blocked__actions { margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
+.blocked__actions .btn { margin-top: 0; text-decoration: none; }
+
+/* ---- Pied de carte ------------------------------------------------------ */
+.login__foot { margin-top: auto; padding-top: 20px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 12.5px; color: var(--hint); flex-wrap: wrap; }
+.login__foot a { color: var(--text-muted); }
+.login__foot span { color: var(--rule); }
+
+/* ---- Coquille du dashboard ---------------------------------------------- */
+.shell { max-width: 900px; margin: 0 auto; padding: 40px 16px; }
+.shell__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.shell__title { font-weight: 800; font-size: 28px; letter-spacing: -.6px; }
+.shell__card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-panel); padding: 24px; font-size: 14.5px; line-height: 1.65; color: var(--text-soft); }
+
+/* ---- Animations --------------------------------------------------------- */
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .step, .blocked, .panel--ok { animation: none; }
+  .btn__spinner { animation-duration: 1.6s; }
+}

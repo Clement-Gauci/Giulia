@@ -1,0 +1,57 @@
+{# =========================================================================
+   GABARIT PROVISOIRE — le design final est en cours dans Claude Design.
+   Les variables ci-dessous sont figées : `account` (name, email, role) et
+   `login_url`, plus la fonction `establishment()`. Le nouveau design peut donc
+   remplacer ce fichier sans toucher au PHP.
+   ========================================================================= #}
+{% set e = establishment() %}
+{% set role_label = account.role.value == 'manager' ? 'gérant' : 'boutique' %}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4ede0;padding:32px 16px;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#2a3138;">
+    <tr>
+        <td align="center">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:28px;">
+                <tr>
+                    <td style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#a08d72;padding-bottom:8px;">
+                        Espace pizzeria
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:22px;font-weight:800;letter-spacing:-.5px;padding-bottom:10px;">
+                        Votre accès est ouvert
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:14px;line-height:1.6;color:#6b6459;padding-bottom:18px;">
+                        Bonjour {{ account.name }}, un accès au dashboard de {{ e.name }} vient
+                        d'être ouvert pour vous, avec le rôle <strong style="color:#5f584d;">{{ role_label }}</strong>.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:14px;line-height:1.6;color:#6b6459;padding-bottom:18px;">
+                        Il n'y a pas de mot de passe à retenir : vous saisissez votre adresse
+                        <strong style="color:#5f584d;">{{ account.email }}</strong> et nous vous
+                        envoyons un code à 6&nbsp;chiffres pour confirmer votre identité.
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding-bottom:20px;">
+                        <a href="{{ login_url }}" style="display:inline-block;background:#2a3138;color:#f4ede0;text-decoration:none;border-radius:14px;padding:14px 26px;font-weight:700;font-size:15px;">
+                            Ouvrir le dashboard
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-size:12.5px;line-height:1.55;color:#8a8377;background:#f7f1e6;border:1px solid #ece2cf;border-radius:13px;padding:11px 13px;">
+                        Gardez l'accès à votre boîte e-mail bien protégé : c'est la seule clé du
+                        dashboard. Une question&nbsp;? Appelez la pizzeria au {{ e.phone }}.
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top:20px;font-size:12px;color:#a59b88;">
+                        {{ e.name }} — {{ e.address }}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

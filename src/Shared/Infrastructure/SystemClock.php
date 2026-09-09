@@ -1,7 +1,7 @@
 <?php
-namespace App\Opening\Infrastructure;
+namespace App\Shared\Infrastructure;
 
-use App\Opening\Domain\Clock;
+use App\Shared\Domain\Clock;
 
 final class SystemClock implements Clock
 {
