@@ -157,6 +157,44 @@ final class AdminLoginTest extends WebTestCase
         self::assertEmailCount(0);
     }
 
+    public function test_staying_signed_in_issues_a_thirty_day_cookie(): void
+    {
+        $this->submitEmail(self::EMAIL, remember: true);
+        $code = $this->mailedCode();
+        $crawler = $this->client->followRedirect();
+
+        $this->submitCode($crawler, $code);
+
+        $cookie = $this->client->getResponse()->headers->getCookies()[0] ?? null;
+        self::assertNotNull($cookie, 'Aucun cookie « rester connecté » n\'a été émis.');
+        self::assertSame('REMEMBERME', $cookie->getName());
+        // 30 jours, comme l'annonce l'écran de connexion. Une minute de marge
+        // pour la durée de la requête.
+        self::assertEqualsWithDelta(time() + 2592000, $cookie->getExpiresTime(), 60);
+    }
+
+    public function test_declining_to_stay_signed_in_issues_no_cookie(): void
+    {
+        $this->submitEmail(self::EMAIL, remember: false);
+        $code = $this->mailedCode();
+        $crawler = $this->client->followRedirect();
+
+        $this->submitCode($crawler, $code);
+
+        // Symfony émet bien un « REMEMBERME », mais vide et déjà expiré : c'est
+        // l'effacement d'un éventuel cookie précédent, pas une session longue.
+        foreach ($this->client->getResponse()->headers->getCookies() as $cookie) {
+            if ($cookie->getName() === 'REMEMBERME') {
+                self::assertNull($cookie->getValue());
+                self::assertLessThan(time(), $cookie->getExpiresTime());
+
+                return;
+            }
+        }
+
+        self::assertTrue(true, 'Aucun cookie « rester connecté », ce qui convient aussi.');
+    }
+
     public function test_a_wrong_code_says_how_many_tries_remain(): void
     {
         $this->submitEmail(self::EMAIL);
@@ -234,11 +272,12 @@ final class AdminLoginTest extends WebTestCase
         self::assertStringContainsString("n'est pas enregistrée", $crawler->filter('.panel--error')->text());
     }
 
-    private function submitEmail(string $email): void
+    private function submitEmail(string $email, bool $remember = false): void
     {
         $crawler = $this->client->request('GET', '/admin/connexion');
         $form = $crawler->filter('form')->form();
         $form['email'] = $email;
+        $remember ? $form['_remember_me']->tick() : $form['_remember_me']->untick();
 
         $this->client->submit($form);
     }
