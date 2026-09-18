@@ -60,11 +60,15 @@ final class ContactController extends AbstractController
             if (Decision::Silence === $verdict->decision) {
                 // Réponse indiscernable d'un envoi réussi : un rejet visible
                 // apprendrait au bot à contourner le piège. Rien n'est envoyé.
+                // Le message écarté est journalisé en entier : si un filtre se
+                // trompait, rien ne serait perdu — tout est relisible ici.
                 $spamLogger->warning('Message de contact écarté.', [
                     'motif' => $verdict->reason,
                     'ip' => $request->getClientIp(),
+                    'nom' => $data->name,
                     'email' => $data->email,
-                    'extrait' => mb_substr($data->message ?? '', 0, 120),
+                    'telephone' => $data->phone,
+                    'message' => $data->message,
                 ]);
                 $this->addFlash('success', 'Merci ! Votre message a bien été envoyé.');
 
