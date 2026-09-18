@@ -5,6 +5,7 @@ use App\Account\Domain\AttemptKind;
 use App\Account\Domain\AttemptTally;
 use App\Account\Domain\LoginAttempt;
 use App\Account\Domain\LoginAttemptRepositoryInterface;
+use App\Shared\Domain\Clock;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class DoctrineLoginAttemptRepository implements LoginAttemptRepositoryInterface
@@ -23,7 +24,7 @@ final readonly class DoctrineLoginAttemptRepository implements LoginAttemptRepos
      */
     private const string INSTANT = 'datetimetz_immutable';
 
-    public function __construct(private EntityManagerInterface $em) {}
+    public function __construct(private EntityManagerInterface $em, private Clock $clock) {}
 
     public function record(LoginAttempt $attempt): void
     {
@@ -80,7 +81,7 @@ final readonly class DoctrineLoginAttemptRepository implements LoginAttemptRepos
         $this->em->createQueryBuilder()
             ->delete(LoginAttemptEntity::class, 'a')
             ->where('a.createdAt < :limit')
-            ->setParameter('limit', new \DateTimeImmutable(self::RETENTION), self::INSTANT)
+            ->setParameter('limit', $this->clock->now()->modify(self::RETENTION), self::INSTANT)
             ->getQuery()
             ->execute();
     }

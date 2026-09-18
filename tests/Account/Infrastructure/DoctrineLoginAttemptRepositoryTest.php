@@ -6,6 +6,7 @@ use App\Account\Domain\LoginAttempt;
 use App\Account\Infrastructure\Doctrine\DoctrineLoginAttemptRepository;
 use App\Account\Infrastructure\Doctrine\LoginAttemptEntity;
 use App\Tests\Support\DatabaseTestCase;
+use App\Tests\Support\FrozenClock;
 
 final class DoctrineLoginAttemptRepositoryTest extends DatabaseTestCase
 {
@@ -22,7 +23,7 @@ final class DoctrineLoginAttemptRepositoryTest extends DatabaseTestCase
 
     private function repository(): DoctrineLoginAttemptRepository
     {
-        return new DoctrineLoginAttemptRepository($this->em);
+        return new DoctrineLoginAttemptRepository($this->em, new FrozenClock($this->now));
     }
 
     public function test_it_counts_only_the_matching_kind_and_address(): void
@@ -63,8 +64,8 @@ final class DoctrineLoginAttemptRepositoryTest extends DatabaseTestCase
     public function test_recording_purges_the_stale_rows(): void
     {
         $repository = $this->repository();
-        $repository->record(LoginAttempt::wrongCode(self::EMAIL, self::IP, new \DateTimeImmutable('-2 days')));
-        $repository->record(LoginAttempt::wrongCode(self::EMAIL, self::IP, new \DateTimeImmutable('-1 hour')));
+        $repository->record(LoginAttempt::wrongCode(self::EMAIL, self::IP, $this->now->modify('-2 days')));
+        $repository->record(LoginAttempt::wrongCode(self::EMAIL, self::IP, $this->now->modify('-1 hour')));
 
         self::assertCount(1, $this->em->getRepository(LoginAttemptEntity::class)->findAll());
     }
