@@ -79,6 +79,20 @@ final class AdminLoginTest extends WebTestCase
         self::assertSame('/admin/connexion/code', $this->client->getRequest()->getPathInfo());
     }
 
+    public function test_the_expiry_is_shown_in_the_pizzeria_s_timezone(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        // PHP tourne en UTC : sans fuseau d'affichage, l'écran annoncerait au
+        // gérant une heure décalée d'une ou deux heures selon la saison.
+        $expected = (new \DateTimeImmutable('+10 minutes'))
+            ->setTimezone(new \DateTimeZone('Europe/Paris'))
+            ->format('H:i');
+
+        self::assertStringContainsString($expected, $crawler->filter('.step__lead')->text());
+    }
+
     public function test_the_right_code_opens_the_dashboard(): void
     {
         $this->submitEmail(self::EMAIL);

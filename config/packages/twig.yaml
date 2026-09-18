@@ -1,5 +1,10 @@
 twig:
     file_name_pattern: '*.twig'
+    # PHP tourne en UTC — c'est voulu, les instants sont stockés tels quels.
+    # Mais tout ce qui s'affiche s'adresse à la pizzeria et à ses clients :
+    # le filtre `date` doit rendre l'heure de Gorges, pas celle de Greenwich.
+    date:
+        timezone: Europe/Paris
     globals:
         ga_measurement_id: '%giulia.ga_measurement_id%'
         site_url: '%giulia.site_url%'
