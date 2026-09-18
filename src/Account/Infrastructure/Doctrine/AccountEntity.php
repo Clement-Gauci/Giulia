@@ -26,9 +26,6 @@ class AccountEntity
     #[ORM\Column(length: 120)]
     public string $name;
 
-    #[ORM\Column(length: 20)]
-    public string $role;
-
     #[ORM\Column]
     public bool $active = true;
 

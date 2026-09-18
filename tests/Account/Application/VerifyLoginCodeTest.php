@@ -3,7 +3,6 @@ namespace App\Tests\Account\Application;
 
 use App\Account\Application\VerifyLoginCode;
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountRole;
 use App\Account\Domain\LoginAttempt;
 use App\Account\Domain\LoginBlocked;
 use App\Account\Domain\LoginCode;
@@ -31,7 +30,7 @@ final class VerifyLoginCodeTest extends TestCase
     {
         $this->now = new \DateTimeImmutable('2026-09-09 10:00:00');
         $this->accounts = new InMemoryAccountRepository(
-            Account::create(self::EMAIL, 'Clément', AccountRole::Manager, $this->now->modify('-1 day')),
+            Account::create(self::EMAIL, 'Clément', $this->now->modify('-1 day')),
         );
         $this->codes = new InMemoryLoginCodeRepository();
         $this->codes->save(LoginCode::issue(self::EMAIL, self::CODE, $this->now, LoginPolicy::CODE_LIFETIME_MINUTES));
@@ -128,7 +127,7 @@ final class VerifyLoginCodeTest extends TestCase
 
     public function test_an_account_revoked_between_the_send_and_the_check_cannot_enter(): void
     {
-        $this->accounts->save(new Account(self::EMAIL, 'Clément', AccountRole::Manager, false, $this->now->modify('-1 day')));
+        $this->accounts->save(new Account(self::EMAIL, 'Clément', false, $this->now->modify('-1 day')));
 
         $this->expectException(NoActiveCode::class);
         ($this->verify())(self::EMAIL, self::CODE, self::IP);

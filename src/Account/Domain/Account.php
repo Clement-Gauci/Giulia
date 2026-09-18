@@ -12,7 +12,6 @@ final readonly class Account
     public function __construct(
         private string $email,
         private string $name,
-        private AccountRole $role,
         private bool $active,
         private \DateTimeImmutable $createdAt,
         private ?\DateTimeImmutable $lastLoginAt = null,
@@ -26,19 +25,18 @@ final readonly class Account
         }
     }
 
-    public static function create(string $email, string $name, AccountRole $role, \DateTimeImmutable $now): self
+    public static function create(string $email, string $name, \DateTimeImmutable $now): self
     {
-        return new self(strtolower(trim($email)), trim($name), $role, true, $now);
+        return new self(strtolower(trim($email)), trim($name), true, $now);
     }
 
     public function withLastLoginAt(\DateTimeImmutable $at): self
     {
-        return new self($this->email, $this->name, $this->role, $this->active, $this->createdAt, $at);
+        return new self($this->email, $this->name, $this->active, $this->createdAt, $at);
     }
 
     public function email(): string { return $this->email; }
     public function name(): string { return $this->name; }
-    public function role(): AccountRole { return $this->role; }
     public function isActive(): bool { return $this->active; }
     public function createdAt(): \DateTimeImmutable { return $this->createdAt; }
     public function lastLoginAt(): ?\DateTimeImmutable { return $this->lastLoginAt; }

@@ -6,10 +6,6 @@ security:
         accounts:
             id: App\Account\Infrastructure\Security\AccountUserProvider
 
-    role_hierarchy:
-        # Un gérant peut tout ce que peut la boutique ; l'inverse est faux.
-        ROLE_MANAGER: [ROLE_SHOP]
-
     firewalls:
         dev:
             pattern: ^/(_profiler|_wdt|assets|build)/
@@ -26,10 +22,10 @@ security:
                 lifetime: 2592000 # 30 jours, comme l'annonce l'écran de connexion
                 path: /admin
                 samesite: lax
-                # Le défaut (`password`) n'existe pas ici. Signer sur le rôle et
-                # l'état actif fait qu'un changement de rôle ou une révocation
-                # invalide immédiatement tous les cookies déjà émis.
-                signature_properties: ['role', 'active']
+                # Le défaut (`password`) n'existe pas ici. Signer sur l'état actif
+                # fait qu'une révocation invalide immédiatement tous les cookies
+                # déjà émis.
+                signature_properties: ['active']
 
             logout:
                 path: admin_logout
@@ -42,7 +38,7 @@ security:
     access_control:
         # L'écran de connexion vit sous /admin : il doit rester ouvert.
         - { path: ^/admin/connexion, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_SHOP }
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
 # Pas de bloc `when@test` : le fichier du squelette y abaissait le coût des
 # algorithmes de hachage de mots de passe, dont ce projet n'a plus l'usage.

@@ -2,7 +2,6 @@
 namespace App\Tests\Account\Infrastructure;
 
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountRole;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Twig\Environment;
 
@@ -24,7 +23,7 @@ final class LoginCodeEmailTemplateTest extends KernelTestCase
 
         $html = $twig->render('emails/login_code.html.twig', [
             'code' => '204815',
-            'account' => Account::create('gerant@giulia-pizza-gorges.fr', 'Clément', AccountRole::Manager, $expiresAt),
+            'account' => Account::create('gerant@giulia-pizza-gorges.fr', 'Clément', $expiresAt),
             'expires_at' => $expiresAt,
             'expires_in_minutes' => 10,
         ]);

@@ -2,7 +2,6 @@
 namespace App\Tests\Account\UI;
 
 use App\Account\Application\CreateAccount;
-use App\Account\Domain\AccountRole;
 use App\Account\UI\CreateAccountCommand;
 use App\Tests\Account\Support\InMemoryAccountRepository;
 use App\Tests\Account\Support\RecordingAccountMailer;
@@ -39,45 +38,28 @@ final class CreateAccountCommandTest extends TestCase
     {
         $tester = $this->tester();
 
-        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément', '--role' => 'manager']);
+        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément']);
 
         self::assertSame(Command::SUCCESS, $status);
-        self::assertSame(AccountRole::Manager, $this->accounts->findByEmail(self::EMAIL)?->role());
+        self::assertNotNull($this->accounts->findByEmail(self::EMAIL));
         self::assertCount(1, $this->mailer->sent);
         self::assertStringContainsString(self::EMAIL, $tester->getDisplay());
-    }
-
-    public function test_the_shop_role_is_accepted(): void
-    {
-        $this->tester()->execute(['--email' => 'boutique@giulia-pizza-gorges.fr', '--name' => 'Boutique', '--role' => 'shop']);
-
-        self::assertSame(AccountRole::Shop, $this->accounts->findByEmail('boutique@giulia-pizza-gorges.fr')?->role());
-    }
-
-    public function test_an_unknown_role_is_refused_without_creating_anything(): void
-    {
-        $tester = $this->tester();
-
-        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément', '--role' => 'patron']);
-
-        self::assertSame(Command::INVALID, $status);
-        self::assertNull($this->accounts->findByEmail(self::EMAIL));
     }
 
     public function test_an_invalid_address_is_refused(): void
     {
         $tester = $this->tester();
 
-        self::assertSame(Command::FAILURE, $tester->execute(['--email' => 'pas-une-adresse', '--name' => 'Clément', '--role' => 'manager']));
+        self::assertSame(Command::FAILURE, $tester->execute(['--email' => 'pas-une-adresse', '--name' => 'Clément']));
         self::assertSame([], $this->mailer->sent);
     }
 
     public function test_a_duplicate_address_is_refused(): void
     {
-        $this->tester()->execute(['--email' => self::EMAIL, '--name' => 'Clément', '--role' => 'manager']);
+        $this->tester()->execute(['--email' => self::EMAIL, '--name' => 'Clément']);
 
         $tester = $this->tester();
-        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément bis', '--role' => 'shop']);
+        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément bis']);
 
         self::assertSame(Command::FAILURE, $status);
         self::assertSame('Clément', $this->accounts->findByEmail(self::EMAIL)?->name());
@@ -87,7 +69,7 @@ final class CreateAccountCommandTest extends TestCase
     {
         $tester = $this->tester();
 
-        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément', '--role' => 'manager', '--sans-email' => true]);
+        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément', '--sans-email' => true]);
 
         self::assertSame(Command::SUCCESS, $status);
         self::assertNotNull($this->accounts->findByEmail(self::EMAIL));
@@ -98,7 +80,7 @@ final class CreateAccountCommandTest extends TestCase
     {
         $tester = $this->tester(RecordingAccountMailer::failing());
 
-        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément', '--role' => 'manager']);
+        $status = $tester->execute(['--email' => self::EMAIL, '--name' => 'Clément']);
 
         // Le compte est créé : l'accès ne dépend pas de la remise SMTP. La
         // commande sort donc en succès, mais le dit franchement.

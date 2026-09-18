@@ -3,7 +3,6 @@ namespace App\Account\Infrastructure\Doctrine;
 
 use App\Account\Domain\Account;
 use App\Account\Domain\AccountRepositoryInterface;
-use App\Account\Domain\AccountRole;
 use Doctrine\ORM\EntityManagerInterface;
 
 final readonly class DoctrineAccountRepository implements AccountRepositoryInterface
@@ -28,7 +27,6 @@ final readonly class DoctrineAccountRepository implements AccountRepositoryInter
 
         $entity->email = $account->email();
         $entity->name = $account->name();
-        $entity->role = $account->role()->value;
         $entity->active = $account->isActive();
         $entity->createdAt = $account->createdAt();
         $entity->lastLoginAt = $account->lastLoginAt();
@@ -48,7 +46,6 @@ final readonly class DoctrineAccountRepository implements AccountRepositoryInter
         return new Account(
             $entity->email,
             $entity->name,
-            AccountRole::from($entity->role),
             $entity->active,
             $entity->createdAt,
             $entity->lastLoginAt,

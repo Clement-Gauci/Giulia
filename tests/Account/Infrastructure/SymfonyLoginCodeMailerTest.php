@@ -3,7 +3,6 @@ namespace App\Tests\Account\Infrastructure;
 
 use App\Account\Domain\Account;
 use App\Account\Domain\AccountMailerException;
-use App\Account\Domain\AccountRole;
 use App\Account\Infrastructure\SymfonyLoginCodeMailer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -18,7 +17,7 @@ final class SymfonyLoginCodeMailerTest extends TestCase
 
     private function account(): Account
     {
-        return Account::create(self::EMAIL, 'Clément', AccountRole::Manager, new \DateTimeImmutable());
+        return Account::create(self::EMAIL, 'Clément', new \DateTimeImmutable());
     }
 
     public function test_it_mails_the_code_to_the_account_holder(): void

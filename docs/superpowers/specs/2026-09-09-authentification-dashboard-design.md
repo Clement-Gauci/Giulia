@@ -2,6 +2,14 @@
 
 Date : 2026-09-09
 
+> **Révision du 2026-09-19.** Les rôles ont été retirés. Le dashboard ne sert
+> qu'à modifier le contenu du site : tous les comptes y sont équivalents, et il
+> n'y a donc plus ni énumération `AccountRole`, ni colonne `role`, ni hiérarchie
+> dans `security.yaml` — un unique `ROLE_ADMIN`. Les comptes prévus sont
+> l'adresse principale de la pizzeria, un compte de secours, et le cas échéant
+> celui de chaque gérant. Les passages ci-dessous marqués « (supprimé) »
+> décrivent l'état livré le 2026-09-09.
+
 ## Objectif
 
 Donner au dashboard d'administration une authentification **sans mot de passe** :
@@ -26,14 +34,10 @@ Elle fixe l'ergonomie **et** les règles de sécurité ; ce document les reprend
 
 ### Deux rôles, pas une hiérarchie de façade
 
-| Rôle | Qui | Périmètre |
-|---|---|---|
-| `manager` | Les gérants, comptes nominatifs | Tout, y compris la carte des pizzas, la pizza du moment et la gestion des accès |
-| `shop` | La boutique, compte partagé sur le poste de la pizzeria | Le quotidien : horaires, congés, bandeau d'annonce — et à terme le pointage des horaires et les relevés de température (HACCP) |
-
-`ROLE_MANAGER` hérite de `ROLE_SHOP` : un gérant peut faire ce que fait la
-boutique. L'inverse est faux. Un compte porte **un seul** rôle, en colonne ; la
-hiérarchie vit dans `security.yaml`, pas en base.
+**(supprimé — voir la révision du 2026-09-19.)** Deux rôles étaient prévus :
+`manager` pour les gérants et `shop` pour le poste partagé de la pizzeria, avec
+`ROLE_MANAGER` héritant de `ROLE_SHOP`. Aucun des deux ne portait de règle
+métier : tous les comptes accèdent désormais au dashboard par `ROLE_ADMIN`.
 
 ### Adresse inconnue : message explicite
 
@@ -98,7 +102,6 @@ dans `Domain/`.
 src/Account/
   Domain/
     Account                       objet immuable : identité, rôle, état
-    AccountRole                   enum shop | manager
     AccountRepositoryInterface    findByEmail, save, emailExists
     LoginCode                     code émis : hachage, expiration, essais
     LoginCodeRepositoryInterface   save, findActiveFor, consume
@@ -133,7 +136,7 @@ Les entités Doctrine sont distinctes des objets du domaine (décision du chanti
 
 | Table | Colonnes |
 |---|---|
-| `account` | `id`, `email` unique, `name`, `role`, `active`, `created_at`, `last_login_at` null |
+| `account` | `id`, `email` unique, `name`, `active`, `created_at`, `last_login_at` null |
 | `login_code` | `id`, `account_id` FK, `code_hash`, `expires_at`, `consumed_at` null, `tries`, `created_at` |
 | `login_attempt` | `id`, `email` null, `ip`, `kind`, `created_at` — index sur (`email`, `created_at`) et (`ip`, `created_at`) |
 
@@ -235,12 +238,12 @@ que le design s'y substitue sans toucher au code PHP :
 | Gabarit | Variables |
 |---|---|
 | `login_code` | `code`, `account` (name, email), `expires_in_minutes`, `establishment` |
-| `account_created` | `account` (name, email, role), `login_url`, `establishment` |
+| `account_created` | `account` (name, email), `login_url`, `establishment` |
 
 ## Commande de création de compte
 
 ```
-php bin/console app:account:create --email=… --name=… --role=manager|shop
+php bin/console app:account:create --email=… --name=…
 ```
 
 - interactive quand un argument manque ;
@@ -252,7 +255,7 @@ php bin/console app:account:create --email=… --name=… --role=manager|shop
 
 ## Tests
 
-- Domaine : règles de `Account`, `LoginCode` (expiration, essais), `AccountRole`.
+- Domaine : règles de `Account`, `LoginCode` (expiration, essais).
 - Application : `CreateAccount` (unicité, notification, échec d'envoi toléré),
   `RequestLoginCode` (délai, plafond de renvois), `VerifyLoginCode` (code faux,
   expiré, déjà consommé, blocage au troisième essai).

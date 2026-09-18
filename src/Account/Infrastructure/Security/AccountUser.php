@@ -2,38 +2,33 @@
 namespace App\Account\Infrastructure\Security;
 
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountRole;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Adaptateur entre le domaine et Symfony Security. Il existe pour que
  * `Account` n'ait jamais à connaître le framework.
  *
- * `getRole()` et `isActive()` ne servent pas qu'à l'affichage : ce sont les
- * `signature_properties` du cookie « rester connecté » (voir security.yaml).
- * Changer le rôle d'un compte ou le désactiver invalide donc immédiatement
- * tous les cookies déjà émis.
+ * `isActive()` ne sert pas qu'à l'affichage : c'est la `signature_properties`
+ * du cookie « rester connecté » (voir security.yaml). Désactiver un compte
+ * invalide donc immédiatement tous les cookies déjà émis.
  */
 final readonly class AccountUser implements UserInterface
 {
     public function __construct(private Account $account) {}
 
+    /**
+     * Un seul rôle : le dashboard ne sert qu'à modifier le contenu du site, et
+     * qui y entre peut tout y faire. Symfony exige néanmoins un rôle nommé pour
+     * que `access_control` ait quelque chose à exiger.
+     */
     public function getRoles(): array
     {
-        return match ($this->account->role()) {
-            AccountRole::Manager => ['ROLE_MANAGER'],
-            AccountRole::Shop => ['ROLE_SHOP'],
-        };
+        return ['ROLE_ADMIN'];
     }
 
     public function getUserIdentifier(): string
     {
         return $this->account->email();
-    }
-
-    public function getRole(): AccountRole
-    {
-        return $this->account->role();
     }
 
     public function isActive(): bool

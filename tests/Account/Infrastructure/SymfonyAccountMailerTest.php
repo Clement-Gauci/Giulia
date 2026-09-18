@@ -3,7 +3,6 @@ namespace App\Tests\Account\Infrastructure;
 
 use App\Account\Domain\Account;
 use App\Account\Domain\AccountMailerException;
-use App\Account\Domain\AccountRole;
 use App\Account\Infrastructure\SymfonyAccountMailer;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -19,7 +18,7 @@ final class SymfonyAccountMailerTest extends TestCase
 
     private function account(): Account
     {
-        return Account::create(self::EMAIL, 'Clément', AccountRole::Manager, new \DateTimeImmutable());
+        return Account::create(self::EMAIL, 'Clément', new \DateTimeImmutable());
     }
 
     public function test_it_tells_the_person_where_to_log_in(): void

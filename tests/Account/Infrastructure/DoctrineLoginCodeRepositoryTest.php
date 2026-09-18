@@ -2,7 +2,6 @@
 namespace App\Tests\Account\Infrastructure;
 
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountRole;
 use App\Account\Domain\LoginCode;
 use App\Account\Infrastructure\Doctrine\DoctrineAccountRepository;
 use App\Account\Infrastructure\Doctrine\DoctrineLoginCodeRepository;
@@ -21,7 +20,7 @@ final class DoctrineLoginCodeRepositoryTest extends DatabaseTestCase
 
         $this->now = new \DateTimeImmutable('2026-09-09 10:00:00');
         (new DoctrineAccountRepository($this->em))->save(
-            Account::create(self::EMAIL, 'Clément', AccountRole::Manager, $this->now),
+            Account::create(self::EMAIL, 'Clément', $this->now),
         );
     }
 

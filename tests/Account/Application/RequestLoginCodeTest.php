@@ -3,7 +3,6 @@ namespace App\Tests\Account\Application;
 
 use App\Account\Application\RequestLoginCode;
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountRole;
 use App\Account\Domain\LoginAttempt;
 use App\Account\Domain\LoginBlocked;
 use App\Account\Domain\LoginPolicy;
@@ -33,7 +32,7 @@ final class RequestLoginCodeTest extends TestCase
     {
         $this->now = new \DateTimeImmutable('2026-09-09 10:00:00');
         $this->accounts = new InMemoryAccountRepository(
-            Account::create(self::EMAIL, 'Clément', AccountRole::Manager, $this->now),
+            Account::create(self::EMAIL, 'Clément', $this->now),
         );
         $this->codes = new InMemoryLoginCodeRepository();
         $this->attempts = new InMemoryLoginAttemptRepository();
@@ -78,7 +77,7 @@ final class RequestLoginCodeTest extends TestCase
 
     public function test_an_inactive_account_behaves_like_an_unknown_address(): void
     {
-        $this->accounts->save(new Account(self::EMAIL, 'Clément', AccountRole::Manager, false, $this->now));
+        $this->accounts->save(new Account(self::EMAIL, 'Clément', false, $this->now));
 
         $this->expectException(UnknownEmail::class);
         ($this->request())(self::EMAIL, self::IP);

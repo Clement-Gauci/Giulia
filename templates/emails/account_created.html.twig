@@ -1,11 +1,10 @@
 {# =========================================================================
    GABARIT PROVISOIRE — le design final est en cours dans Claude Design.
-   Les variables ci-dessous sont figées : `account` (name, email, role) et
+   Les variables ci-dessous sont figées : `account` (name, email) et
    `login_url`, plus la fonction `establishment()`. Le nouveau design peut donc
    remplacer ce fichier sans toucher au PHP.
    ========================================================================= #}
 {% set e = establishment() %}
-{% set role_label = account.role.value == 'manager' ? 'gérant' : 'boutique' %}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4ede0;padding:32px 16px;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#2a3138;">
     <tr>
         <td align="center">
@@ -23,7 +22,7 @@
                 <tr>
                     <td style="font-size:14px;line-height:1.6;color:#6b6459;padding-bottom:18px;">
                         Bonjour {{ account.name }}, un accès au dashboard de {{ e.name }} vient
-                        d'être ouvert pour vous, avec le rôle <strong style="color:#5f584d;">{{ role_label }}</strong>.
+                        d'être ouvert pour vous.
                     </td>
                 </tr>
                 <tr>

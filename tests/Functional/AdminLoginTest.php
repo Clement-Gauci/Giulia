@@ -2,7 +2,6 @@
 namespace App\Tests\Functional;
 
 use App\Account\Domain\Account;
-use App\Account\Domain\AccountRole;
 use App\Account\Infrastructure\Doctrine\DoctrineAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -28,7 +27,7 @@ final class AdminLoginTest extends WebTestCase
         $schema->createSchema($metadata);
 
         (new DoctrineAccountRepository($this->em))->save(
-            Account::create(self::EMAIL, 'Clément', AccountRole::Manager, new \DateTimeImmutable()),
+            Account::create(self::EMAIL, 'Clément', new \DateTimeImmutable()),
         );
     }
 
@@ -174,7 +173,7 @@ final class AdminLoginTest extends WebTestCase
     public function test_a_revoked_account_cannot_ask_for_a_code(): void
     {
         (new DoctrineAccountRepository($this->em))->save(
-            new Account(self::EMAIL, 'Clément', AccountRole::Manager, false, new \DateTimeImmutable()),
+            new Account(self::EMAIL, 'Clément', false, new \DateTimeImmutable()),
         );
 
         $this->submitEmail(self::EMAIL);
