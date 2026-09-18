@@ -3,8 +3,13 @@
     {# La valeur rendue est le nom du cookie de double-soumission, pas
        l'identifiant : le contrôleur Stimulus « csrf-protection » l'échange
        contre un jeton aléatoire. Sans JavaScript, la validation repose sur
-       l'en-tête Origin/Referer, qui suffit en même origine. #}
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+       l'en-tête Origin/Referer, qui suffit en même origine.
+
+       `data-controller` n'est pas décoratif : le module est déclaré
+       `stimulusFetch: 'lazy'` et ne se charge que s'il trouve cet attribut.
+       Sans lui, aucun cookie n'est posé — et Symfony refuse le formulaire dès
+       qu'une requête a validé en double-soumission auparavant. #}
+    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
     <div class="step__kicker">
         <span class="step__dot"></span>

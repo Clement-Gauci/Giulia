@@ -49,6 +49,22 @@ final class AdminLoginTest extends WebTestCase
         self::assertSelectorExists('meta[name="robots"][content="noindex, nofollow"]');
     }
 
+    public function test_every_csrf_field_triggers_the_stimulus_controller(): void
+    {
+        $crawler = $this->client->request('GET', '/admin/connexion');
+
+        // Le module `csrf_protection_controller.js` est marqué `stimulusFetch:
+        // 'lazy'` : sans cet attribut il ne se charge jamais, le jeton de
+        // double-soumission n'est pas posé, et la connexion retombe sur le seul
+        // contrôle d'origine — qui finit par refuser le formulaire.
+        $fields = $crawler->filter('input[name="_csrf_token"]');
+
+        self::assertGreaterThan(0, $fields->count());
+        $fields->each(static function ($field): void {
+            self::assertSame('csrf-protection', $field->attr('data-controller'));
+        });
+    }
+
     public function test_an_unknown_address_is_told_so_and_receives_nothing(): void
     {
         $this->submitEmail('personne@example.com');

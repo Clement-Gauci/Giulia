@@ -18,7 +18,7 @@
     </p>
 
     <form method="post" action="{{ path('admin_login_code') }}">
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
         {% if pending.remember %}<input type="hidden" name="_remember_me" value="1">{% endif %}
 
         {# Six cases, que le contrôleur Stimulus soit là ou non : sans lui on
@@ -46,7 +46,7 @@
     <div class="code__meta">
         {% if pending.sendsLeft > 0 %}
             <form method="post" action="{{ path('admin_login_resend') }}" data-login-code-target="resend" {{ seconds_left > 0 ? 'hidden' : '' }}>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
                 <button class="link-plain" type="submit">Je n'ai rien reçu — renvoyer le code</button>
             </form>
             <span data-login-code-target="countdown" {{ seconds_left > 0 ? '' : 'hidden' }}>
