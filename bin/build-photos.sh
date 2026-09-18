@@ -74,12 +74,15 @@ for src in "${sources[@]}"; do
         -define webp:alpha-quality=90 -quality 80 \
         "$sortie/$slug-sm.webp"
 
-    # 3. Vignette de fond : le cœur de la pizza, saturé à outrance et réduit à 48 px.
-    #    Étirée en CSS, elle devient un halo aux couleurs du plat pour un poids dérisoire.
+    # 3. Vignette de fond : un carré pris au cœur de la garniture, saturé et réduit à
+    #    32 px. Étirée en CSS, elle devient un halo aux couleurs du plat pour un poids
+    #    dérisoire. Le carré reste sous 50 % : au-delà, ses coins sortent du disque et
+    #    le halo dessine en grand la silhouette de la pizza — un cadre bien visible
+    #    derrière la photo nette.
     magick "$sortie/$slug.webp" \
         -background "#100e0c" -alpha remove \
-        -gravity center -crop 78%x78%+0+0 +repage \
-        -resize 48x48! -modulate 88,148,100 -brightness-contrast -10x8 \
+        -gravity center -crop 46%x46%+0+0 +repage \
+        -resize 32x32! -modulate 88,148,100 -brightness-contrast -10x8 \
         -quality 82 \
         "$sortie/$slug-blur.jpg"
 

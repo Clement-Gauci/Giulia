@@ -523,7 +523,7 @@ form.is-submitting .btn-send__loading { display: inline-flex; }
    ------------------------------------------------------------------------ */
 .pizza-photo { position: absolute; inset: 0; overflow: hidden; }
 .pizza-photo__glow { position: absolute; inset: 0; background-size: cover; background-position: center;
-    transform: scale(1.12); filter: blur(6px); }
+    transform: scale(1.14); filter: blur(10px); }
 .pizza-photo__shade { position: absolute; inset: 0;
     background: radial-gradient(ellipse at 50% 32%, rgba(12,10,9,.16) 20%, rgba(12,10,9,.72) 78%),
                 linear-gradient(to top, rgba(12,10,9,.62) 16%, rgba(12,10,9,.22) 48%, rgba(12,10,9,.06) 76%); }
@@ -557,7 +557,7 @@ form.is-submitting .btn-send__loading { display: inline-flex; }
 
 /* Photo en bandeau sur la fiche pizza : pas de verre, le texte est en dessous */
 .pizza-hero__photo--filled { height: clamp(240px, 34vw, 340px); background: #201d19; background-image: none; }
-.pizza-hero__photo--filled .pizza-photo img { width: auto; height: 86%; }
+.pizza-hero__photo--filled .pizza-photo img { width: auto; height: 84%; top: 50%; }
 .footer__credit { font-size: 12.5px; color: #a59b88; letter-spacing: .3px; }
 .footer__credit a { color: var(--text-mid); font-weight: 600; }
 .footer__credit a:hover { color: var(--terracotta-link); }
