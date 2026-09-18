@@ -53,6 +53,9 @@ for src in "${sources[@]}"; do
 
     # 1. Détourage du fond uni + retouche légère (saturation, contraste, netteté),
     #    puis recadrage carré centré sur la pizza.
+    #    Le carré est 7 % plus grand que la pizza : sans cette marge, celles qui
+    #    remplissent leur cadre touchent le bord de la carte, et leur taille apparente
+    #    varie d'une fiche à l'autre selon la rondeur de la pizza.
     magick "$src" \
         -alpha set -channel RGBA -fuzz "${FUZZ}%" -fill none \
         -floodfill "+0+0" "$FOND_SOURCE" \
@@ -63,7 +66,7 @@ for src in "${sources[@]}"; do
         -channel A -blur 0x0.8 -level 25%,75% +channel \
         -modulate 100,106,100 -sigmoidal-contrast 3x50% -unsharp 0x1+0.6+0.02 \
         -trim +repage \
-        -background none -gravity center -extent "%[fx:max(w,h)]x%[fx:max(w,h)]" \
+        -background none -gravity center -extent "%[fx:max(w,h)*1.07]x%[fx:max(w,h)*1.07]" \
         -resize 760x760 \
         -define webp:alpha-quality=90 -quality 82 \
         "$sortie/$slug.webp"
@@ -74,16 +77,20 @@ for src in "${sources[@]}"; do
         -define webp:alpha-quality=90 -quality 80 \
         "$sortie/$slug-sm.webp"
 
-    # 3. Vignette de fond : un carré pris au cœur de la garniture, saturé et réduit à
-    #    32 px. Étirée en CSS, elle devient un halo aux couleurs du plat pour un poids
-    #    dérisoire. Le carré reste sous 50 % : au-delà, ses coins sortent du disque et
-    #    le halo dessine en grand la silhouette de la pizza — un cadre bien visible
-    #    derrière la photo nette.
+    # 3. Vignette de fond : un carré pris au cœur de la garniture, saturé et flouté
+    #    ici même. Étirée en CSS, elle devient un halo aux couleurs du plat pour
+    #    quelques kilo-octets.
+    #    Le carré reste sous 50 % : au-delà, ses coins sortent du disque et le halo
+    #    dessine en grand la silhouette de la pizza — un cadre visible derrière la
+    #    photo nette.
+    #    Le flou est cuit dans l'image, jamais appliqué en CSS : un filter: blur()
+    #    estompe aussi les bords de son élément, et ce bord estompé réapparaît en
+    #    rectangle dès que la marge d'agrandissement ne le repousse plus hors du cadre.
     magick "$sortie/$slug.webp" \
         -background "#100e0c" -alpha remove \
         -gravity center -crop 46%x46%+0+0 +repage \
-        -resize 32x32! -modulate 88,148,100 -brightness-contrast -10x8 \
-        -quality 82 \
+        -resize 160x160! -blur 0x22 -modulate 88,148,100 -brightness-contrast -10x8 \
+        -quality 84 \
         "$sortie/$slug-blur.jpg"
 
     printf '%-20s %4s Ko · %3s Ko · %s Ko\n' "$slug" \
