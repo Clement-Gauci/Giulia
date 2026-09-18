@@ -2,6 +2,7 @@ monolog:
     channels:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
         - tracking # Scans des QR codes trackés (ex. lien antigaspi WhatsApp)
+        - spam # Soumissions du formulaire de contact écartées par l'anti-spam
     handlers:
         # Journal dédié aux scans trackés : actif dans tous les environnements,
         # écrit toujours (pas de fingers_crossed) pour ne rien perdre.
@@ -11,6 +12,14 @@ monolog:
             level: info
             channels: ["tracking"]
 
+        # Journal de l'anti-spam : chaque rejet avec son motif, pour pouvoir
+        # mesurer ce qui est arrêté et ajuster les seuils sans deviner.
+        spam:
+            type: stream
+            path: "%kernel.logs_dir%/contact_spam.log"
+            level: info
+            channels: ["spam"]
+
 when@dev:
     monolog:
         handlers:
@@ -18,7 +27,7 @@ when@dev:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
-                channels: ["!event", "!tracking"]
+                channels: ["!event", "!tracking", "!spam"]
             console:
                 type: console
                 process_psr_3_messages: false
@@ -32,7 +41,7 @@ when@test:
                 action_level: error
                 handler: nested
                 excluded_http_codes: [404, 405]
-                channels: ["!event", "!tracking"]
+                channels: ["!event", "!tracking", "!spam"]
             nested:
                 type: stream
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
@@ -46,7 +55,7 @@ when@prod:
                 action_level: error
                 handler: nested
                 excluded_http_codes: [404, 405]
-                channels: ["!deprecation", "!tracking"]
+                channels: ["!deprecation", "!tracking", "!spam"]
                 buffer_size: 50 # How many messages should be saved? Prevent memory leaks
             nested:
                 type: stream

@@ -366,7 +366,7 @@ form.is-submitting .btn-send__loading { display: inline-flex; }
 @media (prefers-reduced-motion: reduce) { .btn-send__spinner { animation-duration: 1.6s; } }
 /* Champ leurre du formulaire de contact (honeypot) : hors écran, pas masqué
    via display:none — certains bots ignorent les champs explicitement cachés. */
-.hp { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.field-extra { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 
 .form-hint { margin: 11px 0 0; font-size: 12px; line-height: 1.55; color: #a59b88; text-align: center; }
 

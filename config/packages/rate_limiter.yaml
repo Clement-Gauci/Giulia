@@ -1,0 +1,8 @@
+framework:
+    rate_limiter:
+        # Quota par adresse IP sur le formulaire de contact. Généreux pour un
+        # client qui se reprend à plusieurs fois, étroit pour un robot.
+        contact_form:
+            policy: 'sliding_window'
+            limit: 5
+            interval: '1 hour'

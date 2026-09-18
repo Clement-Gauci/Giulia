@@ -20,11 +20,4 @@ final class ContactFormData
     #[Assert\NotBlank(message: 'Écrivez votre message.')]
     #[Assert\Length(min: 5, minMessage: 'Message trop court.')]
     public ?string $message = '';
-
-    /**
-     * Champ leurre (honeypot) : masqué aux humains, souvent rempli par les bots.
-     * Volontairement sans contrainte de validation — c'est le contrôleur qui
-     * écarte la soumission, sans rien signaler à l'expéditeur.
-     */
-    public string $website = '';
 }

@@ -51,6 +51,11 @@ services:
         arguments: { $file: '%giulia.data_dir%/legal.yaml' }
     App\Contact\Infrastructure\SymfonyContactMailer:
         arguments: { $fromEmail: '%contact.from_email%', $toEmail: '%contact.to_email%' }
+    # Le nom du champ leurre et la signature du jeton dérivent du secret du
+    # site : ils sont propres à cette installation.
+    App\Contact\AntiSpam\FormSignature:
+        arguments: { $secret: '%kernel.secret%' }
+
     App\Menu\UI\MenuPdfExtension:
         arguments: { $publicDir: '%kernel.project_dir%/public' }
 
@@ -60,6 +65,12 @@ services:
 # définition du même service la remplace (elle ne la fusionne pas).
 when@test:
     services:
+        # Les tests fonctionnels antidatent le jeton du formulaire pour simuler
+        # un visiteur qui prend le temps de le remplir.
+        App\Contact\AntiSpam\FormSignature:
+            public: true
+            arguments: { $secret: '%kernel.secret%' }
+
         App\Contact\Infrastructure\SymfonyContactMailer:
             public: true
             autowire: true

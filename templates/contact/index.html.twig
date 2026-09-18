@@ -82,10 +82,11 @@
                 {{ form_errors(form.message) }}
             </label>
 
-            {# Piège à bots : hors écran et hors lecteurs d'écran. Laissez-le vide. #}
-            <div class="hp" aria-hidden="true">
-                <label for="{{ form.website.vars.id }}">Ne remplissez pas ce champ</label>
-                {{ form_widget(form.website) }}
+            {{ form_widget(form.ts) }}
+            {# Piège à bots : hors écran et hors lecteurs d'écran. Son nom change
+               chaque jour, et rien ici n'indique qu'il s'agit d'un piège. #}
+            <div class="field-extra" aria-hidden="true">
+                {{ form_widget(form[form.vars.honeypot_field]) }}
             </div>
 
             <button type="submit" class="btn-send">
