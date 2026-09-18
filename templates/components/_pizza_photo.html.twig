@@ -1,0 +1,20 @@
+{#
+    Photo d'une pizza, en « verre » : le fond est la photo elle-même, réduite à 48 px
+    et saturée, que le navigateur étire en halo. Aucun réglage par pizza.
+
+    pizza  : App\Menu\Domain\Pizza
+    size   : 'card' (vignettes, 380 px) ou 'hero' (fiche pizza, 760 px)
+    eager  : true pour les premières images visibles, qui ne doivent pas être différées
+#}
+{% set size = size|default('card') %}
+{% set file = size == 'hero' ? pizza.photo : pizza.photo ~ '-sm' %}
+{% set px = size == 'hero' ? 760 : 380 %}
+<div class="pizza-photo pizza-photo--{{ size }}">
+    <div class="pizza-photo__glow" style="background-image: url('{{ asset('images/pizzas/' ~ pizza.photo ~ '-blur.jpg') }}')"></div>
+    <div class="pizza-photo__shade"></div>
+    <img src="{{ asset('images/pizzas/' ~ file ~ '.webp') }}"
+         width="{{ px }}" height="{{ px }}"
+         loading="{{ eager|default(false) ? 'eager' : 'lazy' }}"
+         decoding="async"
+         alt="Pizza {{ pizza.name }} — {{ pizza.ingredients|join(', ') }}">
+</div>

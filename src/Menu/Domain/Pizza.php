@@ -18,6 +18,7 @@ final readonly class Pizza
         private array $tags,
         private array $allergens,
         private bool $signature,
+        private ?string $photo = null,
     ) {}
 
     public function name(): string { return $this->name; }
@@ -30,6 +31,9 @@ final readonly class Pizza
     /** @return string[] */
     public function allergens(): array { return $this->allergens; }
     public function isSignature(): bool { return $this->signature; }
+    /** Nom de base des fichiers photo, sans extension ; null tant qu'aucune photo n'est disponible. */
+    public function photo(): ?string { return $this->photo; }
+    public function hasPhoto(): bool { return $this->photo !== null; }
 
     public function hasTag(Tag $tag): bool
     {

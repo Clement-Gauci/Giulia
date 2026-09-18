@@ -2,7 +2,7 @@ categories:
   - kicker: "Base tomate San Marzano"
     label: "Les rouges"
     pizzas:
-      - { name: "Margherita", price: 1190, tags: [veg], allergens: [gluten, lait], ingredients: ["San Marzano", "fior di latte", "basilic", "huile d’olive"] }
+      - { name: "Margherita", price: 1190, photo: "margherita", tags: [veg], allergens: [gluten, lait], ingredients: ["San Marzano", "fior di latte", "basilic", "huile d’olive"] }
       - { name: "Regina", price: 1390, ingredients: ["San Marzano", "fior di latte", "jambon blanc", "champignons"] }
       - { name: "Napoli", price: 1350, ingredients: ["San Marzano", "fior di latte", "anchois", "câpres", "olives"] }
       - { name: "Diavola", price: 1450, tags: [spicy], ingredients: ["San Marzano", "fior di latte", "spianata piccante", "basilic"] }

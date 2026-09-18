@@ -37,6 +37,7 @@ final class YamlMenuRepository implements MenuRepositoryInterface
                     array_map(static fn (string $t) => Tag::from($t), $p['tags'] ?? []),
                     $p['allergens'] ?? [],
                     (bool) ($p['signature'] ?? false),
+                    isset($p['photo']) ? (string) $p['photo'] : null,
                 );
             }
             $categories[] = new Category($cat['kicker'], $cat['label'], $pizzas);

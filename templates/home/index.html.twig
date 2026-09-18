@@ -80,13 +80,14 @@
         </div>
         <div class="slider__track" data-pizza-slider-target="scroller">
             {% for pizza in allPizzas %}
-                {% set tone = pizza.isSignature ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
-                <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-card{{ pizza.isSignature ? ' pizza-card--dark' : '' }}" data-ga-event="pizza_view" data-ga-slug="{{ pizza.slug }}">
-                    <div class="pizza-card__photo {{ tone }}">
-                        <span class="ph-label">Photo à venir</span>
-                        {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
-                    </div>
-                    <div class="pizza-card__body">
+                <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-card pizza-card--{{ pizza.hasPhoto ? 'photo' : 'empty' }}" data-ga-event="pizza_view" data-ga-slug="{{ pizza.slug }}">
+                    {% if pizza.hasPhoto %}
+                        {{ include('components/_pizza_photo.html.twig', { pizza: pizza, eager: loop.index <= 2 }) }}
+                    {% else %}
+                        <div class="pizza-card__photo tone--dark"><span class="ph-label">Photo à venir</span></div>
+                    {% endif %}
+                    {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
+                    <div class="pizza-card__body glass-panel">
                         <div class="pizza-card__name">{{ pizza.name }}</div>
                         <div class="pizza-card__desc">{{ pizza.ingredients|join(' · ') }}</div>
                         <div class="pizza-card__price">{{ pizza.price.format }}</div>
@@ -95,6 +96,9 @@
             {% endfor %}
         </div>
         <a href="{{ path('menu_index') }}" class="slider__more" data-ga-event="menu_index">Voir toute la carte des pizzas<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+        <p class="photo-credit">Nos pizzas sont photographiées à la sortie du four par
+            <a href="https://www.instagram.com/comchloe_/" target="_blank" rel="noopener" data-ga-event="photographer">Chloé&nbsp;Laroche</a>,
+            qui tient aussi nos réseaux. Ce que vous voyez ici, c’est ce que vous trouverez dans la boîte.</p>
     </div>
 
     {# Click & Collect #}

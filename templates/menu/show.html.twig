@@ -14,8 +14,12 @@
     {# Carte héro #}
     <div class="pizza-hero">
         <div class="featured__glow"></div>
-        <div class="pizza-hero__photo">
-            <span class="pizza-hero__ph-label">Photo de la pizza</span>
+        <div class="pizza-hero__photo{{ pizza.hasPhoto ? ' pizza-hero__photo--filled' : '' }}">
+            {% if pizza.hasPhoto %}
+                {{ include('components/_pizza_photo.html.twig', { pizza: pizza, size: 'hero', eager: true }) }}
+            {% else %}
+                <span class="pizza-hero__ph-label">Photo de la pizza</span>
+            {% endif %}
             {% if pizza.isSignature %}<span class="ph-badge ph-badge--lg">Signature</span>{% endif %}
         </div>
         <div class="featured__body">

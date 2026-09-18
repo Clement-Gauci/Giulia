@@ -188,13 +188,13 @@ strong { color: var(--text-mid); }
 .slider__nav { display: flex; gap: 7px; flex-shrink: 0; }
 .slider__btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border-soft); background: var(--card); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s ease; }
 .slider__btn:hover { background: #f2e8d7; }
-.slider__track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.slider__track { display: flex; gap: 12px; overflow-x: auto; overflow-anchor: none; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 2px 2px 12px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .slider__track::-webkit-scrollbar { display: none; }
 .slider__more { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 6px; padding: 14px; border-radius: var(--r-sm); border: 1.5px dashed #cdbfa4; background: transparent; font-family: var(--font-title); font-weight: 700; font-size: 15px; color: var(--text-mid); transition: background .15s ease, border-color .15s ease; }
 .slider__more:hover { background: var(--card-alt); border-color: #b9a883; }
 
 /* ---- Carte pizza (slider) & tuile (grille menu) ------------------------ */
-.pizza-card { scroll-snap-align: start; flex: 0 0 208px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); overflow: hidden; display: flex; flex-direction: column; }
+.pizza-card { scroll-snap-align: start; flex: 0 0 236px; background: var(--card); border: 1px solid var(--border); border-radius: var(--r-card); overflow: hidden; display: flex; flex-direction: column; }
 .pizza-card--dark { background: var(--ink); color: var(--cream); border-color: var(--ink); }
 .pizza-card__photo { position: relative; height: 118px; display: flex; align-items: center; justify-content: center; }
 .pizza-card__body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
@@ -515,3 +515,53 @@ form.is-submitting .btn-send__loading { display: inline-flex; }
     font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 14.5px;
     cursor: pointer; transition: transform .15s ease, background .15s ease; }
 .cookie-manage-btn:hover { transform: translateY(-2px); background: #e0b184; }
+
+/* ---- Photos de pizza ---------------------------------------------------
+   Le fond d'une carte photographiée est la photo elle-même : une vignette de
+   48 px que le navigateur étire, donc floue et gratuite. Rien à régler pizza
+   par pizza — il suffit qu'un fichier existe. Cf. bin/build-photos.sh
+   ------------------------------------------------------------------------ */
+.pizza-photo { position: absolute; inset: 0; overflow: hidden; }
+.pizza-photo__glow { position: absolute; inset: 0; background-size: cover; background-position: center;
+    transform: scale(1.12); filter: blur(6px); }
+.pizza-photo__shade { position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 32%, rgba(12,10,9,.16) 20%, rgba(12,10,9,.72) 78%),
+                linear-gradient(to top, rgba(12,10,9,.62) 16%, rgba(12,10,9,.22) 48%, rgba(12,10,9,.06) 76%); }
+.pizza-photo img { position: absolute; left: 50%; top: 31%; width: 68%; height: auto;
+    transform: translate(-50%,-50%);
+    filter: drop-shadow(0 18px 24px rgba(0,0,0,.6)) drop-shadow(0 3px 5px rgba(0,0,0,.42)); }
+
+/* Panneau de verre qui porte le texte, posé sur la photo */
+.glass-panel { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 17px 16px;
+    background: linear-gradient(to top, rgba(252,247,238,.34), rgba(252,247,238,.18));
+    backdrop-filter: blur(24px) saturate(1.7) brightness(1.02);
+    -webkit-backdrop-filter: blur(24px) saturate(1.7) brightness(1.02);
+    border-top: 1px solid rgba(255,255,255,.18);
+    text-shadow: 0 1px 3px rgba(10,8,7,.75), 0 2px 12px rgba(10,8,7,.55); }
+
+/* Carte et tuile : même gabarit sombre, que la photo soit là ou non — un slider
+   mi-clair mi-sombre ferait patchwork le temps que les photos arrivent. */
+.pizza-card--photo, .pizza-card--empty,
+.pizza-tile--photo, .pizza-tile--empty { position: relative; background: #201d19; border-color: #201d19; color: var(--cream); }
+.pizza-card--photo, .pizza-card--empty { height: 312px; }
+.pizza-tile--photo, .pizza-tile--empty { height: 296px; }
+.pizza-card--empty .pizza-card__photo,
+.pizza-tile--empty .pizza-tile__photo { position: absolute; inset: 0; height: auto; }
+.pizza-card--photo .pizza-card__name, .pizza-card--empty .pizza-card__name,
+.pizza-tile--photo .pizza-tile__name, .pizza-tile--empty .pizza-tile__name { color: #f8f5ed; }
+.pizza-card--photo .pizza-card__desc, .pizza-card--empty .pizza-card__desc,
+.pizza-tile--photo .pizza-tile__desc, .pizza-tile--empty .pizza-tile__desc { color: #ece6dc; flex: none;
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.pizza-card--photo .pizza-card__price, .pizza-card--empty .pizza-card__price,
+.pizza-tile--photo .pizza-tile__price, .pizza-tile--empty .pizza-tile__price { color: #f0e9da; margin-top: 9px; }
+
+/* Photo en bandeau sur la fiche pizza : pas de verre, le texte est en dessous */
+.pizza-hero__photo--filled { height: clamp(240px, 34vw, 340px); background: #201d19; background-image: none; }
+.pizza-hero__photo--filled .pizza-photo img { width: auto; height: 86%; }
+.footer__credit { font-size: 12.5px; color: #a59b88; letter-spacing: .3px; }
+.footer__credit a { color: var(--text-mid); font-weight: 600; }
+.footer__credit a:hover { color: var(--terracotta-link); }
+.footer__heart { color: var(--terracotta-link); }
+.photo-credit { margin: 14px 2px 0; font-size: 13px; line-height: 1.6; color: var(--text-muted); text-align: center; }
+.photo-credit a { color: var(--terracotta-link); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.photo-credit a:hover { color: var(--text-mid); }

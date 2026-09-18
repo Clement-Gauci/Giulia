@@ -2,24 +2,24 @@ categories:
   - kicker: "Base San Marzano"
     label: "Base sauce tomate"
     pizzas:
-      - { name: "Margherita", price: 1000, tags: [veg], allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "basilic"] }
+      - { name: "Margherita", price: 1000, photo: "margherita", tags: [veg], allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "basilic"] }
       - { name: "Regina", price: 1450, allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "champignons cuisinés", "prosciutto cotto (jambon cuit)", "olives taggiasche", "basilic"] }
-      - { name: "Giulia", price: 1590, signature: true, allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "jambon de Parme", "confiture de figues", "éclats de noisettes", "basilic", "parmesan"] }
-      - { name: "Parma", price: 1590, allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "jambon de Parme", "tomates cerises confites", "parmesan", "roquette", "crème de vinaigre balsamique"] }
-      - { name: "Diavola", price: 1390, tags: [spicy], allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "spianata piquante", "olives taggiasche", "basilic"] }
-      - { name: "Quattro Stagioni", price: 1490, tags: [veg], allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "aubergines", "poivrons", "artichauts", "tomates séchées", "stracciatella"] }
+      - { name: "Giulia", price: 1590, photo: "giulia", signature: true, allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "jambon de Parme", "confiture de figues", "éclats de noisettes", "basilic", "parmesan"] }
+      - { name: "Parma", price: 1590, photo: "parma", allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "jambon de Parme", "tomates cerises confites", "parmesan", "roquette", "crème de vinaigre balsamique"] }
+      - { name: "Diavola", price: 1390, photo: "diavola", tags: [spicy], allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "spianata piquante", "olives taggiasche", "basilic"] }
+      - { name: "Quattro Stagioni", price: 1490, photo: "quattro-stagioni", tags: [veg], allergens: [], ingredients: ["San Marzano", "mozzarella fior di latte", "aubergines", "poivrons", "artichauts", "tomates séchées", "stracciatella"] }
       - { name: "Calabrese", price: 1690, tags: [spicy], allergens: [], ingredients: ["mozzarella fior di latte", "spianata piquante", "boulettes de bœuf cuisinées", "scamorza fumée", "oignons rouges confits", "basilic"] }
   - kicker: "Base crème & mozzarella"
     label: "Base crème fraîche"
     pizzas:
-      - { name: "Quattro Formaggi", price: 1490, tags: [veg], allergens: [], ingredients: ["mozzarella fior di latte", "ricotta", "gorgonzola", "taleggio"] }
+      - { name: "Quattro Formaggi", price: 1490, photo: "quattro-formaggi", tags: [veg], allergens: [], ingredients: ["mozzarella fior di latte", "ricotta", "gorgonzola", "taleggio"] }
       - { name: "Miele", price: 1250, tags: [veg], allergens: [], ingredients: ["mozzarella fior di latte", "chèvre cendré", "miel"] }
-      - { name: "Salmone", price: 1690, allergens: [], ingredients: ["mozzarella fior di latte", "saumon fumé", "stracciatella", "huile d'olive citronnée"] }
+      - { name: "Salmone", price: 1690, photo: "salmone", allergens: [], ingredients: ["mozzarella fior di latte", "saumon fumé", "stracciatella", "huile d'olive citronnée"] }
       - { name: "Montagna Originale", price: 1590, allergens: [], ingredients: ["mozzarella fior di latte", "pommes de terre cuisinées", "oignons rouges confits", "guanciale", "taleggio"] }
   - kicker: "Nos créations"
     label: "Base spéciale"
     pizzas:
-      - { name: "Pollo Rosso", price: 1590, allergens: [], ingredients: ["pesto rosso", "mozzarella fior di latte", "poulet cuisiné", "oignons rouges confits", "scamorza fumée"] }
+      - { name: "Pollo Rosso", price: 1590, photo: "pollo-rosso", allergens: [], ingredients: ["pesto rosso", "mozzarella fior di latte", "poulet cuisiné", "oignons rouges confits", "scamorza fumée"] }
       - { name: "Tartufo", price: 1690, allergens: [], ingredients: ["crème de truffe", "mozzarella fior di latte", "prosciutto cotto (jambon cuit)", "parmesan", "copeaux de truffes"] }
-      - { name: "Camembert Rôti", price: 1550, allergens: [], ingredients: ["camembert entier rôti", "roquette", "jambon de Parme", "miel", "crème de vinaigre balsamique"] }
-      - { name: "Pistacchio", price: 1620, allergens: [], ingredients: ["crème de pistaches", "mozzarella fior di latte", "mortadelle", "stracciatella", "pesto de pistaches", "éclats de pistaches", "basilic"] }
+      - { name: "Camembert Rôti", price: 1550, photo: "camembert-roti", allergens: [], ingredients: ["camembert entier rôti", "roquette", "jambon de Parme", "miel", "crème de vinaigre balsamique"] }
+      - { name: "Pistacchio", price: 1620, photo: "pistacchio", allergens: [], ingredients: ["crème de pistaches", "mozzarella fior di latte", "mortadelle", "stracciatella", "pesto de pistaches", "éclats de pistaches", "basilic"] }

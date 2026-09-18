@@ -27,6 +27,12 @@ final class YamlMenuRepositoryTest extends TestCase
         self::assertSame('Quattro Formaggi', $pizza->name());
     }
 
+    public function test_reads_optional_photo(): void
+    {
+        self::assertSame('margherita', $this->repo()->findBySlug('margherita')?->photo());
+        self::assertNull($this->repo()->findBySlug('regina')?->photo());
+    }
+
     public function test_unknown_slug_returns_null(): void
     {
         self::assertNull($this->repo()->findBySlug('inexistante'));

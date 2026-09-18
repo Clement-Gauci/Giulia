@@ -32,6 +32,28 @@ final class PizzaTest extends TestCase
         self::assertFalse($pizza->isSignature());
     }
 
+    public function test_photo_is_optional(): void
+    {
+        self::assertNull($this->margherita()->photo());
+        self::assertFalse($this->margherita()->hasPhoto());
+    }
+
+    public function test_exposes_its_photo(): void
+    {
+        $pizza = new Pizza(
+            'Margherita',
+            'margherita',
+            ['San Marzano'],
+            Money::fromCents(1190),
+            [],
+            [],
+            false,
+            'margherita',
+        );
+        self::assertSame('margherita', $pizza->photo());
+        self::assertTrue($pizza->hasPhoto());
+    }
+
     public function test_tag_metadata(): void
     {
         self::assertSame('Végétarienne', Tag::Vegetarian->label());

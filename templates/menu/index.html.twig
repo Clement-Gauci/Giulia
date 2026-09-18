@@ -30,13 +30,14 @@
             </div>
             <div class="pizza-grid">
                 {% for pizza in category.pizzas %}
-                    {% set tone = pizza.isSignature ? 'tone--dark' : ['tone--green', 'tone--blue', 'tone--tan'][loop.index0 % 3] %}
-                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-tile{{ pizza.isSignature ? ' pizza-tile--dark' : '' }}" data-ga-event="pizza_view" data-ga-slug="{{ pizza.slug }}">
-                        <div class="pizza-tile__photo {{ tone }}">
-                            <span class="ph-label">Photo à venir</span>
-                            {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
-                        </div>
-                        <div class="pizza-tile__body">
+                    <a href="{{ path('menu_show', { slug: pizza.slug }) }}" class="pizza-tile pizza-tile--{{ pizza.hasPhoto ? 'photo' : 'empty' }}" data-ga-event="pizza_view" data-ga-slug="{{ pizza.slug }}">
+                        {% if pizza.hasPhoto %}
+                            {{ include('components/_pizza_photo.html.twig', { pizza: pizza }) }}
+                        {% else %}
+                            <div class="pizza-tile__photo tone--dark"><span class="ph-label">Photo à venir</span></div>
+                        {% endif %}
+                        {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
+                        <div class="pizza-tile__body glass-panel">
                             <div class="pizza-tile__head">
                                 <div class="pizza-tile__name">{{ pizza.name }}</div>
                                 <div class="pizza-tile__tags">

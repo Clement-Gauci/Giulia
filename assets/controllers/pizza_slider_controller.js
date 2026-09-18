@@ -4,7 +4,7 @@ import { Controller } from '@hotwired/stimulus';
 // pause au survol, et boutons précédent/suivant.
 export default class extends Controller {
     static targets = ['scroller'];
-    static values = { interval: { type: Number, default: 3200 }, step: { type: Number, default: 220 } };
+    static values = { interval: { type: Number, default: 3200 }, step: { type: Number, default: 248 } };
 
     connect() {
         this.paused = false;
