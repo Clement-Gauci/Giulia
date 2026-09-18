@@ -16,6 +16,7 @@ final class AdminLoginTest extends WebTestCase
 
     private KernelBrowser $client;
     private EntityManagerInterface $em;
+    private ?string $mailerDsn = null;
 
     protected function setUp(): void
     {
@@ -195,6 +196,29 @@ final class AdminLoginTest extends WebTestCase
         self::assertTrue(true, 'Aucun cookie « rester connecté », ce qui convient aussi.');
     }
 
+    public function test_a_mail_outage_is_told_instead_of_breaking_the_page(): void
+    {
+        // On coupe le transport pour de bon plutôt que de remplacer un service :
+        // c'est la panne telle qu'elle se produira, port fermé compris. Jusqu'ici
+        // l'exception traversait le contrôleur et le gérant recevait une page 500
+        // blanche, sans la moindre indication.
+        self::ensureKernelShutdown();
+        $this->mailerDsn = $_ENV['MAILER_DSN'] ?? null;
+        $_ENV['MAILER_DSN'] = 'smtp://127.0.0.1:1';
+        $this->client = self::createClient();
+        $this->client->catchExceptions(true);
+
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.step__eyebrow', 'Étape 1 sur 2');
+        self::assertStringContainsString(
+            "n'a pas pu partir",
+            $crawler->filter('.panel--error')->text(),
+        );
+    }
+
     public function test_a_wrong_code_says_how_many_tries_remain(): void
     {
         $this->submitEmail(self::EMAIL);
@@ -270,6 +294,18 @@ final class AdminLoginTest extends WebTestCase
         $crawler = $this->client->followRedirect();
 
         self::assertStringContainsString("n'est pas enregistrée", $crawler->filter('.panel--error')->text());
+    }
+
+    protected function tearDown(): void
+    {
+        // Sans cette remise en état, la coupure du transport déborderait sur les
+        // tests suivants — dans un ordre qui n'est pas garanti.
+        if ($this->mailerDsn !== null) {
+            $_ENV['MAILER_DSN'] = $this->mailerDsn;
+            $this->mailerDsn = null;
+        }
+
+        parent::tearDown();
     }
 
     private function submitEmail(string $email, bool $remember = false): void

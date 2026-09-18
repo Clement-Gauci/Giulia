@@ -2,6 +2,7 @@
 namespace App\Account\UI;
 
 use App\Account\Application\RequestLoginCode;
+use App\Account\Domain\AccountMailerException;
 use App\Account\Domain\LoginBlocked;
 use App\Account\Domain\LoginRefused;
 use App\Shared\Domain\Clock;
@@ -105,6 +106,16 @@ final class LoginController extends AbstractController
     {
         try {
             $sent = ($this->requestCode)($email, $request->getClientIp() ?? '0.0.0.0');
+        } catch (AccountMailerException) {
+            // Le code est déjà tiré et la tentative tracée : seule la remise a
+            // échoué. On le dit plutôt que de laisser passer une page 500, et on
+            // renvoie à l'étape 1, puisqu'il n'y a aucun code à saisir.
+            $this->session->push(LoginFeedback::message(
+                "Le code n'a pas pu partir : la messagerie est momentanément indisponible. "
+                . 'Réessayez dans un instant, ou appelez la pizzeria.',
+            ));
+
+            return $this->redirectToRoute('admin_login');
         } catch (LoginRefused $refusal) {
             $this->session->push(LoginFeedback::fromRefusal($refusal));
 
