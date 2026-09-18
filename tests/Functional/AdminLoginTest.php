@@ -2,6 +2,7 @@
 namespace App\Tests\Functional;
 
 use App\Account\Domain\Account;
+use App\Account\Domain\LoginPolicy;
 use App\Account\Infrastructure\Doctrine\DoctrineAccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -119,6 +120,41 @@ final class AdminLoginTest extends WebTestCase
         self::assertResponseRedirects('/admin');
         $this->client->followRedirect();
         self::assertSelectorTextContains('.shell__title', 'Clément');
+    }
+
+    public function test_resending_at_once_is_refused_and_says_when_to_retry(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        // Le formulaire de renvoi est masqué tant que le compte à rebours tourne,
+        // mais rien n'empêche de poster la route : c'est le serveur qui tranche.
+        $this->client->submit($crawler->filter('form')->eq(1)->form());
+        $crawler = $this->client->followRedirect();
+
+        self::assertSelectorTextContains('.step__eyebrow--green', 'Étape 2 sur 2');
+        $message = $crawler->filter('.panel--error')->text();
+        self::assertStringContainsString('Un nouveau code ne peut être demandé', $message);
+
+        // L'heure annoncée est celle de la pizzeria. Elle est calculée à partir
+        // d'un instant relu en base, pas de l'horloge : le fuseau de PostgreSQL
+        // ne doit pas transparaître ici.
+        self::assertMatchesRegularExpression('/\b\d{2}:\d{2}:\d{2}\b/', $message);
+        preg_match('/\b(\d{2}:\d{2}):\d{2}\b/', $message, $found);
+        $expected = (new \DateTimeImmutable('+' . LoginPolicy::RESEND_DELAY_SECONDS . ' seconds'))
+            ->setTimezone(new \DateTimeZone('Europe/Paris'))
+            ->format('H:i');
+        self::assertSame($expected, $found[1]);
+    }
+
+    public function test_only_one_email_leaves_when_the_resend_is_refused(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        $this->client->submit($crawler->filter('form')->eq(1)->form());
+
+        self::assertEmailCount(0);
     }
 
     public function test_a_wrong_code_says_how_many_tries_remain(): void
