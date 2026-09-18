@@ -15,7 +15,7 @@ final readonly class SymfonyLoginCodeMailer implements LoginCodeMailerInterface
         private string $fromEmail,
     ) {}
 
-    public function sendLoginCode(Account $account, string $code, \DateTimeImmutable $expiresAt): void
+    public function sendLoginCode(Account $account, string $code, \DateTimeImmutable $requestedAt, \DateTimeImmutable $expiresAt): void
     {
         $email = (new TemplatedEmail())
             ->from($this->fromEmail)
@@ -25,6 +25,7 @@ final readonly class SymfonyLoginCodeMailer implements LoginCodeMailerInterface
             ->context([
                 'code' => $code,
                 'account' => $account,
+                'requested_at' => $requestedAt,
                 'expires_at' => $expiresAt,
                 'expires_in_minutes' => LoginPolicy::CODE_LIFETIME_MINUTES,
             ]);

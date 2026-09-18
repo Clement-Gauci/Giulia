@@ -25,7 +25,7 @@ final class SymfonyLoginCodeMailerTest extends TestCase
         $spy = $this->spy();
 
         (new SymfonyLoginCodeMailer($spy, 'hello@giulia-pizza-gorges.fr'))
-            ->sendLoginCode($this->account(), '204815', new \DateTimeImmutable('2026-09-09 10:10:00'));
+            ->sendLoginCode($this->account(), '204815', new \DateTimeImmutable('2026-09-09 10:00:00'), new \DateTimeImmutable('2026-09-09 10:10:00'));
 
         self::assertInstanceOf(TemplatedEmail::class, $spy->sent);
         self::assertSame(self::EMAIL, $spy->sent->getTo()[0]->getAddress());
@@ -39,7 +39,7 @@ final class SymfonyLoginCodeMailerTest extends TestCase
         $spy = $this->spy();
 
         (new SymfonyLoginCodeMailer($spy, 'hello@giulia-pizza-gorges.fr'))
-            ->sendLoginCode($this->account(), '204815', new \DateTimeImmutable());
+            ->sendLoginCode($this->account(), '204815', new \DateTimeImmutable(), new \DateTimeImmutable('+10 minutes'));
 
         // Les sujets sont journalisés par les serveurs de messagerie : le code
         // n'a rien à y faire.
@@ -59,7 +59,7 @@ final class SymfonyLoginCodeMailerTest extends TestCase
         );
 
         $this->expectException(AccountMailerException::class);
-        $mailer->sendLoginCode($this->account(), '204815', new \DateTimeImmutable());
+        $mailer->sendLoginCode($this->account(), '204815', new \DateTimeImmutable(), new \DateTimeImmutable('+10 minutes'));
     }
 
     private function spy(): MailerInterface

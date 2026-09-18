@@ -87,7 +87,7 @@ final readonly class RequestLoginCode
         // de contourner le plafond en enchaînant les échecs.
         $this->attempts->record(LoginAttempt::codeSent($email, $ip, $now));
 
-        $this->mailer->sendLoginCode($account, $code, $loginCode->expiresAt());
+        $this->mailer->sendLoginCode($account, $code, $loginCode->createdAt(), $loginCode->expiresAt());
 
         return new CodeSent(
             $email,

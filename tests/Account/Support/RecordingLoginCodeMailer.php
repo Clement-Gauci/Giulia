@@ -8,12 +8,14 @@ final class RecordingLoginCodeMailer implements LoginCodeMailerInterface
 {
     public ?Account $lastAccount = null;
     public ?string $lastCode = null;
+    public ?\DateTimeImmutable $lastRequestedAt = null;
     public ?\DateTimeImmutable $lastExpiresAt = null;
 
-    public function sendLoginCode(Account $account, string $code, \DateTimeImmutable $expiresAt): void
+    public function sendLoginCode(Account $account, string $code, \DateTimeImmutable $requestedAt, \DateTimeImmutable $expiresAt): void
     {
         $this->lastAccount = $account;
         $this->lastCode = $code;
+        $this->lastRequestedAt = $requestedAt;
         $this->lastExpiresAt = $expiresAt;
     }
 }

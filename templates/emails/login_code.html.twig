@@ -1,51 +1,151 @@
 {# =========================================================================
-   GABARIT PROVISOIRE — le design final est en cours dans Claude Design.
-   Les variables ci-dessous sont figées : `code`, `account`, `expires_at`,
-   `expires_in_minutes`, plus la fonction `establishment()`. Le nouveau design
-   peut donc remplacer ce fichier sans toucher au PHP.
+   Portage de `.claude/design-system/Email - Code de connexion.html`.
+
+   Tout est en tables et en styles en ligne : les boîtes mail ignorent les
+   feuilles externes, et Outlook ne connaît ni flex ni grid. Les polices du
+   site (Bricolage, DM Sans) n'y sont pas non plus — la maquette retient donc
+   Georgia et Arial, présentes partout.
+
+   Les URL sont absolues, images comprises : un message ouvert dans une boîte
+   n'a aucune base à laquelle rattacher un chemin relatif.
    ========================================================================= #}
 {% set e = establishment() %}
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4ede0;padding:32px 16px;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#2a3138;">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>Votre code de connexion — {{ e.name }}</title>
+<!--[if mso]>
+<xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
+<![endif]-->
+<style>
+  @media only screen and (max-width:620px) {
+    .gl-pad { padding-left:24px !important; padding-right:24px !important; }
+    .gl-code { font-size:38px !important; letter-spacing:10px !important; }
+    .gl-h1 { font-size:26px !important; line-height:32px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#f4ede0;">
+{# Préheader : la ligne d'aperçu des boîtes mail, invisible dans le message. #}
+<span style="display:none;font-size:1px;color:#f4ede0;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Votre code à 6 chiffres pour ouvrir le dashboard {{ e.name }}. Valable {{ expires_in_minutes }} minutes, à usage unique.</span>
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f4ede0;">
+<tr>
+<td align="center" style="padding:32px 12px 44px 12px;">
+
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:600px;">
+
+    {# En-tête hors carte #}
     <tr>
-        <td align="center">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;background:#fffdf8;border:1px solid #e7ddca;border-radius:20px;padding:28px;">
-                <tr>
-                    <td style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#a08d72;padding-bottom:8px;">
-                        Espace pizzeria
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:22px;font-weight:800;letter-spacing:-.5px;padding-bottom:10px;">
-                        Votre code de connexion
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:14px;line-height:1.6;color:#6b6459;padding-bottom:20px;">
-                        Bonjour {{ account.name }}, voici le code à saisir pour ouvrir le dashboard.
-                        Il est valable {{ expires_in_minutes }}&nbsp;minutes, soit jusqu'à
-                        {{ expires_at|date('H:i') }}.
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center" style="padding-bottom:20px;">
-                        <div style="display:inline-block;background:#fbf6ec;border:1px solid #e7ddca;border-radius:16px;padding:16px 28px;font-size:34px;font-weight:800;letter-spacing:8px;color:#2a3138;">
-                            {{ code }}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-size:12.5px;line-height:1.55;color:#8a8377;background:#f7f1e6;border:1px solid #ece2cf;border-radius:13px;padding:11px 13px;">
-                        Vous n'avez pas demandé ce code&nbsp;? Ignorez cet e-mail : sans lui,
-                        personne ne peut entrer. En cas de doute, appelez la pizzeria au
-                        {{ e.phone }}.
-                    </td>
-                </tr>
-                <tr>
-                    <td style="padding-top:20px;font-size:12px;color:#a59b88;">
-                        {{ e.name }} — {{ e.address }}
-                    </td>
-                </tr>
-            </table>
-        </td>
+      <td class="gl-pad" style="padding:0 8px 16px 8px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td align="left" valign="middle" width="140" style="width:140px;">
+            <img src="{{ absolute_url(asset('images/giulia-logo.png')) }}" width="118" height="37" alt="{{ e.name }}" style="display:block;width:118px;height:37px;border:0;outline:none;text-decoration:none;" />
+          </td>
+          <td align="right" valign="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;color:#a08d72;line-height:16px;mso-line-height-rule:exactly;">Dashboard de la pizzeria</td>
+        </tr>
+        </table>
+      </td>
     </tr>
+
+    {# Carte #}
+    <tr>
+      <td bgcolor="#fffdf8" class="gl-pad" style="background-color:#fffdf8;border:1px solid #eae0cd;border-radius:22px;padding:38px 40px 34px 40px;">
+
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="gl-h1" style="font-family:Georgia,'Times New Roman',serif;font-size:30px;font-weight:bold;color:#2a3138;line-height:36px;mso-line-height-rule:exactly;padding-bottom:14px;">Voici votre code</td>
+        </tr>
+        <tr>
+          {# L'adresse et non le prénom : c'est elle qui permet de reconnaître
+             une demande qu'on n'a pas faite. #}
+          <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#5f584d;line-height:25px;mso-line-height-rule:exactly;padding-bottom:28px;">Une connexion au dashboard vient d'être demandée avec <strong style="color:#2a3138;font-weight:bold;">{{ account.email }}</strong>. Saisissez ce code pour terminer.</td>
+        </tr>
+
+        {# Panneau code #}
+        <tr>
+          <td bgcolor="#2a3138" align="center" style="background-color:#2a3138;border-radius:18px;padding:28px 16px 24px 16px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tr>
+              <td align="center" class="gl-code" style="font-family:Georgia,'Times New Roman',serif;font-size:46px;font-weight:bold;letter-spacing:14px;color:#f7efe1;line-height:56px;mso-line-height-rule:exactly;padding:0 0 0 14px;">{{ code }}</td>
+            </tr>
+            <tr>
+              <td align="center" style="padding-top:8px;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;letter-spacing:1.4px;text-transform:uppercase;color:#d3a273;line-height:18px;mso-line-height-rule:exactly;">Valable {{ expires_in_minutes }} minutes · usage unique</td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+
+        {# Bouton #}
+        <tr>
+          <td style="padding-top:22px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tr>
+              <td align="center" bgcolor="#d3a273" style="background-color:#d3a273;border-radius:14px;">
+                <a href="{{ url('admin_login') }}" style="display:block;padding:16px 24px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#2a3138;text-decoration:none;border-radius:14px;line-height:20px;mso-line-height-rule:exactly;">Ouvrir la page de connexion</a>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+
+        {# Sécurité #}
+        <tr>
+          <td style="padding-top:28px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #efe6d6;">
+            <tr>
+              <td style="padding-top:22px;font-family:Arial,Helvetica,sans-serif;font-size:13.5px;color:#7a7365;line-height:22px;mso-line-height-rule:exactly;">
+                <strong style="color:#2a3138;font-weight:bold;">Ce n'est pas vous&nbsp;?</strong> Ignorez ce message&nbsp;: sans le code, personne n'entre. Si cela se répète, appelez la pizzeria au <a href="tel:{{ e.phoneHref }}" style="color:#b3743f;text-decoration:none;font-weight:bold;">{{ e.phone }}</a>.
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-top:16px;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#7a7365;line-height:19px;mso-line-height-rule:exactly;">
+                Demande du {{ requested_at|day_month }} à {{ requested_at|date('H:i') }}
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        </table>
+
+      </td>
+    </tr>
+
+    {# Pied #}
+    <tr>
+      <td class="gl-pad" align="center" style="padding:24px 24px 0 24px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td align="center" style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#6b6459;line-height:20px;mso-line-height-rule:exactly;">
+            {{ e.name }} · {{ e.address }}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding-top:8px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:20px;mso-line-height-rule:exactly;">
+            <a href="{{ url('home') }}" style="color:#6b6459;text-decoration:underline;">Site</a>
+            &nbsp;&nbsp;·&nbsp;&nbsp;
+            <a href="{{ url('legal') }}" style="color:#6b6459;text-decoration:underline;">Mentions légales</a>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding-top:12px;font-family:Arial,Helvetica,sans-serif;font-size:11.5px;color:#6b6459;line-height:18px;mso-line-height-rule:exactly;">
+            Message de sécurité automatique&nbsp;: il ne peut pas être désabonné.
+          </td>
+        </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+</td>
+</tr>
 </table>
+</body>
+</html>
