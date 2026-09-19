@@ -1,0 +1,176 @@
+{# =========================================================================
+   Portage de `.claude/design-system/Email - Accès dashboard.html`.
+
+   Mêmes contraintes que l'e-mail du code de connexion : tables, styles en
+   ligne, Georgia et Arial — les polices du site n'existent pas dans les boîtes
+   mail — et URL absolues. Voir `login_code.html.twig`.
+
+   Envoyé une seule fois, à l'ouverture d'un accès.
+
+   Un écart assumé avec la maquette : elle annonçait « les commandes », qui
+   n'existent pas — pas de click & collect, le dashboard ne sert qu'à modifier
+   le contenu du site.
+   ========================================================================= #}
+{% set e = establishment() %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light dark">
+<meta name="supported-color-schemes" content="light dark">
+<title>Votre accès au dashboard {{ e.name }}</title>
+<!--[if mso]>
+<xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml>
+<![endif]-->
+<style>
+  @media only screen and (max-width:620px) {
+    .gl-pad { padding-left:24px !important; padding-right:24px !important; }
+    .gl-h1 { font-size:26px !important; line-height:32px !important; }
+    .gl-h2 { font-size:19px !important; line-height:25px !important; }
+    .gl-panel { padding-left:22px !important; padding-right:22px !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#f4ede0;">
+<span style="display:none;font-size:1px;color:#f4ede0;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Votre accès au dashboard {{ e.name }} est ouvert. Pas de mot de passe&nbsp;: votre adresse e-mail et un code à 6 chiffres suffisent.</span>
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#f4ede0;">
+<tr>
+<td align="center" style="padding:32px 12px 44px 12px;">
+
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:600px;">
+
+    {# En-tête hors carte #}
+    <tr>
+      <td class="gl-pad" style="padding:0 8px 16px 8px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td align="left" valign="middle" width="140" style="width:140px;">
+            <img src="{{ absolute_url(asset('images/giulia-logo.png')) }}" width="118" height="37" alt="{{ e.name }}" style="display:block;width:118px;height:37px;border:0;outline:none;text-decoration:none;" />
+          </td>
+          <td align="right" valign="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.6px;text-transform:uppercase;color:#a08d72;line-height:16px;mso-line-height-rule:exactly;">Bienvenue à bord</td>
+        </tr>
+        </table>
+      </td>
+    </tr>
+
+    {# Carte #}
+    <tr>
+      <td bgcolor="#fffdf8" class="gl-pad" style="background-color:#fffdf8;border:1px solid #eae0cd;border-radius:22px;padding:38px 40px 34px 40px;">
+
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="gl-h1" style="font-family:Georgia,'Times New Roman',serif;font-size:30px;font-weight:bold;color:#2a3138;line-height:36px;mso-line-height-rule:exactly;padding-bottom:14px;">Votre accès est ouvert, {{ account.name }}</td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#5f584d;line-height:25px;mso-line-height-rule:exactly;padding-bottom:28px;">Un accès au dashboard de {{ e.name }} vient d'être ouvert pour vous, à l'adresse <strong style="color:#2a3138;font-weight:bold;">{{ account.email }}</strong>. Vous y retrouverez la carte, les horaires et les congés de la pizzeria.</td>
+        </tr>
+
+        {# Panneau : comment se connecter #}
+        <tr>
+          <td bgcolor="#2a3138" class="gl-panel" style="background-color:#2a3138;border-radius:18px;padding:30px 34px 28px 34px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tr>
+              <td style="font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:1.4px;text-transform:uppercase;color:#d3a273;line-height:16px;mso-line-height-rule:exactly;padding-bottom:10px;">Aucun mot de passe</td>
+            </tr>
+            <tr>
+              <td class="gl-h2" style="font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:bold;color:#f7efe1;line-height:29px;mso-line-height-rule:exactly;padding-bottom:20px;">Il n'y a rien à retenir, ni à choisir.</td>
+            </tr>
+            <tr>
+              <td style="padding-bottom:12px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td valign="top" width="30" style="width:30px;font-family:Georgia,'Times New Roman',serif;font-size:16px;font-weight:bold;color:#d3a273;line-height:24px;mso-line-height-rule:exactly;">1</td>
+                  <td valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:14.5px;color:#e4dccc;line-height:24px;mso-line-height-rule:exactly;">Sur la page de connexion, vous saisissez votre adresse e-mail.</td>
+                </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding-bottom:12px;">
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td valign="top" width="30" style="width:30px;font-family:Georgia,'Times New Roman',serif;font-size:16px;font-weight:bold;color:#d3a273;line-height:24px;mso-line-height-rule:exactly;">2</td>
+                  <td valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:14.5px;color:#e4dccc;line-height:24px;mso-line-height-rule:exactly;">Vous recevez aussitôt un code à 6&nbsp;chiffres par e-mail.</td>
+                </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tr>
+                  <td valign="top" width="30" style="width:30px;font-family:Georgia,'Times New Roman',serif;font-size:16px;font-weight:bold;color:#d3a273;line-height:24px;mso-line-height-rule:exactly;">3</td>
+                  <td valign="top" style="font-family:Arial,Helvetica,sans-serif;font-size:14.5px;color:#e4dccc;line-height:24px;mso-line-height-rule:exactly;">Vous entrez ce code, et vous êtes dans le dashboard.</td>
+                </tr>
+                </table>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+
+        {# CTA #}
+        <tr>
+          <td style="padding-top:22px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tr>
+              <td align="center" bgcolor="#d3a273" style="background-color:#d3a273;border-radius:14px;">
+                <a href="{{ login_url }}" style="display:block;padding:16px 24px;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:bold;color:#2a3138;text-decoration:none;border-radius:14px;line-height:20px;mso-line-height-rule:exactly;">Ouvrir le dashboard</a>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+
+        {# Précaution #}
+        <tr>
+          <td style="padding-top:28px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #efe6d6;">
+            <tr>
+              <td style="padding-top:22px;font-family:Arial,Helvetica,sans-serif;font-size:13.5px;color:#7a7365;line-height:22px;mso-line-height-rule:exactly;">
+                <strong style="color:#2a3138;font-weight:bold;">Votre boîte e-mail est la seule clé.</strong> Comme les codes y arrivent, gardez-la bien protégée&nbsp;: un mot de passe solide et, si possible, la double authentification. Une question&nbsp;? Appelez la pizzeria au <a href="tel:{{ e.phoneHref }}" style="color:#b3743f;text-decoration:none;font-weight:bold;">{{ e.phone }}</a>.
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        </table>
+
+      </td>
+    </tr>
+
+    {# Pied #}
+    <tr>
+      <td class="gl-pad" align="center" style="padding:24px 24px 0 24px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td align="center" style="font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#6b6459;line-height:20px;mso-line-height-rule:exactly;">
+            {{ e.name }} · {{ e.address }}
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding-top:8px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;line-height:20px;mso-line-height-rule:exactly;">
+            <a href="{{ url('home') }}" style="color:#6b6459;text-decoration:underline;">Site</a>
+            &nbsp;&nbsp;·&nbsp;&nbsp;
+            <a href="{{ url('legal') }}" style="color:#6b6459;text-decoration:underline;">Mentions légales</a>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding-top:12px;font-family:Arial,Helvetica,sans-serif;font-size:11.5px;color:#6b6459;line-height:18px;mso-line-height-rule:exactly;">
+            Message automatique envoyé une seule fois, à l'ouverture de votre accès.
+          </td>
+        </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+</td>
+</tr>
+</table>
+</body>
+</html>

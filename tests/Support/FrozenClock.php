@@ -1,7 +1,7 @@
 <?php
-namespace App\Tests\Opening\Support;
+namespace App\Tests\Support;
 
-use App\Opening\Domain\Clock;
+use App\Shared\Domain\Clock;
 
 final class FrozenClock implements Clock
 {

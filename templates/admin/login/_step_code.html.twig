@@ -1,0 +1,64 @@
+{# Étape 2 : le code. Ce POST est intercepté par LoginCodeAuthenticator. #}
+{% set seconds_left = pending.secondsBeforeResend(now) %}
+
+<div class="step" data-controller="login-code" data-login-code-resend-in-value="{{ seconds_left }}">
+    <a class="link-back" href="{{ path('admin_login_change') }}">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b3743f" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+        Changer d'adresse
+    </a>
+
+    <div class="step__kicker">
+        <span class="step__dot step__dot--green"></span>
+        <span class="step__eyebrow step__eyebrow--green">Étape 2 sur 2</span>
+    </div>
+    <h2 class="step__title">Confirmez votre identité</h2>
+    <p class="step__lead step__lead--tight">
+        On vient d'envoyer un code à 6&nbsp;chiffres à <strong>{{ pending.maskedEmail }}</strong>.
+        Il est valable jusqu'à {{ pending.expiresAt|date('H:i') }}.
+    </p>
+
+    <form method="post" action="{{ path('admin_login_code') }}">
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+        {% if pending.remember %}<input type="hidden" name="_remember_me" value="1">{% endif %}
+
+        {# Six cases, que le contrôleur Stimulus soit là ou non : sans lui on
+           tabule d'une case à l'autre, le serveur recolle les chiffres pareil. #}
+        <div class="code">
+            {% for i in 1..6 %}
+                <input class="code__box" type="text" inputmode="numeric" name="code[]" maxlength="1"
+                       autocomplete="{{ i == 1 ? 'one-time-code' : 'off' }}"
+                       aria-label="Chiffre {{ i }} sur 6"
+                       data-login-code-target="box"
+                       data-action="input->login-code#advance keydown->login-code#back paste->login-code#paste">
+            {% endfor %}
+        </div>
+
+        {% if feedback %}
+            <div class="panel panel--error" role="alert">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a24b32" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v5M12 16h.01"></path></svg>
+                {{ feedback.message }}
+            </div>
+        {% endif %}
+
+        <button class="btn" type="submit">Ouvrir le dashboard</button>
+    </form>
+
+    <div class="code__meta">
+        {% if pending.sendsLeft > 0 %}
+            <form method="post" action="{{ path('admin_login_resend') }}" data-login-code-target="resend" {{ seconds_left > 0 ? 'hidden' : '' }}>
+                <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+                <button class="link-plain" type="submit">Je n'ai rien reçu — renvoyer le code</button>
+            </form>
+            <span data-login-code-target="countdown" {{ seconds_left > 0 ? '' : 'hidden' }}>
+                Nouveau code possible dans <span data-login-code-target="seconds">{{ seconds_left }}</span>&nbsp;s
+            </span>
+            <span class="code__count">Il reste {{ pending.sendsLeft }} renvoi(s).</span>
+        {% else %}
+            <span class="code__meta--error">Limite de renvois atteinte — appelez la pizzeria au {{ establishment().phone }}.</span>
+        {% endif %}
+    </div>
+
+    <div class="panel">
+        <span>Pas de code&nbsp;? Vérifiez les indésirables, ou demandez à la personne qui gère les accès de la pizzeria.</span>
+    </div>
+</div>

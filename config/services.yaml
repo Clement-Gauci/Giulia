@@ -19,6 +19,10 @@ services:
         autoconfigure: true
         bind:
             $siteUrl: '%giulia.site_url%'
+            # Expéditeur de TOUS les e-mails applicatifs, pas seulement ceux du
+            # formulaire de contact : OVH exige que l'expéditeur corresponde au
+            # compte SMTP authentifié, il n'y en a donc qu'un.
+            $fromEmail: '%contact.from_email%'
 
     App\:
         resource: '../src/'
@@ -27,7 +31,7 @@ services:
             - '../src/Kernel.php'
 
     # Alias ports → adapters
-    App\Opening\Domain\Clock: '@App\Opening\Infrastructure\SystemClock'
+    App\Shared\Domain\Clock: '@App\Shared\Infrastructure\SystemClock'
     App\Opening\Domain\ScheduleRepositoryInterface: '@App\Opening\Infrastructure\YamlScheduleRepository'
     App\Opening\Domain\ClosureRepositoryInterface: '@App\Opening\Infrastructure\YamlClosureRepository'
     App\Menu\Domain\MenuRepositoryInterface: '@App\Menu\Infrastructure\YamlMenuRepository'
@@ -35,6 +39,12 @@ services:
     App\Contact\Domain\ContactMailerInterface: '@App\Contact\Infrastructure\SymfonyContactMailer'
     App\Menu\Domain\SpecialRepositoryInterface: '@App\Menu\Infrastructure\YamlSpecialRepository'
     App\Legal\Domain\LegalRepositoryInterface: '@App\Legal\Infrastructure\YamlLegalRepository'
+    App\Account\Domain\AccountRepositoryInterface: '@App\Account\Infrastructure\Doctrine\DoctrineAccountRepository'
+    App\Account\Domain\LoginCodeRepositoryInterface: '@App\Account\Infrastructure\Doctrine\DoctrineLoginCodeRepository'
+    App\Account\Domain\LoginAttemptRepositoryInterface: '@App\Account\Infrastructure\Doctrine\DoctrineLoginAttemptRepository'
+    App\Account\Domain\AccountMailerInterface: '@App\Account\Infrastructure\SymfonyAccountMailer'
+    App\Account\Domain\LoginCodeMailerInterface: '@App\Account\Infrastructure\SymfonyLoginCodeMailer'
+    App\Account\Domain\LoginCodeGenerator: '@App\Account\Infrastructure\RandomCodeGenerator'
 
     # Chemins des sources de données
     App\Opening\Infrastructure\YamlScheduleRepository:

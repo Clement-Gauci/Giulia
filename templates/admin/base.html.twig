@@ -1,0 +1,20 @@
+{#
+   Layout du dashboard. Il ne descend PAS de base.html.twig : le back-office n'a
+   ni en-tête ni pied de page publics, ni bandeau cookies, ni données
+   structurées, ni mesure d'audience — et surtout, il ne doit jamais être indexé.
+#}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Dashboard{% endblock %} — Giulia</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="{{ asset('images/giulia-icon.png') }}">
+    {% block stylesheets %}{% endblock %}
+    {% block javascripts %}{{ importmap('admin') }}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
+</html>

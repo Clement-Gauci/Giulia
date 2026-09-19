@@ -1,0 +1,351 @@
+<?php
+namespace App\Tests\Functional;
+
+use App\Account\Domain\Account;
+use App\Account\Domain\LoginPolicy;
+use App\Account\Infrastructure\Doctrine\DoctrineAccountRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\SchemaTool;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
+
+final class AdminLoginTest extends WebTestCase
+{
+    private const EMAIL = 'gerant@giulia-pizza-gorges.fr';
+
+    private KernelBrowser $client;
+    private EntityManagerInterface $em;
+    private ?string $mailerDsn = null;
+
+    protected function setUp(): void
+    {
+        $this->client = self::createClient();
+        $this->em = self::getContainer()->get(EntityManagerInterface::class);
+
+        $metadata = $this->em->getMetadataFactory()->getAllMetadata();
+        $schema = new SchemaTool($this->em);
+        $schema->dropSchema($metadata);
+        $schema->createSchema($metadata);
+
+        (new DoctrineAccountRepository($this->em))->save(
+            Account::create(self::EMAIL, 'Clément', new \DateTimeImmutable()),
+        );
+    }
+
+    public function test_an_anonymous_visitor_is_sent_to_the_login_screen(): void
+    {
+        $this->client->request('GET', '/admin');
+
+        self::assertResponseRedirects('/admin/connexion');
+    }
+
+    public function test_the_login_screen_opens_on_step_one(): void
+    {
+        $crawler = $this->client->request('GET', '/admin/connexion');
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.step__eyebrow', 'Étape 1 sur 2');
+        self::assertSelectorExists('input[name="email"]');
+        // Le dashboard ne doit jamais finir dans un index.
+        self::assertSelectorExists('meta[name="robots"][content="noindex, nofollow"]');
+    }
+
+    public function test_every_csrf_field_triggers_the_stimulus_controller(): void
+    {
+        $crawler = $this->client->request('GET', '/admin/connexion');
+
+        // Le module `csrf_protection_controller.js` est marqué `stimulusFetch:
+        // 'lazy'` : sans cet attribut il ne se charge jamais, le jeton de
+        // double-soumission n'est pas posé, et la connexion retombe sur le seul
+        // contrôle d'origine — qui finit par refuser le formulaire.
+        $fields = $crawler->filter('input[name="_csrf_token"]');
+
+        self::assertGreaterThan(0, $fields->count());
+        $fields->each(static function ($field): void {
+            self::assertSame('csrf-protection', $field->attr('data-controller'));
+        });
+    }
+
+    public function test_an_unknown_address_is_told_so_and_receives_nothing(): void
+    {
+        $this->submitEmail('personne@example.com');
+
+        // Le collecteur est remis à zéro à chaque requête : on interroge donc les
+        // e-mails avant de suivre la redirection, pas après.
+        self::assertEmailCount(0);
+
+        $crawler = $this->client->followRedirect();
+
+        self::assertStringContainsString("n'est pas enregistrée", $crawler->filter('.panel--error')->text());
+        self::assertSelectorTextContains('.step__eyebrow', 'Étape 1 sur 2');
+    }
+
+    public function test_a_known_address_receives_a_code_and_reaches_step_two(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $code = $this->mailedCode();
+        $crawler = $this->client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        self::assertMatchesRegularExpression('/^\d{6}$/', $code);
+        self::assertSelectorTextContains('.step__eyebrow--green', 'Étape 2 sur 2');
+        self::assertCount(6, $crawler->filter('input[name="code[]"]'));
+        // L'adresse ne doit apparaître ni en clair dans la page, ni dans l'URL.
+        self::assertStringNotContainsString(self::EMAIL, $crawler->html());
+        self::assertSame('/admin/connexion/code', $this->client->getRequest()->getPathInfo());
+    }
+
+    public function test_the_expiry_is_shown_in_the_pizzeria_s_timezone(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        // PHP tourne en UTC : sans fuseau d'affichage, l'écran annoncerait au
+        // gérant une heure décalée d'une ou deux heures selon la saison.
+        $expected = (new \DateTimeImmutable('+10 minutes'))
+            ->setTimezone(new \DateTimeZone('Europe/Paris'))
+            ->format('H:i');
+
+        self::assertStringContainsString($expected, $crawler->filter('.step__lead')->text());
+    }
+
+    public function test_the_right_code_opens_the_dashboard(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $code = $this->mailedCode();
+        $crawler = $this->client->followRedirect();
+
+        $this->submitCode($crawler, $code);
+
+        self::assertResponseRedirects('/admin');
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('.shell__title', 'Clément');
+    }
+
+    public function test_resending_at_once_is_refused_and_says_when_to_retry(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        // Le formulaire de renvoi est masqué tant que le compte à rebours tourne,
+        // mais rien n'empêche de poster la route : c'est le serveur qui tranche.
+        $this->client->submit($crawler->filter('form')->eq(1)->form());
+        $crawler = $this->client->followRedirect();
+
+        self::assertSelectorTextContains('.step__eyebrow--green', 'Étape 2 sur 2');
+        $message = $crawler->filter('.panel--error')->text();
+        self::assertStringContainsString('Un nouveau code ne peut être demandé', $message);
+
+        // L'heure annoncée est celle de la pizzeria. Elle est calculée à partir
+        // d'un instant relu en base, pas de l'horloge : le fuseau de PostgreSQL
+        // ne doit pas transparaître ici.
+        self::assertMatchesRegularExpression('/\b\d{2}:\d{2}:\d{2}\b/', $message);
+        preg_match('/\b(\d{2}:\d{2}):\d{2}\b/', $message, $found);
+        $expected = (new \DateTimeImmutable('+' . LoginPolicy::RESEND_DELAY_SECONDS . ' seconds'))
+            ->setTimezone(new \DateTimeZone('Europe/Paris'))
+            ->format('H:i');
+        self::assertSame($expected, $found[1]);
+    }
+
+    public function test_only_one_email_leaves_when_the_resend_is_refused(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        $this->client->submit($crawler->filter('form')->eq(1)->form());
+
+        self::assertEmailCount(0);
+    }
+
+    public function test_staying_signed_in_issues_a_thirty_day_cookie(): void
+    {
+        $this->submitEmail(self::EMAIL, remember: true);
+        $code = $this->mailedCode();
+        $crawler = $this->client->followRedirect();
+
+        $this->submitCode($crawler, $code);
+
+        $cookie = $this->client->getResponse()->headers->getCookies()[0] ?? null;
+        self::assertNotNull($cookie, 'Aucun cookie « rester connecté » n\'a été émis.');
+        self::assertSame('REMEMBERME', $cookie->getName());
+        // 30 jours, comme l'annonce l'écran de connexion. Une minute de marge
+        // pour la durée de la requête.
+        self::assertEqualsWithDelta(time() + 2592000, $cookie->getExpiresTime(), 60);
+    }
+
+    public function test_declining_to_stay_signed_in_issues_no_cookie(): void
+    {
+        $this->submitEmail(self::EMAIL, remember: false);
+        $code = $this->mailedCode();
+        $crawler = $this->client->followRedirect();
+
+        $this->submitCode($crawler, $code);
+
+        // Symfony émet bien un « REMEMBERME », mais vide et déjà expiré : c'est
+        // l'effacement d'un éventuel cookie précédent, pas une session longue.
+        foreach ($this->client->getResponse()->headers->getCookies() as $cookie) {
+            if ($cookie->getName() === 'REMEMBERME') {
+                self::assertNull($cookie->getValue());
+                self::assertLessThan(time(), $cookie->getExpiresTime());
+
+                return;
+            }
+        }
+
+        self::assertTrue(true, 'Aucun cookie « rester connecté », ce qui convient aussi.');
+    }
+
+    public function test_a_mail_outage_is_told_instead_of_breaking_the_page(): void
+    {
+        // On coupe le transport pour de bon plutôt que de remplacer un service :
+        // c'est la panne telle qu'elle se produira, port fermé compris. Jusqu'ici
+        // l'exception traversait le contrôleur et le gérant recevait une page 500
+        // blanche, sans la moindre indication.
+        self::ensureKernelShutdown();
+        $this->mailerDsn = $_ENV['MAILER_DSN'] ?? null;
+        $_ENV['MAILER_DSN'] = 'smtp://127.0.0.1:1';
+        $this->client = self::createClient();
+        $this->client->catchExceptions(true);
+
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        self::assertResponseIsSuccessful();
+        self::assertSelectorTextContains('.step__eyebrow', 'Étape 1 sur 2');
+        self::assertStringContainsString(
+            "n'a pas pu partir",
+            $crawler->filter('.panel--error')->text(),
+        );
+    }
+
+    public function test_a_wrong_code_says_how_many_tries_remain(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        $this->submitCode($crawler, '000000');
+        $crawler = $this->client->followRedirect();
+
+        self::assertStringContainsString('Encore 2 essai(s)', $crawler->filter('.panel--error')->text());
+        self::assertSelectorTextContains('.step__eyebrow--green', 'Étape 2 sur 2');
+    }
+
+    public function test_three_wrong_codes_show_the_blocked_screen(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        for ($i = 1; $i <= 3; $i++) {
+            $this->submitCode($crawler, '000000');
+            $crawler = $this->client->followRedirect();
+        }
+
+        self::assertSelectorTextContains('.blocked__title', 'Accès temporairement bloqué');
+        // mm:ss, zéros compris : un « 15:0 » est passé en production le temps
+        // d'un contrôle visuel, faute d'assertion sur le format.
+        self::assertMatchesRegularExpression(
+            '/^\d{2}:\d{2}$/',
+            trim($crawler->filter('.blocked__clock')->text()),
+        );
+    }
+
+    public function test_the_blocked_screen_survives_a_refresh(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        for ($i = 1; $i <= 3; $i++) {
+            $this->submitCode($crawler, '000000');
+            $crawler = $this->client->followRedirect();
+        }
+
+        $this->client->request('GET', '/admin/connexion/code');
+
+        self::assertSelectorTextContains('.blocked__title', 'Accès temporairement bloqué');
+    }
+
+    public function test_leaving_the_blocked_screen_clears_it(): void
+    {
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        for ($i = 1; $i <= 3; $i++) {
+            $this->submitCode($crawler, '000000');
+            $crawler = $this->client->followRedirect();
+        }
+
+        // L'écran de blocage est volontairement persistant, mais il doit pouvoir
+        // être quitté : sinon on y reste même une fois la pause terminée.
+        $this->client->request('GET', '/admin/connexion/changer');
+        $this->client->followRedirect();
+
+        self::assertSelectorNotExists('.blocked__title');
+        self::assertSelectorTextContains('.step__eyebrow', 'Étape 1 sur 2');
+    }
+
+    public function test_a_revoked_account_cannot_ask_for_a_code(): void
+    {
+        (new DoctrineAccountRepository($this->em))->save(
+            new Account(self::EMAIL, 'Clément', false, new \DateTimeImmutable()),
+        );
+
+        $this->submitEmail(self::EMAIL);
+        $crawler = $this->client->followRedirect();
+
+        self::assertStringContainsString("n'est pas enregistrée", $crawler->filter('.panel--error')->text());
+    }
+
+    protected function tearDown(): void
+    {
+        // Sans cette remise en état, la coupure du transport déborderait sur les
+        // tests suivants — dans un ordre qui n'est pas garanti.
+        if ($this->mailerDsn !== null) {
+            $_ENV['MAILER_DSN'] = $this->mailerDsn;
+            $this->mailerDsn = null;
+        }
+
+        parent::tearDown();
+    }
+
+    private function submitEmail(string $email, bool $remember = false): void
+    {
+        $crawler = $this->client->request('GET', '/admin/connexion');
+        $form = $crawler->filter('form')->form();
+        $form['email'] = $email;
+        $remember ? $form['_remember_me']->tick() : $form['_remember_me']->untick();
+
+        $this->client->submit($form);
+    }
+
+    private function submitCode(Crawler $crawler, string $code): void
+    {
+        $form = $crawler->filter('form')->eq(0)->form();
+
+        foreach (str_split($code) as $index => $digit) {
+            $form['code[' . $index . ']'] = $digit;
+        }
+
+        $this->client->submit($form);
+    }
+
+    /**
+     * Le code est relu dans l'e-mail réellement envoyé : c'est ce qui prouve la
+     * chaîne complète (tirage, hachage en base, remise).
+     *
+     * Le gabarit provisoire ne contient aucun autre nombre de six chiffres d'affilée
+     * (le téléphone et le code postal sont découpés autrement). Si le design final
+     * casse cette lecture, l'échec sera légitime : l'e-mail doit porter le code.
+     */
+    private function mailedCode(): string
+    {
+        $messages = self::getMailerMessages();
+        self::assertNotEmpty($messages, "Aucun e-mail n'a été envoyé.");
+
+        $text = strip_tags((string) end($messages)->getHtmlBody());
+        self::assertMatchesRegularExpression('/(?<!\d)\d{6}(?!\d)/', $text);
+        preg_match('/(?<!\d)(\d{6})(?!\d)/', $text, $matches);
+
+        return $matches[1];
+    }
+}

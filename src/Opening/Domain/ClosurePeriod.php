@@ -1,16 +1,11 @@
 <?php
 namespace App\Opening\Domain;
 
+use App\Shared\Domain\Month;
 use App\Shared\Domain\Weekday;
 
 final readonly class ClosurePeriod
 {
-    private const MONTHS = [
-        1 => 'janvier', 2 => 'février', 3 => 'mars', 4 => 'avril',
-        5 => 'mai', 6 => 'juin', 7 => 'juillet', 8 => 'août',
-        9 => 'septembre', 10 => 'octobre', 11 => 'novembre', 12 => 'décembre',
-    ];
-
     public function __construct(
         private \DateTimeImmutable $from,
         private \DateTimeImmutable $until,
@@ -30,6 +25,6 @@ final readonly class ClosurePeriod
     {
         $reopening = $this->until->modify('+1 day');
         $weekday = strtolower(Weekday::fromDate($reopening)->label());
-        return $weekday . ' ' . $reopening->format('j') . ' ' . self::MONTHS[(int) $reopening->format('n')];
+        return $weekday . ' ' . $reopening->format('j') . ' ' . Month::fromDate($reopening)->label();
     }
 }

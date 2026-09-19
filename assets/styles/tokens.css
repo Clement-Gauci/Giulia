@@ -1,0 +1,68 @@
+/* =========================================================================
+   Giulia — fondations partagées : polices et tokens de design.
+   Importé par app.css (site public) ET admin.css (dashboard), pour qu'aucune
+   couleur ni aucune police ne soit déclarée deux fois.
+   ========================================================================= */
+
+/* ---- Fonts (self-host AssetMapper) ------------------------------------- */
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 500; font-display: swap; src: url('../fonts/bricolage-500.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 600; font-display: swap; src: url('../fonts/bricolage-600.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 700; font-display: swap; src: url('../fonts/bricolage-700.woff2') format('woff2'); }
+@font-face { font-family: 'Bricolage Grotesque'; font-weight: 800; font-display: swap; src: url('../fonts/bricolage-800.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 400; font-display: swap; src: url('../fonts/dmsans-400.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 500; font-display: swap; src: url('../fonts/dmsans-500.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 600; font-display: swap; src: url('../fonts/dmsans-600.woff2') format('woff2'); }
+@font-face { font-family: 'DM Sans'; font-weight: 700; font-display: swap; src: url('../fonts/dmsans-700.woff2') format('woff2'); }
+
+/* ---- Tokens ------------------------------------------------------------ */
+:root {
+  /* surfaces */
+  --cream: #f4ede0;
+  --card: #fffdf8;
+  --card-alt: #fbf6ec;
+  --ink: #2a3138;
+  --ink-hover: #20262c;
+  --ink-soft: #343b42;
+  /* texte */
+  --text: #4a4339;
+  --text-soft: #6b6459;
+  --text-mid: #5f584d;
+  --text-muted: #8a8377;
+  --text-strong: #3a4148;
+  /* accents */
+  --terracotta: #d3a273;
+  --terracotta-soft: #c9a27a;
+  --terracotta-link: #b3743f;
+  --sand: #a08d72;
+  --green: #5c8a49;
+  --green-deep: #4a6a3f;
+  --green-kicker: #8a9a82;
+  --green-dot: #9aab93;
+  --green-soft: #a9c39a;
+  --blue: #5786a0;
+  --red: #a24b32;
+  /* chaud (encarts note) */
+  --warm-bg: #f6ece1;
+  --warm-border: #ecd9c1;
+  --warm-text: #7a5a3c;
+  --warm-strong: #5f4326;
+  /* lignes / champs */
+  --border: #e7ddca;
+  --border-soft: #e0d5c1;
+  --field-border: #e2d8c5;
+  --hairline: #f0e8d9;
+  /* rayons */
+  --r-lg: 24px;
+  --r-panel: 20px;
+  --r-card: 18px;
+  --r-md: 16px;
+  --r-sm: 15px;
+  --r-pill: 100px;
+  /* ombres */
+  --shadow-panel: 0 22px 50px -26px rgba(42,49,56,.65);
+  --shadow-cta: 0 16px 36px -18px rgba(42,49,56,.6);
+  --shadow-chip: 0 14px 30px -20px rgba(42,49,56,.6);
+  /* typo */
+  --font-title: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
