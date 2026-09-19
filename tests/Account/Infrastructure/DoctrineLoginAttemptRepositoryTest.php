@@ -18,7 +18,7 @@ final class DoctrineLoginAttemptRepositoryTest extends DatabaseTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->now = new \DateTimeImmutable('2026-09-09 10:00:00');
+        $this->now = new \DateTimeImmutable('2026-09-09 10:00:00', new \DateTimeZone('Europe/Paris'));
     }
 
     private function repository(): DoctrineLoginAttemptRepository
@@ -59,6 +59,27 @@ final class DoctrineLoginAttemptRepositoryTest extends DatabaseTestCase
         $repository->record(LoginAttempt::unknownEmail('trois@example.com', '198.51.100.4', $this->now));
 
         self::assertSame(2, $repository->tallyForIp(AttemptKind::UnknownEmail, self::IP, $this->now->modify('-15 minutes'))->count);
+    }
+
+    public function test_the_instants_it_returns_ignore_the_database_timezone(): void
+    {
+        // Un Debian neuf installe PostgreSQL en UTC ; la machine de développement
+        // est en Europe/Malta, qui a le même décalage que Paris. Sans cette
+        // normalisation, un message bâti sur un instant relu annonce l'heure du
+        // serveur de base — deux heures de décalage en été, et seulement en
+        // production.
+        $this->em->getConnection()->executeStatement("SET TIME ZONE 'UTC'");
+
+        $repository = $this->repository();
+        $repository->record(LoginAttempt::wrongCode(self::EMAIL, self::IP, $this->now->modify('-1 minute')));
+
+        $tally = $repository->tallyForEmail(AttemptKind::WrongCode, self::EMAIL, $this->now->modify('-15 minutes'));
+
+        self::assertSame(
+            $this->now->getTimezone()->getName(),
+            $tally->lastAt?->getTimezone()->getName(),
+        );
+        self::assertSame($this->now->modify('-1 minute')->format('H:i'), $tally->lastAt?->format('H:i'));
     }
 
     public function test_recording_purges_the_stale_rows(): void

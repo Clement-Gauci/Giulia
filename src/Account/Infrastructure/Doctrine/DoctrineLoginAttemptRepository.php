@@ -72,8 +72,20 @@ final readonly class DoctrineLoginAttemptRepository implements LoginAttemptRepos
 
         return new AttemptTally(
             (int) $row['count'],
-            $lastAt === null ? null : new \DateTimeImmutable((string) $lastAt),
+            $lastAt === null ? null : $this->intoApplicationTimezone((string) $lastAt),
         );
+    }
+
+    /**
+     * L'instant lu porte le décalage de la session PostgreSQL, qui n'a aucune
+     * raison d'être celui de l'application : un Debian neuf installe la base en
+     * UTC. On le ramène donc au fuseau de l'horloge — la même heure, mais
+     * exprimée comme la lit la pizzeria. Sans quoi un message bâti dessus
+     * annonce l'heure du serveur de base.
+     */
+    private function intoApplicationTimezone(string $instant): \DateTimeImmutable
+    {
+        return (new \DateTimeImmutable($instant))->setTimezone($this->clock->now()->getTimezone());
     }
 
     private function purge(): void
