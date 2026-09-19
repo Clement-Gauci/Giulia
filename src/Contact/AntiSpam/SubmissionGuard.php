@@ -1,6 +1,7 @@
 <?php
 namespace App\Contact\AntiSpam;
 
+use Symfony\Component\DependencyInjection\Attribute\Target;
 use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 /**
@@ -15,6 +16,9 @@ final readonly class SubmissionGuard
     public function __construct(
         private FormSignature $signature,
         private SpamScorer $scorer,
+        // Depuis Symfony 8.1, le seul nom du paramètre ne suffit plus à désigner
+        // l'alias nommé que `rate_limiter.yaml` déclare sous « contact_form ».
+        #[Target('contactFormLimiter')]
         private RateLimiterFactoryInterface $contactFormLimiter,
     ) {}
 
