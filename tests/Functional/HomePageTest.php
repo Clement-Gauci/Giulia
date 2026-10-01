@@ -51,6 +51,31 @@ final class HomePageTest extends WebTestCase
         self::assertSelectorTextContains('.featured__pitch', 'Le piquant qui réveille');
     }
 
+    public function test_pizza_du_moment_shows_its_photo(): void
+    {
+        $client = static::createClient();
+        $this->useSpecial($client, self::aSpecial('bosphore'));
+
+        $crawler = $client->request('GET', '/');
+
+        self::assertSelectorExists('.featured__photo');
+        $img = $crawler->filter('.featured__photo img');
+        self::assertStringContainsString('images/specials/bosphore', $img->attr('src'));
+        self::assertStringContainsString('La Diavola', $img->attr('alt'));
+        self::assertNotEmpty($img->attr('width'), 'Les dimensions évitent un saut de mise en page au chargement.');
+    }
+
+    public function test_pizza_du_moment_without_photo_keeps_the_watermark(): void
+    {
+        $client = static::createClient();
+        $this->useSpecial($client, self::aSpecial());
+
+        $client->request('GET', '/');
+
+        self::assertSelectorNotExists('.featured__photo');
+        self::assertSelectorExists('.featured__wm');
+    }
+
     public function test_falls_back_to_the_signature_pizza_when_no_special(): void
     {
         $client = static::createClient();
@@ -82,7 +107,7 @@ final class HomePageTest extends WebTestCase
         });
     }
 
-    private static function aSpecial(): MonthlySpecial
+    private static function aSpecial(?string $photo = null): MonthlySpecial
     {
         return new MonthlySpecial(
             'La Diavola',
@@ -91,6 +116,7 @@ final class HomePageTest extends WebTestCase
             ['Nduja de Calabre', 'Mozzarella fior di latte'],
             Money::fromCents(1690),
             [],
+            $photo,
         );
     }
 }

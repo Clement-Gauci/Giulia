@@ -54,6 +54,30 @@ final class PizzaTest extends TestCase
         self::assertTrue($pizza->hasPhoto());
     }
 
+    public function test_diameter_defaults_to_the_standard_size(): void
+    {
+        self::assertSame(33, Pizza::STANDARD_DIAMETER_CM);
+        self::assertSame(33, $this->margherita()->diameterCm());
+        self::assertTrue($this->margherita()->hasStandardDiameter());
+    }
+
+    public function test_exposes_an_exceptional_diameter(): void
+    {
+        $pizza = new Pizza(
+            'Camembert Rôti',
+            'camembert-roti',
+            ['camembert entier rôti'],
+            Money::fromCents(1550),
+            [],
+            [],
+            false,
+            null,
+            20,
+        );
+        self::assertSame(20, $pizza->diameterCm());
+        self::assertFalse($pizza->hasStandardDiameter());
+    }
+
     public function test_tag_metadata(): void
     {
         self::assertSame('Végétarienne', Tag::Vegetarian->label());

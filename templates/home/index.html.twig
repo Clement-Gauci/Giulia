@@ -33,7 +33,16 @@
         {% set initials = '' %}{% for w in spotlight.name|split(' ') %}{% set initials = initials ~ (w|first) %}{% endfor %}
         <div class="featured">
             <div class="featured__glow"></div>
-            <div class="featured__wm">{{ initials|upper }}</div>
+            {% if special and special.hasPhoto %}
+                <div class="featured__photo">
+                    <img src="{{ asset('images/specials/' ~ special.photo ~ '.webp') }}"
+                         width="1000" height="750"
+                         loading="eager" decoding="async"
+                         alt="Pizza {{ special.name }} — {{ special.ingredients|join(', ') }}">
+                </div>
+            {% else %}
+                <div class="featured__wm">{{ initials|upper }}</div>
+            {% endif %}
             <div class="featured__body">
                 <div class="featured__kicker">
                     <span class="featured__dot"></span>
@@ -66,12 +75,14 @@
     {# Slider — nos pizzas #}
     {% set allPizzas = [] %}
     {% for category in categories %}{% set allPizzas = allPizzas|merge(category.pizzas) %}{% endfor %}
+    {% set diameterExceptions = [] %}
+    {% for pizza in allPizzas %}{% if not pizza.hasStandardDiameter %}{% set diameterExceptions = diameterExceptions|merge([pizza.name ~ ' (' ~ pizza.diameterCm ~ ' cm)']) %}{% endif %}{% endfor %}
     <div class="slider" data-controller="pizza-slider">
         <div class="slider__head">
             <div>
                 <div class="eyebrow"><span class="eyebrow__dot"></span><span class="eyebrow__label">La carte</span></div>
                 <h2 class="slider__title">Nos pizzas napolitaines</h2>
-                <p class="slider__sub">33 cm de diamètre · pour 1 à 2 personnes</p>
+                <p class="slider__sub">{{ constant('App\\Menu\\Domain\\Pizza::STANDARD_DIAMETER_CM') }} cm de diamètre · pour 1 à 2 personnes{% if diameterExceptions is not empty %} · sauf {{ diameterExceptions|join(', ') }}{% endif %}</p>
             </div>
             <div class="slider__nav">
                 <button type="button" data-action="pizza-slider#prev" aria-label="Précédent" class="slider__btn"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5f584d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
@@ -87,6 +98,7 @@
                         <div class="pizza-card__photo tone--dark"><span class="ph-label">Photo à venir</span></div>
                     {% endif %}
                     {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
+                    {% if not pizza.hasStandardDiameter %}<span class="ph-badge ph-badge--size">{{ pizza.diameterCm }} cm</span>{% endif %}
                     <div class="pizza-card__body glass-panel">
                         <div class="pizza-card__name">{{ pizza.name }}</div>
                         <div class="pizza-card__desc">{{ pizza.ingredients|join(' · ') }}</div>

@@ -27,6 +27,9 @@
                 <h1 class="featured__name">{{ pizza.name }}</h1>
                 <span class="featured__price">{{ pizza.price.format }}</span>
             </div>
+            {% if not pizza.hasStandardDiameter %}
+                <p class="pizza-hero__notice"><strong>Attention, format {{ pizza.diameterCm }} cm</strong> — c’est une exception sur notre carte : nos autres pizzas font {{ constant('App\\Menu\\Domain\\Pizza::STANDARD_DIAMETER_CM') }} cm de diamètre.</p>
+            {% endif %}
             <p class="pizza-hero__tagline">
                 {%- if pizza.isSignature -%}Notre pizza signature : une base napolitaine relevée d’ingrédients de caractère, préparée à la commande.
                 {%- else -%}Pizza napolitaine préparée à la commande, sur notre pâte maturée 48h.{%- endif -%}
@@ -41,7 +44,7 @@
 
     {# Chips méta #}
     <div class="meta-chips">
-        <div class="meta-chip"><div class="meta-chip__v">33 cm</div><div class="meta-chip__l">Diamètre</div></div>
+        <div class="meta-chip{% if not pizza.hasStandardDiameter %} meta-chip--exception{% endif %}"><div class="meta-chip__v">{{ pizza.diameterCm }} cm</div><div class="meta-chip__l">Diamètre</div></div>
         <div class="meta-chip"><div class="meta-chip__v">48 h</div><div class="meta-chip__l">Maturation pâte</div></div>
         <div class="meta-chip"><div class="meta-chip__v">1–2</div><div class="meta-chip__l">Personnes</div></div>
     </div>

@@ -26,6 +26,7 @@ final class YamlSpecialRepository implements SpecialRepositoryInterface
             $d['ingredients'] ?? [],
             Money::fromCents((int) $d['price']),
             array_map(static fn (string $t) => Tag::from($t), $d['tags'] ?? []),
+            isset($d['photo']) ? (string) $d['photo'] : null,
         );
     }
 }

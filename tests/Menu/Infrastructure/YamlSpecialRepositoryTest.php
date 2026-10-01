@@ -20,6 +20,13 @@ final class YamlSpecialRepositoryTest extends TestCase
         self::assertContains('Bresaola', $special->ingredients());
     }
 
+    public function test_reads_optional_photo(): void
+    {
+        $repo = new YamlSpecialRepository(__DIR__ . '/fixtures/special.yaml');
+        self::assertSame('la-fresca', $repo->current()?->photo());
+        self::assertTrue($repo->current()?->hasPhoto());
+    }
+
     public function test_inactive_special_returns_null(): void
     {
         $repo = new YamlSpecialRepository(__DIR__ . '/fixtures/special_inactive.yaml');

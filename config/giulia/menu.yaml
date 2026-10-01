@@ -21,5 +21,5 @@ categories:
     pizzas:
       - { name: "Pollo Rosso", price: 1590, photo: "pollo-rosso", allergens: [], ingredients: ["pesto rosso", "mozzarella fior di latte", "poulet cuisiné", "oignons rouges confits", "scamorza fumée"] }
       - { name: "Tartufo", price: 1690, allergens: [], ingredients: ["crème de truffe", "mozzarella fior di latte", "prosciutto cotto (jambon cuit)", "parmesan", "copeaux de truffes"] }
-      - { name: "Camembert Rôti", price: 1550, photo: "camembert-roti", allergens: [], ingredients: ["camembert entier rôti", "roquette", "jambon de Parme", "miel", "crème de vinaigre balsamique"] }
+      - { name: "Camembert Rôti", price: 1550, diameter_cm: 20, photo: "camembert-roti", allergens: [], ingredients: ["camembert entier rôti", "roquette", "jambon de Parme", "miel", "crème de vinaigre balsamique"] }
       - { name: "Pistacchio", price: 1620, photo: "pistacchio", allergens: [], ingredients: ["crème de pistaches", "mozzarella fior di latte", "mortadelle", "stracciatella", "pesto de pistaches", "éclats de pistaches", "basilic"] }

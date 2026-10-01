@@ -33,6 +33,13 @@ final class YamlMenuRepositoryTest extends TestCase
         self::assertNull($this->repo()->findBySlug('regina')?->photo());
     }
 
+    public function test_reads_optional_diameter(): void
+    {
+        self::assertSame(33, $this->repo()->findBySlug('margherita')?->diameterCm());
+        self::assertSame(20, $this->repo()->findBySlug('burratina')?->diameterCm());
+        self::assertFalse($this->repo()->findBySlug('burratina')?->hasStandardDiameter());
+    }
+
     public function test_unknown_slug_returns_null(): void
     {
         self::assertNull($this->repo()->findBySlug('inexistante'));

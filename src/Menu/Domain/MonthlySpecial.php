@@ -16,6 +16,7 @@ final readonly class MonthlySpecial
         private array $ingredients,
         private Money $price,
         private array $tags,
+        private ?string $photo = null,
     ) {}
 
     public function name(): string { return $this->name; }
@@ -26,6 +27,10 @@ final readonly class MonthlySpecial
     public function price(): Money { return $this->price; }
     /** @return Tag[] */
     public function tags(): array { return $this->tags; }
+
+    /** Nom de base du fichier photo, sans extension ; null tant qu'aucune photo n'est disponible. */
+    public function photo(): ?string { return $this->photo; }
+    public function hasPhoto(): bool { return $this->photo !== null; }
 
     public function hasTag(Tag $tag): bool
     {

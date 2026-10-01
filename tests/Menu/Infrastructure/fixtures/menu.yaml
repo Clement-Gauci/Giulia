@@ -14,7 +14,7 @@ categories:
     pizzas:
       - { name: "Quattro Formaggi", price: 1490, tags: [veg], ingredients: ["fior di latte", "gorgonzola", "comté 24 mois", "parmesan"] }
       - { name: "Boscaiola", price: 1490, ingredients: ["crème", "fior di latte", "champignons", "lardons", "persillade"] }
-      - { name: "Burratina", price: 1650, tags: [veg], ingredients: ["crème", "fior di latte", "burrata", "tomates confites", "basilic"] }
+      - { name: "Burratina", price: 1650, diameter_cm: 20, tags: [veg], ingredients: ["crème", "fior di latte", "burrata", "tomates confites", "basilic"] }
       - { name: "Tartufo", price: 1750, tags: [veg], ingredients: ["crème de truffe", "fior di latte", "champignons", "parmesan", "roquette"] }
   - kicker: "L’édition du moment"
     label: "La signature"

@@ -1,6 +1,7 @@
 active: true
 name: "La Fresca"
 period: "Édition du moment"
+photo: "la-fresca"
 price: 1790
 pitch: "Fraîcheur et caractère, en édition limitée."
 ingredients:

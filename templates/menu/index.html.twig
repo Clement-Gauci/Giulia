@@ -4,11 +4,15 @@
 {% block description %}La carte complète des pizzas napolitaines de Giulia à Gorges : pâte maturée 48h, 33 cm, à emporter en click & collect.{% endblock %}
 
 {% block body %}
+    {# Diamètres hors standard, signalés dès la carte #}
+    {% set diameterExceptions = [] %}
+    {% for category in categories %}{% for pizza in category.pizzas %}{% if not pizza.hasStandardDiameter %}{% set diameterExceptions = diameterExceptions|merge([pizza.name ~ ' (' ~ pizza.diameterCm ~ ' cm)']) %}{% endif %}{% endfor %}{% endfor %}
+
     {# Titre #}
     <div class="page-head page-head--roomy">
         <div class="eyebrow"><span class="eyebrow__dot"></span><span class="eyebrow__label">La carte complète</span></div>
         <h1 class="page-title">Toutes nos pizzas</h1>
-        <p class="page-lede">Pâte napolitaine maturée 48h, 33 cm de diamètre, pour 1 à 2 personnes. Toutes nos pizzas sont préparées à la commande, à emporter en <strong>click &amp; collect</strong>.</p>
+        <p class="page-lede">Pâte napolitaine maturée 48h, {{ constant('App\\Menu\\Domain\\Pizza::STANDARD_DIAMETER_CM') }} cm de diamètre, pour 1 à 2 personnes.{% if diameterExceptions is not empty %} {{ diameterExceptions|length > 1 ? 'Exceptions' : 'Exception' }} : <strong>{{ diameterExceptions|join(', ') }}</strong>.{% endif %} Toutes nos pizzas sont préparées à la commande, à emporter en <strong>click &amp; collect</strong>.</p>
     </div>
 
     {# Légende #}
@@ -37,6 +41,7 @@
                             <div class="pizza-tile__photo tone--dark"><span class="ph-label">Photo à venir</span></div>
                         {% endif %}
                         {% if pizza.isSignature %}<span class="ph-badge">Signature</span>{% endif %}
+                        {% if not pizza.hasStandardDiameter %}<span class="ph-badge ph-badge--size">{{ pizza.diameterCm }} cm</span>{% endif %}
                         <div class="pizza-tile__body glass-panel">
                             <div class="pizza-tile__head">
                                 <div class="pizza-tile__name">{{ pizza.name }}</div>

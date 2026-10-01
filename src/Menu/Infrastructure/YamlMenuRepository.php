@@ -38,6 +38,7 @@ final class YamlMenuRepository implements MenuRepositoryInterface
                     $p['allergens'] ?? [],
                     (bool) ($p['signature'] ?? false),
                     isset($p['photo']) ? (string) $p['photo'] : null,
+                    (int) ($p['diameter_cm'] ?? Pizza::STANDARD_DIAMETER_CM),
                 );
             }
             $categories[] = new Category($cat['kicker'], $cat['label'], $pizzas);

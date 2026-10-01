@@ -1,12 +1,15 @@
 active: true
-name: "La Camillia"
-period: "Édition du moment"
-price: 1790
-pitch: "Douceur de courge, porchetta braisée et truffe, en édition limitée."
+name: "La Bosphore"
+period: "Alerte au banger"
+photo: "bosphore"
+price: 1690
+pitch: "Naples rencontre Istanbul : bœuf grillé, crème maison au sumac et sauce au yaourt turc relevée aux herbes. Notre création du moment, en édition limitée."
 ingredients:
-  - "Crème de courge"
+  - "Crème maison au sumac"
   - "Mozzarella fior di latte"
-  - "Porchetta (cochon de lait braisé)"
-  - "Parmesan"
-  - "Brisures de truffes et noisettes"
-tags: []
+  - "Fines lamelles de bœuf grillé"
+  - "Oignons rouges"
+  - "Persil plat & menthe fraîche"
+  - "Sauce au yaourt turc épicée aux herbes et à la coriandre"
+  - "Huile d’olive"
+tags: [spicy]
